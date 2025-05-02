@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { toast } from "sonner";
 import { Card } from "@/components/ui/card";
@@ -74,7 +75,7 @@ const Index = () => {
     
     // Auto-submit the last entered symptoms if any
     if (history.length > 0) {
-      const lastSymptom = history[0].symptoms;
+      const lastSymptom = history[0].symptom;
       handleSymptomSubmit(lastSymptom);
     }
   };
