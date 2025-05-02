@@ -13,7 +13,9 @@ import TrendingSymptoms from "@/components/TrendingSymptoms";
 import InfoSection from "@/components/InfoSection";
 import MedicalResourcesSection from "@/components/MedicalResourcesSection";
 import HealthTips from "@/components/HealthTips";
-import { Heart, Stethoscope, ClipboardList } from "lucide-react";
+import { Heart, Stethoscope, ClipboardList, History } from "lucide-react";
+import { useSymptomHistory } from "@/hooks/use-symptom-history";
+import MedicationReminders from "@/components/MedicationReminders";
 
 // Mock processed result for demonstration
 const mockResult = {
@@ -34,6 +36,8 @@ const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [results, setResults] = useState<any>(null);
   const [currentTab, setCurrentTab] = useState("symptoms");
+  const [remindersOpen, setRemindersOpen] = useState(false);
+  const { addSymptom, history } = useSymptomHistory();
 
   const handleSymptomSubmit = async (symptoms: string) => {
     if (symptoms.trim().length < 3) {
@@ -46,11 +50,20 @@ const Index = () => {
     // Simulating API call for demo purposes
     // In a real app, this would call your Flask backend
     setTimeout(() => {
-      setResults(mockResult);
+      const newResults = mockResult;
+      setResults(newResults);
       setIsLoading(false);
       setCurrentTab("results");
+      
+      // Add to symptom history
+      addSymptom(symptoms, newResults);
+      
       toast.success("Analysis complete!");
     }, 3000);
+  };
+
+  const handleReminders = () => {
+    setRemindersOpen(true);
   };
 
   return (
@@ -77,6 +90,18 @@ const Index = () => {
               <span>Health Resources</span>
             </TabsTrigger>
           </TabsList>
+          
+          <div className="flex justify-end mb-4">
+            <Button
+              variant="outline"
+              size="sm"
+              className="flex items-center gap-1"
+              onClick={handleReminders}
+            >
+              <History className="h-4 w-4" />
+              <span>Medication Reminders</span>
+            </Button>
+          </div>
           
           <TabsContent value="symptoms" className="space-y-8">
             <Card className="medical-card p-6 bg-white shadow-lg">
@@ -116,6 +141,12 @@ const Index = () => {
           </TabsContent>
         </Tabs>
       </main>
+      
+      <MedicationReminders
+        isOpen={remindersOpen}
+        onClose={() => setRemindersOpen(false)}
+        recommendedMedicine={results?.["Recommended Medicine"] || ""}
+      />
     </div>
   );
 };

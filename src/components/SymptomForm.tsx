@@ -1,9 +1,14 @@
 
 import React, { useState } from "react";
-import { Search } from "lucide-react";
+import { Search, History, MapPin, Mic, Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import SymptomHistory from "./SymptomHistory";
+import BodySymptomMap from "./BodySymptomMap";
+import VoiceInput from "./VoiceInput";
+import MedicationReminders from "./MedicationReminders";
+import { toast } from "sonner";
 
 interface SymptomFormProps {
   onSubmit: (symptoms: string) => void;
@@ -12,6 +17,10 @@ interface SymptomFormProps {
 const SymptomForm: React.FC<SymptomFormProps> = ({ onSubmit }) => {
   const [symptoms, setSymptoms] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [historyOpen, setHistoryOpen] = useState(false);
+  const [bodyMapOpen, setBodyMapOpen] = useState(false);
+  const [voiceInputOpen, setVoiceInputOpen] = useState(false);
+  const [remindersOpen, setRemindersOpen] = useState(false);
 
   const exampleSymptoms = [
     "Headache and fever",
@@ -30,6 +39,12 @@ const SymptomForm: React.FC<SymptomFormProps> = ({ onSubmit }) => {
     
     // Reset submitting state after a short delay
     setTimeout(() => setIsSubmitting(false), 500);
+  };
+
+  const handleBodyPartSelect = (bodyPart: string) => {
+    const symptomPrefix = `Pain or discomfort in my ${bodyPart.toLowerCase()}`;
+    setSymptoms(symptomPrefix);
+    toast.info(`Selected body part: ${bodyPart}`);
   };
 
   return (
@@ -55,6 +70,52 @@ const SymptomForm: React.FC<SymptomFormProps> = ({ onSubmit }) => {
               required
             />
           </div>
+        </div>
+
+        <div className="flex flex-wrap gap-2 justify-center md:justify-start">
+          <Button 
+            type="button" 
+            variant="outline"
+            size="sm"
+            className="flex items-center gap-1"
+            onClick={() => setHistoryOpen(true)}
+          >
+            <History className="h-4 w-4" />
+            <span className="hidden sm:inline">History</span>
+          </Button>
+          
+          <Button 
+            type="button" 
+            variant="outline" 
+            size="sm"
+            className="flex items-center gap-1"
+            onClick={() => setBodyMapOpen(true)}
+          >
+            <MapPin className="h-4 w-4" />
+            <span className="hidden sm:inline">Body Map</span>
+          </Button>
+          
+          <Button 
+            type="button" 
+            variant="outline"
+            size="sm"
+            className="flex items-center gap-1"
+            onClick={() => setVoiceInputOpen(true)}
+          >
+            <Mic className="h-4 w-4" />
+            <span className="hidden sm:inline">Voice Input</span>
+          </Button>
+          
+          <Button 
+            type="button" 
+            variant="outline"
+            size="sm"
+            className="flex items-center gap-1"
+            onClick={() => setRemindersOpen(true)}
+          >
+            <Bell className="h-4 w-4" />
+            <span className="hidden sm:inline">Reminders</span>
+          </Button>
         </div>
 
         <Button 
@@ -88,6 +149,30 @@ const SymptomForm: React.FC<SymptomFormProps> = ({ onSubmit }) => {
           ))}
         </div>
       </div>
+      
+      {/* Modals */}
+      <SymptomHistory
+        isOpen={historyOpen}
+        onClose={() => setHistoryOpen(false)}
+        onSelectSymptom={(symptom) => setSymptoms(symptom)}
+      />
+      
+      <BodySymptomMap
+        isOpen={bodyMapOpen}
+        onClose={() => setBodyMapOpen(false)}
+        onSelectBodyPart={handleBodyPartSelect}
+      />
+      
+      <VoiceInput
+        isOpen={voiceInputOpen}
+        onClose={() => setVoiceInputOpen(false)}
+        onTranscript={(transcript) => setSymptoms(transcript)}
+      />
+      
+      <MedicationReminders
+        isOpen={remindersOpen}
+        onClose={() => setRemindersOpen(false)}
+      />
     </div>
   );
 };
