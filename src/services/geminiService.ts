@@ -2,13 +2,12 @@
 // This is a service for interacting with Google Gemini AI
 
 // In a real app, this key should be stored securely
-// For demo purposes, we're using a placeholder
-// This requires a valid API key from Google Gemini
+// For demo purposes, we're using localStorage
 let apiKey = '';
 
 export const setGeminiApiKey = (key: string) => {
   apiKey = key;
-  // Optionally save to localStorage for persistence
+  // Save to localStorage for persistence
   localStorage.setItem('geminiApiKey', key);
 };
 
@@ -32,7 +31,7 @@ export const askGemini = async (prompt: string): Promise<string> => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${apiKey}`,
+          "x-goog-api-key": apiKey,  // Changed from Authorization to x-goog-api-key
         },
         body: JSON.stringify({
           contents: [
@@ -91,7 +90,7 @@ Question: ${prompt}`,
   }
 };
 
-// New function to get structured health information from Gemini
+// Function to get structured health information from Gemini
 export const getHealthConditionInfo = async (symptoms: string) => {
   if (!apiKey) {
     throw new Error("Please set your Google Gemini API key first.");
@@ -122,7 +121,7 @@ export const getHealthConditionInfo = async (symptoms: string) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${apiKey}`,
+          "x-goog-api-key": apiKey,  // Changed from Authorization to x-goog-api-key
         },
         body: JSON.stringify({
           contents: [
