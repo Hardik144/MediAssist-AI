@@ -1,4 +1,3 @@
-
 // This is a service for interacting with Google Gemini AI
 
 // In a real app, this key should be stored securely
@@ -91,7 +90,7 @@ Question: ${prompt}`,
 };
 
 // Function to get structured health information from Gemini
-export const getHealthConditionInfo = async (symptoms: string) => {
+export const getHealthConditionInfo = async (symptoms: string, language = 'english') => {
   if (!apiKey) {
     throw new Error("Please set your Google Gemini API key first.");
   }
@@ -162,6 +161,12 @@ export const getHealthConditionInfo = async (symptoms: string) => {
       try {
         // Parse the JSON response
         const parsedResult = JSON.parse(jsonStr);
+        
+        // If language is not english, translate the key information
+        if (language.toLowerCase() !== 'english') {
+          return await translateHealthInfo(parsedResult, language);
+        }
+        
         return parsedResult;
       } catch (parseError) {
         console.error("Error parsing Gemini response as JSON:", parseError);
@@ -175,3 +180,122 @@ export const getHealthConditionInfo = async (symptoms: string) => {
     throw error;
   }
 };
+
+// Function to translate health information to the requested language
+export const translateHealthInfo = async (healthInfo: any, language: string) => {
+  if (!apiKey) {
+    throw new Error("Please set your Google Gemini API key first.");
+  }
+
+  try {
+    // Create a prompt that asks for translation of specific fields
+    const fieldsToTranslate = [
+      "Disease", 
+      "Recommended Medicine",
+      "Dosage", 
+      "Precautions", 
+      "When to Consult a Doctor", 
+      "Symptom Description", 
+      "Disclaimer"
+    ];
+
+    // Create objects with the original content for these fields
+    const translationContent = fieldsToTranslate.reduce((acc, field) => {
+      acc[field] = healthInfo[field];
+      return acc;
+    }, {} as Record<string, string>);
+    
+    // Create a prompt for translation
+    const translationPrompt = `Translate the following medical terms and descriptions from English to ${language}. Return ONLY a JSON object with the translations. Here are the items to translate:
+    
+    ${JSON.stringify(translationContent, null, 2)}
+    
+    IMPORTANT: Return ONLY valid JSON with the same keys but translated values. Maintain medical accuracy.`;
+
+    const response = await fetch(
+      "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-goog-api-key": apiKey,
+        },
+        body: JSON.stringify({
+          contents: [
+            {
+              parts: [
+                {
+                  text: translationPrompt,
+                },
+              ],
+            },
+          ],
+          generationConfig: {
+            temperature: 0.2,
+            topK: 32,
+            topP: 1,
+            maxOutputTokens: 2048,
+          },
+        }),
+      }
+    );
+
+    const data = await response.json();
+    
+    if (data.error) {
+      throw new Error(data.error.message || "Failed to get translation");
+    }
+    
+    if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+      const resultText = data.candidates[0].content.parts[0].text;
+      
+      // Extract JSON from the response (removing any markdown code blocks if present)
+      const jsonMatch = resultText.match(/```json\s*([\s\S]*?)\s*```/) || 
+                         resultText.match(/```\s*([\s\S]*?)\s*```/) || 
+                         [null, resultText];
+      
+      const jsonStr = jsonMatch[1] || resultText;
+      
+      try {
+        // Parse the JSON response
+        const translations = JSON.parse(jsonStr);
+        
+        // Create a new object with translations and original content
+        const translatedHealthInfo = { 
+          ...healthInfo,
+          ...translations,
+          originalLanguage: 'English',
+          translatedLanguage: language,
+          // Keep arrays as they are (alternative medicines, side effects, etc.)
+        };
+        
+        return translatedHealthInfo;
+      } catch (parseError) {
+        console.error("Error parsing translation response as JSON:", parseError);
+        // Return original data if translation fails
+        return healthInfo;
+      }
+    } else {
+      // Return original data if translation API call fails
+      return healthInfo;
+    }
+  } catch (error) {
+    console.error("Error translating health information:", error);
+    // Return original data if translation fails
+    return healthInfo;
+  }
+};
+
+// Available languages for translation
+export const availableLanguages = [
+  { code: 'english', name: 'English' },
+  { code: 'hindi', name: 'Hindi' },
+  { code: 'tamil', name: 'Tamil' },
+  { code: 'telugu', name: 'Telugu' },
+  { code: 'marathi', name: 'Marathi' },
+  { code: 'bengali', name: 'Bengali' },
+  { code: 'gujarati', name: 'Gujarati' },
+  { code: 'kannada', name: 'Kannada' },
+  { code: 'malayalam', name: 'Malayalam' },
+  { code: 'punjabi', name: 'Punjabi' }
+];

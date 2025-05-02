@@ -13,13 +13,14 @@ import InfoSection from "@/components/InfoSection";
 import MedicalResourcesSection from "@/components/MedicalResourcesSection";
 import HealthTips from "@/components/HealthTips";
 import GeminiHealthAdvisor from "@/components/GeminiHealthAdvisor";
-import { Heart, Stethoscope, ClipboardList, History, Brain } from "lucide-react";
+import { Heart, Stethoscope, ClipboardList, History, Brain, Globe } from "lucide-react";
 import { useSymptomHistory } from "@/hooks/use-symptom-history";
 import MedicationReminders from "@/components/MedicationReminders";
 import SymptomHistory from "@/components/SymptomHistory";
-import { getGeminiApiKey, getHealthConditionInfo, setGeminiApiKey } from "@/services/geminiService";
+import { getGeminiApiKey, getHealthConditionInfo, setGeminiApiKey, availableLanguages } from "@/services/geminiService";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -29,6 +30,7 @@ const Index = () => {
   const [historyOpen, setHistoryOpen] = useState(false);
   const [apiKeyDialogOpen, setApiKeyDialogOpen] = useState(false);
   const [apiKey, setApiKey] = useState(getGeminiApiKey());
+  const [preferredLanguage, setPreferredLanguage] = useState("english");
   const { addSymptom, history } = useSymptomHistory();
 
   const handleSymptomSubmit = async (symptoms: string) => {
@@ -46,8 +48,8 @@ const Index = () => {
     setIsLoading(true);
     
     try {
-      // Get health condition data from Gemini API
-      const healthData = await getHealthConditionInfo(symptoms);
+      // Get health condition data from Gemini API with language preference
+      const healthData = await getHealthConditionInfo(symptoms, preferredLanguage);
       setResults(healthData);
       setCurrentTab("results");
       
@@ -117,25 +119,46 @@ const Index = () => {
             </TabsTrigger>
           </TabsList>
           
-          <div className="flex justify-end gap-2 mb-4">
-            <Button
-              variant="outline"
-              size="sm"
-              className="flex items-center gap-1"
-              onClick={handleHistory}
-            >
-              <History className="h-4 w-4" />
-              <span>Symptom History</span>
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              className="flex items-center gap-1"
-              onClick={handleReminders}
-            >
-              <History className="h-4 w-4" />
-              <span>Medication Reminders</span>
-            </Button>
+          <div className="flex flex-col sm:flex-row justify-between gap-2 mb-4">
+            <div className="flex items-center gap-2">
+              <Globe className="h-4 w-4 text-gray-500" />
+              <span className="text-sm text-gray-500">Preferred Language:</span>
+              <Select value={preferredLanguage} onValueChange={setPreferredLanguage}>
+                <SelectTrigger className="h-8 w-[160px]">
+                  <SelectValue placeholder="Select Language" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    {availableLanguages.map(lang => (
+                      <SelectItem key={lang.code} value={lang.code}>
+                        {lang.name}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <div className="flex justify-end gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                className="flex items-center gap-1"
+                onClick={handleHistory}
+              >
+                <History className="h-4 w-4" />
+                <span>Symptom History</span>
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                className="flex items-center gap-1"
+                onClick={handleReminders}
+              >
+                <History className="h-4 w-4" />
+                <span>Medication Reminders</span>
+              </Button>
+            </div>
           </div>
           
           <TabsContent value="symptoms" className="space-y-8">

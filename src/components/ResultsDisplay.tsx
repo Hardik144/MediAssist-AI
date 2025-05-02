@@ -1,19 +1,53 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { 
   HeartPulse, Pill, AlertTriangle, Home, ClipboardCheck,
-  Search, Heart, Download, Share2
+  Search, Heart, Download, Share2, Globe
 } from "lucide-react";
 import { toast } from "sonner";
+import { availableLanguages, translateHealthInfo } from "@/services/geminiService";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
 
 interface ResultsDisplayProps {
   results: any;
 }
 
-const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results }) => {
+const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results: initialResults }) => {
   const [showFullDisclaimer, setShowFullDisclaimer] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState('english');
+  const [isTranslating, setIsTranslating] = useState(false);
+  const [results, setResults] = useState(initialResults);
+  
+  // Effect to update results when initial results change
+  useEffect(() => {
+    setResults(initialResults);
+  }, [initialResults]);
+  
+  const handleLanguageChange = async (language: string) => {
+    if (language === selectedLanguage) return;
+    
+    setIsTranslating(true);
+    try {
+      // If selecting English, use the original results
+      if (language === 'english') {
+        setResults(initialResults);
+      } else {
+        // Otherwise translate the results
+        const translatedResults = await translateHealthInfo(initialResults, language);
+        setResults(translatedResults);
+      }
+      setSelectedLanguage(language);
+      toast.success(`Information translated to ${language}`);
+    } catch (error) {
+      toast.error(`Failed to translate to ${language}`);
+      console.error("Translation error:", error);
+    } finally {
+      setIsTranslating(false);
+    }
+  };
   
   const downloadResults = () => {
     try {
@@ -61,32 +95,74 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results }) => {
   return (
     <div className="space-y-4">
       <Card className="medical-card overflow-hidden">
-        <div className="bg-gradient-to-r from-medical-primary to-medical-accent p-4 flex justify-between items-center">
+        <div className="bg-gradient-to-r from-medical-primary to-medical-accent p-4 flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-2">
           <div className="flex items-center gap-2">
             <ClipboardCheck className="h-5 w-5 text-white" />
             <h3 className="text-white text-lg font-medium">Health Assessment Results</h3>
           </div>
-          <div className="flex gap-2">
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="text-white hover:text-white/80"
-              onClick={downloadResults}
+          <div className="flex flex-wrap gap-2 w-full sm:w-auto">
+            <Select
+              value={selectedLanguage}
+              onValueChange={handleLanguageChange}
+              disabled={isTranslating}
             >
-              <Download className="h-4 w-4 mr-1" />
-              <span className="hidden md:inline">Download</span>
-            </Button>
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="text-white hover:text-white/80"
-              onClick={shareResults}
-            >
-              <Share2 className="h-4 w-4 mr-1" />
-              <span className="hidden md:inline">Share</span>
-            </Button>
+              <SelectTrigger className="h-9 w-[160px] bg-white/10 text-white border-white/20">
+                <div className="flex items-center gap-2">
+                  <Globe className="h-4 w-4" />
+                  <SelectValue placeholder="Select Language" />
+                </div>
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  {availableLanguages.map(lang => (
+                    <SelectItem key={lang.code} value={lang.code}>
+                      {lang.name}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+            
+            <div className="flex gap-2 ml-auto sm:ml-0">
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="text-white hover:text-white/80 h-9"
+                onClick={downloadResults}
+              >
+                <Download className="h-4 w-4 mr-1" />
+                <span className="hidden md:inline">Download</span>
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="text-white hover:text-white/80 h-9"
+                onClick={shareResults}
+              >
+                <Share2 className="h-4 w-4 mr-1" />
+                <span className="hidden md:inline">Share</span>
+              </Button>
+            </div>
           </div>
         </div>
+        
+        {isTranslating && (
+          <div className="p-4 bg-blue-50 flex items-center justify-center">
+            <div className="flex items-center gap-2">
+              <div className="h-4 w-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+              <span>Translating to {selectedLanguage}...</span>
+            </div>
+          </div>
+        )}
+        
+        {results.translatedLanguage && results.translatedLanguage !== 'english' && (
+          <div className="px-4 pt-2">
+            <Badge variant="secondary" className="flex items-center gap-1">
+              <Globe className="h-3 w-3" />
+              Translated to {results.translatedLanguage}
+            </Badge>
+          </div>
+        )}
         
         <Tabs defaultValue="condition" className="w-full">
           <TabsList className="grid grid-cols-4 p-1 m-3">
