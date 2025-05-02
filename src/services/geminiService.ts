@@ -199,18 +199,36 @@ export const translateHealthInfo = async (healthInfo: any, language: string) => 
       "Disclaimer"
     ];
 
+    // Create arrays that need translation
+    const arraysToTranslate = [
+      "Alternative Medicines",
+      "Side Effects",
+      "Home Remedies",
+      "Lifestyle Tips"
+    ];
+
     // Create objects with the original content for these fields
     const translationContent = fieldsToTranslate.reduce((acc, field) => {
       acc[field] = healthInfo[field];
       return acc;
     }, {} as Record<string, string>);
     
-    // Create a prompt for translation
-    const translationPrompt = `Translate the following medical terms and descriptions from English to ${language}. Return ONLY a JSON object with the translations. Here are the items to translate:
+    // Add arrays that need translation
+    const arrayContent = arraysToTranslate.reduce((acc, field) => {
+      acc[field] = healthInfo[field];
+      return acc;
+    }, {} as Record<string, string[]>);
     
+    // Create a prompt for translation
+    const translationPrompt = `Translate the following medical terms and descriptions from English to ${language}. Return ONLY a JSON object with the translations. 
+    
+    For text fields:
     ${JSON.stringify(translationContent, null, 2)}
     
-    IMPORTANT: Return ONLY valid JSON with the same keys but translated values. Maintain medical accuracy.`;
+    For array fields (translate each item in these arrays):
+    ${JSON.stringify(arrayContent, null, 2)}
+    
+    IMPORTANT: Return ONLY valid JSON with the same keys but translated values. For arrays, maintain the array structure. Maintain medical accuracy.`;
 
     const response = await fetch(
       "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent",
@@ -266,7 +284,6 @@ export const translateHealthInfo = async (healthInfo: any, language: string) => 
           ...translations,
           originalLanguage: 'English',
           translatedLanguage: language,
-          // Keep arrays as they are (alternative medicines, side effects, etc.)
         };
         
         return translatedHealthInfo;
