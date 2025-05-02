@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -20,6 +21,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results: initialResults
   const [selectedLanguage, setSelectedLanguage] = useState('english');
   const [isTranslating, setIsTranslating] = useState(false);
   const [results, setResults] = useState(initialResults);
+  const [targetLanguage, setTargetLanguage] = useState('english');
   
   // Effect to update results when initial results change
   useEffect(() => {
@@ -29,7 +31,10 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results: initialResults
   const handleLanguageChange = async (language: string) => {
     if (language === selectedLanguage) return;
     
+    // Set the target language before starting translation
+    setTargetLanguage(language);
     setIsTranslating(true);
+    
     try {
       // If selecting English, use the original results
       if (language === 'english') {
@@ -40,9 +45,14 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results: initialResults
         setResults(translatedResults);
       }
       setSelectedLanguage(language);
-      toast.success(`Information translated to ${language}`);
+      
+      // Find the language name for the toast
+      const languageName = availableLanguages.find(lang => lang.code === language)?.name || language;
+      toast.success(`Information translated to ${languageName}`);
     } catch (error) {
-      toast.error(`Failed to translate to ${language}`);
+      // Find the language name for the toast
+      const languageName = availableLanguages.find(lang => lang.code === language)?.name || language;
+      toast.error(`Failed to translate to ${languageName}`);
       console.error("Translation error:", error);
     } finally {
       setIsTranslating(false);
@@ -150,7 +160,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results: initialResults
           <div className="p-4 bg-blue-50 flex items-center justify-center">
             <div className="flex items-center gap-2">
               <div className="h-4 w-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-              <span>Translating to {selectedLanguage}...</span>
+              <span>Translating to {availableLanguages.find(lang => lang.code === targetLanguage)?.name || targetLanguage}...</span>
             </div>
           </div>
         )}
@@ -159,7 +169,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results: initialResults
           <div className="px-4 pt-2">
             <Badge variant="secondary" className="flex items-center gap-1">
               <Globe className="h-3 w-3" />
-              Translated to {results.translatedLanguage}
+              Translated to {availableLanguages.find(lang => lang.code === results.translatedLanguage)?.name || results.translatedLanguage}
             </Badge>
           </div>
         )}
