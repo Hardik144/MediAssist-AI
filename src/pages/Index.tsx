@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { toast } from "sonner";
 import { Card } from "@/components/ui/card";
@@ -13,7 +12,7 @@ import InfoSection from "@/components/InfoSection";
 import MedicalResourcesSection from "@/components/MedicalResourcesSection";
 import HealthTips from "@/components/HealthTips";
 import GeminiHealthAdvisor from "@/components/GeminiHealthAdvisor";
-import { Heart, Stethoscope, ClipboardList, History, Brain, Globe } from "lucide-react";
+import { Heart, Stethoscope, ClipboardList, History, Brain, Globe, Pill, Activity, MapPin, Camera, IdCard, Newspaper } from "lucide-react";
 import { useSymptomHistory } from "@/hooks/use-symptom-history";
 import MedicationReminders from "@/components/MedicationReminders";
 import SymptomHistory from "@/components/SymptomHistory";
@@ -21,6 +20,12 @@ import { getGeminiApiKey, getHealthConditionInfo, setGeminiApiKey, availableLang
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import DrugInteractionChecker from "@/components/DrugInteractionChecker";
+import HealthProgressTracker from "@/components/HealthProgressTracker";
+import DoctorDirectory from "@/components/DoctorDirectory";
+import MedicineScanner from "@/components/MedicineScanner";
+import EmergencyInfoCard from "@/components/EmergencyInfoCard";
+import HealthNewsFeed from "@/components/HealthNewsFeed";
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -31,6 +36,7 @@ const Index = () => {
   const [apiKeyDialogOpen, setApiKeyDialogOpen] = useState(false);
   const [apiKey, setApiKey] = useState(getGeminiApiKey());
   const [preferredLanguage, setPreferredLanguage] = useState("english");
+  const [targetLanguage, setTargetLanguage] = useState("english");
   const { addSymptom, history } = useSymptomHistory();
 
   const handleSymptomSubmit = async (symptoms: string) => {
@@ -123,7 +129,10 @@ const Index = () => {
             <div className="flex items-center gap-2">
               <Globe className="h-4 w-4 text-gray-500" />
               <span className="text-sm text-gray-500">Preferred Language:</span>
-              <Select value={preferredLanguage} onValueChange={setPreferredLanguage}>
+              <Select value={preferredLanguage} onValueChange={(value) => {
+                setPreferredLanguage(value);
+                setTargetLanguage(value);
+              }}>
                 <SelectTrigger className="h-8 w-[160px]">
                   <SelectValue placeholder="Select Language" />
                 </SelectTrigger>
@@ -166,6 +175,56 @@ const Index = () => {
               <SymptomForm onSubmit={handleSymptomSubmit} />
             </Card>
             
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <Card className="p-4 bg-white shadow-md hover:shadow-lg transition-shadow cursor-pointer" onClick={() => setCurrentTab("drug-interaction")}>
+                <div className="flex items-center gap-2 mb-2">
+                  <Pill className="h-5 w-5 text-blue-600" />
+                  <h3 className="font-medium">Drug Interaction Checker</h3>
+                </div>
+                <p className="text-sm text-gray-600">Check if your medications interact with each other</p>
+              </Card>
+              
+              <Card className="p-4 bg-white shadow-md hover:shadow-lg transition-shadow cursor-pointer" onClick={() => setCurrentTab("health-tracker")}>
+                <div className="flex items-center gap-2 mb-2">
+                  <Activity className="h-5 w-5 text-green-600" />
+                  <h3 className="font-medium">Health Progress Tracker</h3>
+                </div>
+                <p className="text-sm text-gray-600">Track your symptoms and health metrics over time</p>
+              </Card>
+              
+              <Card className="p-4 bg-white shadow-md hover:shadow-lg transition-shadow cursor-pointer" onClick={() => setCurrentTab("doctor-directory")}>
+                <div className="flex items-center gap-2 mb-2">
+                  <MapPin className="h-5 w-5 text-red-600" />
+                  <h3 className="font-medium">Doctor Directory</h3>
+                </div>
+                <p className="text-sm text-gray-600">Find doctors and book appointments</p>
+              </Card>
+              
+              <Card className="p-4 bg-white shadow-md hover:shadow-lg transition-shadow cursor-pointer" onClick={() => setCurrentTab("medicine-scanner")}>
+                <div className="flex items-center gap-2 mb-2">
+                  <Camera className="h-5 w-5 text-purple-600" />
+                  <h3 className="font-medium">Medicine Scanner</h3>
+                </div>
+                <p className="text-sm text-gray-600">Scan medicine packaging to get info</p>
+              </Card>
+              
+              <Card className="p-4 bg-white shadow-md hover:shadow-lg transition-shadow cursor-pointer" onClick={() => setCurrentTab("emergency-info")}>
+                <div className="flex items-center gap-2 mb-2">
+                  <IdCard className="h-5 w-5 text-orange-600" />
+                  <h3 className="font-medium">Emergency Info Card</h3>
+                </div>
+                <p className="text-sm text-gray-600">Create emergency medical information card</p>
+              </Card>
+              
+              <Card className="p-4 bg-white shadow-md hover:shadow-lg transition-shadow cursor-pointer" onClick={() => setCurrentTab("health-news")}>
+                <div className="flex items-center gap-2 mb-2">
+                  <Newspaper className="h-5 w-5 text-indigo-600" />
+                  <h3 className="font-medium">Health News</h3>
+                </div>
+                <p className="text-sm text-gray-600">Latest health news and articles</p>
+              </Card>
+            </div>
+            
             <TrendingSymptoms onSelect={(symptom) => {
               // Auto-fill the form and trigger search
               handleSymptomSubmit(symptom);
@@ -176,7 +235,7 @@ const Index = () => {
           
           <TabsContent value="results" className="space-y-8">
             {isLoading ? (
-              <LoadingAnimation />
+              <LoadingAnimation message={`Analyzing symptoms and translating to ${targetLanguage}...`} />
             ) : results ? (
               <ResultsDisplay results={results} />
             ) : (
@@ -200,6 +259,31 @@ const Index = () => {
           <TabsContent value="resources" className="space-y-8">
             <MedicalResourcesSection />
             <HealthTips />
+          </TabsContent>
+
+          {/* New features tabs */}
+          <TabsContent value="drug-interaction" className="space-y-8">
+            <DrugInteractionChecker />
+          </TabsContent>
+          
+          <TabsContent value="health-tracker" className="space-y-8">
+            <HealthProgressTracker />
+          </TabsContent>
+          
+          <TabsContent value="doctor-directory" className="space-y-8">
+            <DoctorDirectory />
+          </TabsContent>
+          
+          <TabsContent value="medicine-scanner" className="space-y-8">
+            <MedicineScanner />
+          </TabsContent>
+          
+          <TabsContent value="emergency-info" className="space-y-8">
+            <EmergencyInfoCard />
+          </TabsContent>
+          
+          <TabsContent value="health-news" className="space-y-8">
+            <HealthNewsFeed />
           </TabsContent>
         </Tabs>
       </main>
