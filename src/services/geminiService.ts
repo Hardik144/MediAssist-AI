@@ -26,7 +26,7 @@ export const askGemini = async (prompt: string): Promise<string> => {
 
   try {
     const response = await fetch(
-      "https://generativelanguage.googleapis.com/v1/models/gemini-1.0-pro:generateContent",
+      "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent",
       {
         method: "POST",
         headers: {
@@ -116,7 +116,7 @@ export const getHealthConditionInfo = async (symptoms: string) => {
     IMPORTANT: Return ONLY valid JSON with these exact keys. Do not add any additional text, and ensure it's properly formatted JSON.`;
 
     const response = await fetch(
-      "https://generativelanguage.googleapis.com/v1/models/gemini-1.0-pro:generateContent",
+      "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent",
       {
         method: "POST",
         headers: {
