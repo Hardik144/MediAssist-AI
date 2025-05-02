@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { toast } from "sonner";
 import { Card } from "@/components/ui/card";
@@ -13,9 +12,11 @@ import TrendingSymptoms from "@/components/TrendingSymptoms";
 import InfoSection from "@/components/InfoSection";
 import MedicalResourcesSection from "@/components/MedicalResourcesSection";
 import HealthTips from "@/components/HealthTips";
-import { Heart, Stethoscope, ClipboardList, History } from "lucide-react";
+import GeminiHealthAdvisor from "@/components/GeminiHealthAdvisor";
+import { Heart, Stethoscope, ClipboardList, History, Brain } from "lucide-react";
 import { useSymptomHistory } from "@/hooks/use-symptom-history";
 import MedicationReminders from "@/components/MedicationReminders";
+import SymptomHistory from "@/components/SymptomHistory";
 
 // Mock processed result for demonstration
 const mockResult = {
@@ -37,6 +38,7 @@ const Index = () => {
   const [results, setResults] = useState<any>(null);
   const [currentTab, setCurrentTab] = useState("symptoms");
   const [remindersOpen, setRemindersOpen] = useState(false);
+  const [historyOpen, setHistoryOpen] = useState(false);
   const { addSymptom, history } = useSymptomHistory();
 
   const handleSymptomSubmit = async (symptoms: string) => {
@@ -66,6 +68,10 @@ const Index = () => {
     setRemindersOpen(true);
   };
 
+  const handleHistory = () => {
+    setHistoryOpen(true);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
       <Header />
@@ -76,7 +82,7 @@ const Index = () => {
           onValueChange={setCurrentTab}
           className="w-full max-w-4xl mx-auto"
         >
-          <TabsList className="grid w-full grid-cols-3 mb-8">
+          <TabsList className="grid w-full grid-cols-4 mb-8">
             <TabsTrigger value="symptoms" className="flex items-center gap-2">
               <Stethoscope className="h-4 w-4" />
               <span>Check Symptoms</span>
@@ -85,13 +91,26 @@ const Index = () => {
               <ClipboardList className="h-4 w-4" />
               <span>Results</span>
             </TabsTrigger>
+            <TabsTrigger value="ai-advisor" className="flex items-center gap-2">
+              <Brain className="h-4 w-4" />
+              <span>AI Advisor</span>
+            </TabsTrigger>
             <TabsTrigger value="resources" className="flex items-center gap-2">
               <Heart className="h-4 w-4" />
               <span>Health Resources</span>
             </TabsTrigger>
           </TabsList>
           
-          <div className="flex justify-end mb-4">
+          <div className="flex justify-end gap-2 mb-4">
+            <Button
+              variant="outline"
+              size="sm"
+              className="flex items-center gap-1"
+              onClick={handleHistory}
+            >
+              <History className="h-4 w-4" />
+              <span>Symptom History</span>
+            </Button>
             <Button
               variant="outline"
               size="sm"
@@ -134,6 +153,10 @@ const Index = () => {
               </div>
             )}
           </TabsContent>
+
+          <TabsContent value="ai-advisor" className="space-y-8">
+            <GeminiHealthAdvisor />
+          </TabsContent>
           
           <TabsContent value="resources" className="space-y-8">
             <MedicalResourcesSection />
@@ -146,6 +169,15 @@ const Index = () => {
         isOpen={remindersOpen}
         onClose={() => setRemindersOpen(false)}
         recommendedMedicine={results?.["Recommended Medicine"] || ""}
+      />
+
+      <SymptomHistory
+        isOpen={historyOpen}
+        onClose={() => setHistoryOpen(false)}
+        onSelectSymptom={(symptom) => {
+          handleSymptomSubmit(symptom);
+          setHistoryOpen(false);
+        }}
       />
     </div>
   );
