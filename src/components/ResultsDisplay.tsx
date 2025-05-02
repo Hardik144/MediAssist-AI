@@ -1,10 +1,9 @@
-
 import React, { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { 
-  Heartbeat, Pill, AlertTriangle, Home, ClipboardCheck,
+  HeartPulse, Pill, AlertTriangle, Home, ClipboardCheck,
   Search, Heart, Download, Share2
 } from "lucide-react";
 import { toast } from "sonner";
@@ -101,7 +100,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results }) => {
             <CardContent className="p-4 space-y-4">
               <div className="bg-blue-50 p-4 rounded-lg border border-blue-100">
                 <div className="flex items-center gap-2 mb-2">
-                  <Heartbeat className="h-5 w-5 text-medical-primary" />
+                  <HeartPulse className="h-5 w-5 text-medical-primary" />
                   <h4 className="font-semibold text-gray-800">Potential Condition</h4>
                 </div>
                 <p className="text-gray-700">{results.Disease}</p>
