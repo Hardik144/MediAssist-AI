@@ -116,8 +116,12 @@ const HealthProgressTracker = () => {
   // Get current metric type info
   const currentMetricInfo = metricTypes.find(m => m.id === currentMetricType) || metricTypes[0];
 
+  console.log("Rendering HealthProgressTracker with metrics:", metrics);
+  console.log("Current view:", currentView);
+  console.log("Current metric type:", currentMetricType);
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" data-testid="health-progress-tracker">
       <Card>
         <CardHeader className="bg-gradient-to-r from-green-500 to-emerald-600 text-white">
           <CardTitle className="flex items-center gap-2">
@@ -161,23 +165,27 @@ const HealthProgressTracker = () => {
               </Tabs>
             </div>
             
-            <TabsContent value="chart" className="m-0">
-              <MetricChart 
-                metrics={metrics} 
-                currentMetricType={currentMetricType}
-                currentMetricInfo={currentMetricInfo}
-              />
-            </TabsContent>
+            {currentView === "chart" && (
+              <div className="mt-4">
+                <MetricChart 
+                  metrics={metrics} 
+                  currentMetricType={currentMetricType}
+                  currentMetricInfo={currentMetricInfo}
+                />
+              </div>
+            )}
             
-            <TabsContent value="list" className="m-0">
-              <MetricList 
-                metrics={metrics}
-                currentMetricType={currentMetricType}
-                onAddClick={handleAddMetric}
-                onEditClick={handleEditMetric}
-                onDeleteClick={handleDeleteMetric}
-              />
-            </TabsContent>
+            {currentView === "list" && (
+              <div className="mt-4">
+                <MetricList 
+                  metrics={metrics}
+                  currentMetricType={currentMetricType}
+                  onAddClick={handleAddMetric}
+                  onEditClick={handleEditMetric}
+                  onDeleteClick={handleDeleteMetric}
+                />
+              </div>
+            )}
             
             <Alert className="bg-emerald-50 border-emerald-200">
               <Activity className="h-4 w-4 text-emerald-600" />
