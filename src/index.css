@@ -72,7 +72,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground transition-colors duration-300;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
@@ -97,5 +97,51 @@
   
   .glass-card {
     @apply bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border border-white/20 dark:border-gray-700/50 shadow-lg;
+  }
+  
+  /* Dark mode specific improvements */
+  .dark .dialog-content {
+    @apply bg-gray-800 border-gray-700 text-white;
+  }
+  
+  .dark .dialog-input {
+    @apply bg-gray-700 border-gray-600 text-white;
+  }
+  
+  .dark .dialog-description {
+    @apply text-gray-300;
+  }
+  
+  .dark .medical-card-alt {
+    @apply bg-gray-800 text-white border-gray-700;
+  }
+  
+  .dark .text-muted-custom {
+    @apply text-gray-300;
+  }
+  
+  .dark .select-trigger {
+    @apply bg-gray-700 border-gray-600 text-white;
+  }
+  
+  .dark .select-content {
+    @apply bg-gray-800 border-gray-700;
+  }
+  
+  .dark .select-item {
+    @apply text-white hover:bg-gray-700;
+  }
+  
+  .dark .btn-outline {
+    @apply border-gray-600 text-gray-200 hover:bg-gray-700;
+  }
+  
+  /* Fixed inconsistent backgrounds */
+  .dark .bg-card-dark {
+    @apply bg-gray-800 !important;
+  }
+  
+  .dark .dialog-footer {
+    @apply border-t border-gray-700;
   }
 }

@@ -62,7 +62,12 @@ export default {
           warning: "#f39c12",
           info: "#3498db",
           light: "#f5f5f5",
-          dark: "#2c3e50",
+          dark: "#1A1F2C",
+          darkAlt: "#222222",
+          darkBorder: "#333333",
+          darkCard: "#221F26",
+          darkText: "#e0e0e0",
+          darkMuted: "#9F9EA1",
         },
       },
       borderRadius: {

@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -20,7 +20,6 @@ import SymptomHistory from "@/components/SymptomHistory";
 import { getGeminiApiKey, getHealthConditionInfo, setGeminiApiKey, availableLanguages } from "@/services/geminiService";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import DrugInteractionChecker from "@/components/DrugInteractionChecker";
 import HealthProgressTracker from "@/components/HealthProgressTracker";
 import DoctorDirectory from "@/components/DoctorDirectory";
@@ -43,7 +42,7 @@ const Index = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   // Effect to handle dark mode changes
-  React.useEffect(() => {
+  useEffect(() => {
     if (isDarkMode) {
       document.documentElement.classList.add('dark');
     } else {
@@ -113,7 +112,7 @@ const Index = () => {
   };
 
   return (
-    <div className={`min-h-screen ${isDarkMode ? 'dark bg-gray-900' : 'bg-gradient-to-b from-blue-50 to-white'}`}>
+    <div className={`min-h-screen transition-colors duration-300 ${isDarkMode ? 'dark bg-gray-900' : 'bg-gradient-to-b from-blue-50 to-white'}`}>
       <Header />
       
       <main className="container px-4 py-8">
@@ -122,20 +121,20 @@ const Index = () => {
           onValueChange={setCurrentTab}
           className="w-full max-w-4xl mx-auto"
         >
-          <TabsList className="grid w-full grid-cols-4 mb-8">
-            <TabsTrigger value="symptoms" className="flex items-center gap-2">
+          <TabsList className="grid w-full grid-cols-4 mb-8 bg-muted dark:bg-gray-700">
+            <TabsTrigger value="symptoms" className="flex items-center gap-2 data-[state=active]:bg-white dark:data-[state=active]:bg-gray-800">
               <Stethoscope className="h-4 w-4" />
               <span>Check Symptoms</span>
             </TabsTrigger>
-            <TabsTrigger value="results" className="flex items-center gap-2" disabled={!results && !isLoading}>
+            <TabsTrigger value="results" className="flex items-center gap-2 data-[state=active]:bg-white dark:data-[state=active]:bg-gray-800" disabled={!results && !isLoading}>
               <ClipboardList className="h-4 w-4" />
               <span>Results</span>
             </TabsTrigger>
-            <TabsTrigger value="ai-advisor" className="flex items-center gap-2">
+            <TabsTrigger value="ai-advisor" className="flex items-center gap-2 data-[state=active]:bg-white dark:data-[state=active]:bg-gray-800">
               <Brain className="h-4 w-4" />
               <span>AI Advisor</span>
             </TabsTrigger>
-            <TabsTrigger value="resources" className="flex items-center gap-2">
+            <TabsTrigger value="resources" className="flex items-center gap-2 data-[state=active]:bg-white dark:data-[state=active]:bg-gray-800">
               <Heart className="h-4 w-4" />
               <span>Health Resources</span>
             </TabsTrigger>
@@ -148,6 +147,7 @@ const Index = () => {
                   checked={isDarkMode} 
                   onCheckedChange={toggleDarkMode} 
                   id="dark-mode"
+                  className="data-[state=checked]:bg-blue-600"
                 />
                 <label htmlFor="dark-mode" className="flex items-center cursor-pointer">
                   {isDarkMode ? (
@@ -155,7 +155,7 @@ const Index = () => {
                   ) : (
                     <Sun className="h-4 w-4 text-amber-500" />
                   )}
-                  <span className="ml-2 text-sm">
+                  <span className="ml-2 text-sm dark:text-gray-200">
                     {isDarkMode ? 'Dark Mode' : 'Light Mode'}
                   </span>
                 </label>
@@ -166,7 +166,7 @@ const Index = () => {
               <Button
                 variant="outline"
                 size="sm"
-                className="flex items-center gap-1"
+                className="flex items-center gap-1 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-700"
                 onClick={handleHistory}
               >
                 <History className="h-4 w-4" />
@@ -175,7 +175,7 @@ const Index = () => {
               <Button
                 variant="outline"
                 size="sm"
-                className="flex items-center gap-1"
+                className="flex items-center gap-1 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-700"
                 onClick={handleReminders}
               >
                 <History className="h-4 w-4" />
@@ -185,57 +185,57 @@ const Index = () => {
           </div>
           
           <TabsContent value="symptoms" className="space-y-8">
-            <Card className={`medical-card p-6 ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'} shadow-lg`}>
+            <Card className="medical-card p-6 shadow-lg">
               <SymptomForm onSubmit={handleSymptomSubmit} />
             </Card>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              <Card className={`p-4 ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'} shadow-md hover:shadow-lg transition-shadow cursor-pointer`} onClick={() => setCurrentTab("drug-interaction")}>
+              <Card className="p-4 shadow-md hover:shadow-lg transition-shadow cursor-pointer dark:bg-gray-800 dark:text-white dark:border-gray-700" onClick={() => setCurrentTab("drug-interaction")}>
                 <div className="flex items-center gap-2 mb-2">
                   <Pill className="h-5 w-5 text-blue-600" />
                   <h3 className="font-medium">Drug Interaction Checker</h3>
                 </div>
-                <p className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>Check if your medications interact with each other</p>
+                <p className="text-sm dark:text-gray-300 text-gray-600">Check if your medications interact with each other</p>
               </Card>
               
-              <Card className={`p-4 ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'} shadow-md hover:shadow-lg transition-shadow cursor-pointer`} onClick={() => setCurrentTab("health-tracker")}>
+              <Card className="p-4 shadow-md hover:shadow-lg transition-shadow cursor-pointer dark:bg-gray-800 dark:text-white dark:border-gray-700" onClick={() => setCurrentTab("health-tracker")}>
                 <div className="flex items-center gap-2 mb-2">
                   <Activity className="h-5 w-5 text-green-600" />
                   <h3 className="font-medium">Health Progress Tracker</h3>
                 </div>
-                <p className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>Track your symptoms and health metrics over time</p>
+                <p className="text-sm dark:text-gray-300 text-gray-600">Track your symptoms and health metrics over time</p>
               </Card>
               
-              <Card className={`p-4 ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'} shadow-md hover:shadow-lg transition-shadow cursor-pointer`} onClick={() => setCurrentTab("doctor-directory")}>
+              <Card className="p-4 shadow-md hover:shadow-lg transition-shadow cursor-pointer dark:bg-gray-800 dark:text-white dark:border-gray-700" onClick={() => setCurrentTab("doctor-directory")}>
                 <div className="flex items-center gap-2 mb-2">
                   <MapPin className="h-5 w-5 text-red-600" />
                   <h3 className="font-medium">Doctor Directory</h3>
                 </div>
-                <p className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>Find doctors and book appointments</p>
+                <p className="text-sm dark:text-gray-300 text-gray-600">Find doctors and book appointments</p>
               </Card>
               
-              <Card className={`p-4 ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'} shadow-md hover:shadow-lg transition-shadow cursor-pointer`} onClick={() => setCurrentTab("medicine-scanner")}>
+              <Card className="p-4 shadow-md hover:shadow-lg transition-shadow cursor-pointer dark:bg-gray-800 dark:text-white dark:border-gray-700" onClick={() => setCurrentTab("medicine-scanner")}>
                 <div className="flex items-center gap-2 mb-2">
                   <Camera className="h-5 w-5 text-purple-600" />
                   <h3 className="font-medium">Medicine Scanner</h3>
                 </div>
-                <p className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>Scan medicine packaging to get info</p>
+                <p className="text-sm dark:text-gray-300 text-gray-600">Scan medicine packaging to get info</p>
               </Card>
               
-              <Card className={`p-4 ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'} shadow-md hover:shadow-lg transition-shadow cursor-pointer`} onClick={() => setCurrentTab("emergency-info")}>
+              <Card className="p-4 shadow-md hover:shadow-lg transition-shadow cursor-pointer dark:bg-gray-800 dark:text-white dark:border-gray-700" onClick={() => setCurrentTab("emergency-info")}>
                 <div className="flex items-center gap-2 mb-2">
                   <IdCard className="h-5 w-5 text-orange-600" />
                   <h3 className="font-medium">Emergency Info Card</h3>
                 </div>
-                <p className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>Create emergency medical information card</p>
+                <p className="text-sm dark:text-gray-300 text-gray-600">Create emergency medical information card</p>
               </Card>
               
-              <Card className={`p-4 ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'} shadow-md hover:shadow-lg transition-shadow cursor-pointer`} onClick={() => setCurrentTab("health-news")}>
+              <Card className="p-4 shadow-md hover:shadow-lg transition-shadow cursor-pointer dark:bg-gray-800 dark:text-white dark:border-gray-700" onClick={() => setCurrentTab("health-news")}>
                 <div className="flex items-center gap-2 mb-2">
                   <Newspaper className="h-5 w-5 text-indigo-600" />
                   <h3 className="font-medium">Health News</h3>
                 </div>
-                <p className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>Latest health news and articles</p>
+                <p className="text-sm dark:text-gray-300 text-gray-600">Latest health news and articles</p>
               </Card>
             </div>
             
@@ -251,7 +251,7 @@ const Index = () => {
             {isLoading ? (
               <div className="flex flex-col items-center justify-center py-8">
                 <LoadingAnimation />
-                <p className={`mt-4 text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-500'}`}>
+                <p className="mt-4 text-sm dark:text-gray-300 text-gray-500">
                   Analyzing symptoms...
                 </p>
               </div>
@@ -259,7 +259,7 @@ const Index = () => {
               <ResultsDisplay results={results} />
             ) : (
               <div className="text-center p-8">
-                <p className={`${isDarkMode ? 'text-gray-300' : 'text-gray-500'}`}>No results to display yet. Check your symptoms first.</p>
+                <p className="dark:text-gray-300 text-gray-500">No results to display yet. Check your symptoms first.</p>
                 <Button 
                   onClick={() => setCurrentTab("symptoms")} 
                   variant="link"
@@ -356,10 +356,10 @@ const Index = () => {
       </main>
       
       <Dialog open={apiKeyDialogOpen} onOpenChange={setApiKeyDialogOpen}>
-        <DialogContent className={isDarkMode ? 'bg-gray-800 text-white' : ''}>
+        <DialogContent className="dialog-content">
           <DialogHeader>
-            <DialogTitle>Enter Gemini API Key</DialogTitle>
-            <DialogDescription className={isDarkMode ? 'text-gray-300' : ''}>
+            <DialogTitle className="dark:text-white">Enter Gemini API Key</DialogTitle>
+            <DialogDescription className="dialog-description">
               This key is required to use the symptom analyzer and Gemini AI features. You can get an API key from the Google AI Studio.
             </DialogDescription>
           </DialogHeader>
@@ -371,14 +371,14 @@ const Index = () => {
                 placeholder="Enter your Gemini API key..."
                 value={apiKey}
                 onChange={(e) => setApiKey(e.target.value)}
-                className={isDarkMode ? 'bg-gray-700 text-white' : ''}
+                className="dialog-input"
               />
-              <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+              <p className="text-xs dark:text-gray-400 text-gray-500">
                 Your API key is only stored in your browser and is never sent to our servers.
               </p>
             </div>
-            <div className="flex justify-end space-x-2">
-              <Button variant="outline" onClick={() => setApiKeyDialogOpen(false)}>
+            <div className="flex justify-end space-x-2 dialog-footer">
+              <Button variant="outline" onClick={() => setApiKeyDialogOpen(false)} className="btn-outline">
                 Cancel
               </Button>
               <Button onClick={handleApiKeySave}>
