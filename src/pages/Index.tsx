@@ -235,7 +235,12 @@ const Index = () => {
           
           <TabsContent value="results" className="space-y-8">
             {isLoading ? (
-              <LoadingAnimation message={`Analyzing symptoms and translating to ${targetLanguage}...`} />
+              <div className="flex flex-col items-center justify-center py-8">
+                <LoadingAnimation />
+                <p className="mt-4 text-sm text-gray-500">
+                  Analyzing symptoms and translating to {targetLanguage}...
+                </p>
+              </div>
             ) : results ? (
               <ResultsDisplay results={results} />
             ) : (

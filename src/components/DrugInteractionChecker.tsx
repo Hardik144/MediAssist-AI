@@ -231,7 +231,10 @@ const DrugInteractionChecker = () => {
             </div>
 
             {isLoading ? (
-              <LoadingAnimation message="Analyzing drug interactions..." />
+              <div className="flex flex-col items-center justify-center py-8">
+                <LoadingAnimation />
+                <p className="mt-4 text-sm text-gray-500">Analyzing drug interactions...</p>
+              </div>
             ) : interactions.length > 0 ? (
               <div className="mt-6">
                 <h3 className="text-lg font-medium mb-4">Interaction Results</h3>

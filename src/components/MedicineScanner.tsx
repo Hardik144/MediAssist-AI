@@ -1,4 +1,3 @@
-
 import React, { useState, useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -356,7 +355,12 @@ const MedicineScanner = () => {
                 </TabsContent>
               </Tabs>
               
-              {isLoading && <LoadingAnimation message="Analyzing medicine information..." />}
+              {isLoading && (
+                <div className="flex flex-col items-center justify-center py-8">
+                  <LoadingAnimation />
+                  <p className="mt-4 text-sm text-gray-500">Analyzing medicine information...</p>
+                </div>
+              )}
             </div>
           ) : (
             <div className="space-y-6">

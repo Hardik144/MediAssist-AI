@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -229,7 +228,10 @@ const HealthNewsFeed = () => {
             </div>
             
             {isLoading ? (
-              <LoadingAnimation message="Loading latest health news..." />
+              <div className="flex flex-col items-center justify-center py-8">
+                <LoadingAnimation />
+                <p className="mt-4 text-sm text-gray-500">Loading latest health news...</p>
+              </div>
             ) : (
               <>
                 {filteredArticles.length > 0 ? (
