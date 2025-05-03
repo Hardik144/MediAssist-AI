@@ -54,7 +54,7 @@ const HealthProgressTracker = () => {
         }
       } else {
         console.log("No saved metrics found");
-        setMetrics([]); // Initialize to empty array if no saved metrics
+        setMetrics([]);
       }
     };
     
@@ -63,10 +63,8 @@ const HealthProgressTracker = () => {
   
   // Save metrics to localStorage whenever they change
   useEffect(() => {
-    if (metrics.length > 0) {
-      console.log("Saving metrics:", metrics);
-      localStorage.setItem('healthMetrics', JSON.stringify(metrics));
-    }
+    localStorage.setItem('healthMetrics', JSON.stringify(metrics));
+    console.log("Saving metrics to localStorage:", metrics);
   }, [metrics]);
 
   const handleAddMetric = () => {
@@ -74,7 +72,7 @@ const HealthProgressTracker = () => {
     setEditingMetric(null);
     setMetricValue("");
     setMetricNotes("");
-    setCurrentMetricType(metricTypes[0].id); // Reset to default metric type
+    setCurrentMetricType(metricTypes[0].id);
   };
 
   const handleEditMetric = (metric: HealthMetric) => {
@@ -131,7 +129,6 @@ const HealthProgressTracker = () => {
         notes: metricNotes || undefined
       };
       
-      console.log("Adding new metric:", newMetric);
       setMetrics(prevMetrics => [...prevMetrics, newMetric]);
       toast.success("Health metric added");
     }
@@ -139,7 +136,7 @@ const HealthProgressTracker = () => {
     setDialogOpen(false);
   };
 
-  // Filter metrics by selected type for chart
+  // Filter metrics by selected type for chart - explicitly compute this when rendering
   const filteredMetrics = metrics
     .filter(metric => metric.metricType === currentMetricType)
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
@@ -148,7 +145,7 @@ const HealthProgressTracker = () => {
   console.log("Filtered metrics:", filteredMetrics);
   console.log("All metrics:", metrics);
 
-  // Prepare data for chart
+  // Prepare data for chart - explicitly compute when rendering
   const chartData = filteredMetrics.map(metric => ({
     date: format(new Date(metric.date), "MMM dd"),
     value: metric.value
