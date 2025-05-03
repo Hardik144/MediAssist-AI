@@ -35,36 +35,6 @@
 
     --radius: 0.75rem;
   }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 100% 50%;
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 150 64% 46%;
-    --secondary-foreground: 0 0% 100%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 265 80% 75%;
-    --accent-foreground: 0 0% 100%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-  }
 }
 
 @layer base {
@@ -79,11 +49,11 @@
 
 @layer components {
   .medical-card {
-    @apply bg-white dark:bg-gray-800 dark:text-white shadow-lg rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden transition-all duration-300 hover:shadow-xl;
+    @apply bg-white shadow-lg rounded-xl border border-gray-100 overflow-hidden transition-all duration-300 hover:shadow-xl;
   }
   
   .medical-input {
-    @apply w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none transition-all;
+    @apply w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none transition-all;
   }
   
   .pulse-animation {
@@ -96,52 +66,6 @@
   }
   
   .glass-card {
-    @apply bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border border-white/20 dark:border-gray-700/50 shadow-lg;
-  }
-  
-  /* Dark mode specific improvements */
-  .dark .dialog-content {
-    @apply bg-gray-800 border-gray-700 text-white;
-  }
-  
-  .dark .dialog-input {
-    @apply bg-gray-700 border-gray-600 text-white;
-  }
-  
-  .dark .dialog-description {
-    @apply text-gray-300;
-  }
-  
-  .dark .medical-card-alt {
-    @apply bg-gray-800 text-white border-gray-700;
-  }
-  
-  .dark .text-muted-custom {
-    @apply text-gray-300;
-  }
-  
-  .dark .select-trigger {
-    @apply bg-gray-700 border-gray-600 text-white;
-  }
-  
-  .dark .select-content {
-    @apply bg-gray-800 border-gray-700;
-  }
-  
-  .dark .select-item {
-    @apply text-white hover:bg-gray-700;
-  }
-  
-  .dark .btn-outline {
-    @apply border-gray-600 text-gray-200 hover:bg-gray-700;
-  }
-  
-  /* Fixed inconsistent backgrounds */
-  .dark .bg-card-dark {
-    @apply bg-gray-800 !important;
-  }
-  
-  .dark .dialog-footer {
-    @apply border-t border-gray-700;
+    @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-lg;
   }
 }

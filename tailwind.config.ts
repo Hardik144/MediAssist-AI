@@ -2,7 +2,6 @@
 import type { Config } from "tailwindcss";
 
 export default {
-  darkMode: ["class"],
   content: [
     "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
@@ -63,11 +62,6 @@ export default {
           info: "#3498db",
           light: "#f5f5f5",
           dark: "#1A1F2C",
-          darkAlt: "#222222",
-          darkBorder: "#333333",
-          darkCard: "#221F26",
-          darkText: "#e0e0e0",
-          darkMuted: "#9F9EA1",
         },
       },
       borderRadius: {
