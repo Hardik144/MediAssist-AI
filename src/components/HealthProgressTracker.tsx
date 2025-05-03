@@ -41,18 +41,28 @@ const HealthProgressTracker = () => {
   
   // Load saved metrics from localStorage on component mount
   useEffect(() => {
-    const savedMetrics = localStorage.getItem('healthMetrics');
-    if (savedMetrics) {
-      try {
-        setMetrics(JSON.parse(savedMetrics));
-      } catch (error) {
-        console.error('Failed to parse saved health metrics:', error);
+    const loadSavedMetrics = () => {
+      const savedMetrics = localStorage.getItem('healthMetrics');
+      if (savedMetrics) {
+        try {
+          const parsedMetrics = JSON.parse(savedMetrics);
+          setMetrics(parsedMetrics);
+          console.log("Loaded metrics:", parsedMetrics);
+        } catch (error) {
+          console.error('Failed to parse saved health metrics:', error);
+          setMetrics([]);
+        }
+      } else {
+        console.log("No saved metrics found");
       }
-    }
+    };
+    
+    loadSavedMetrics();
   }, []);
   
   // Save metrics to localStorage whenever they change
   useEffect(() => {
+    console.log("Saving metrics:", metrics);
     localStorage.setItem('healthMetrics', JSON.stringify(metrics));
   }, [metrics]);
 
@@ -117,7 +127,8 @@ const HealthProgressTracker = () => {
         notes: metricNotes || undefined
       };
       
-      setMetrics([...metrics, newMetric]);
+      console.log("Adding new metric:", newMetric);
+      setMetrics(prevMetrics => [...prevMetrics, newMetric]);
       toast.success("Health metric added");
     }
 
@@ -128,6 +139,10 @@ const HealthProgressTracker = () => {
   const filteredMetrics = metrics
     .filter(metric => metric.metricType === currentMetricType)
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+
+  console.log("Current metric type:", currentMetricType);
+  console.log("Filtered metrics:", filteredMetrics);
+  console.log("All metrics:", metrics);
 
   // Prepare data for chart
   const chartData = filteredMetrics.map(metric => ({

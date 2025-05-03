@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { toast } from "sonner";
 import { Card } from "@/components/ui/card";
@@ -12,7 +13,7 @@ import InfoSection from "@/components/InfoSection";
 import MedicalResourcesSection from "@/components/MedicalResourcesSection";
 import HealthTips from "@/components/HealthTips";
 import GeminiHealthAdvisor from "@/components/GeminiHealthAdvisor";
-import { Heart, Stethoscope, ClipboardList, History, Brain, Globe, Pill, Activity, MapPin, Camera, IdCard, Newspaper } from "lucide-react";
+import { Heart, Stethoscope, ClipboardList, History, Brain, Globe, Pill, Activity, MapPin, Camera, IdCard, Newspaper, ArrowLeft } from "lucide-react";
 import { useSymptomHistory } from "@/hooks/use-symptom-history";
 import MedicationReminders from "@/components/MedicationReminders";
 import SymptomHistory from "@/components/SymptomHistory";
@@ -266,28 +267,76 @@ const Index = () => {
             <HealthTips />
           </TabsContent>
 
-          {/* New features tabs */}
-          <TabsContent value="drug-interaction" className="space-y-8">
+          {/* New features tabs with back buttons */}
+          <TabsContent value="drug-interaction" className="space-y-4">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="flex items-center gap-2"
+              onClick={() => setCurrentTab("symptoms")}
+            >
+              <ArrowLeft className="h-4 w-4" /> Back to Dashboard
+            </Button>
             <DrugInteractionChecker />
           </TabsContent>
           
-          <TabsContent value="health-tracker" className="space-y-8">
+          <TabsContent value="health-tracker" className="space-y-4">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="flex items-center gap-2"
+              onClick={() => setCurrentTab("symptoms")}
+            >
+              <ArrowLeft className="h-4 w-4" /> Back to Dashboard
+            </Button>
             <HealthProgressTracker />
           </TabsContent>
           
-          <TabsContent value="doctor-directory" className="space-y-8">
+          <TabsContent value="doctor-directory" className="space-y-4">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="flex items-center gap-2"
+              onClick={() => setCurrentTab("symptoms")}
+            >
+              <ArrowLeft className="h-4 w-4" /> Back to Dashboard
+            </Button>
             <DoctorDirectory />
           </TabsContent>
           
-          <TabsContent value="medicine-scanner" className="space-y-8">
+          <TabsContent value="medicine-scanner" className="space-y-4">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="flex items-center gap-2"
+              onClick={() => setCurrentTab("symptoms")}
+            >
+              <ArrowLeft className="h-4 w-4" /> Back to Dashboard
+            </Button>
             <MedicineScanner />
           </TabsContent>
           
-          <TabsContent value="emergency-info" className="space-y-8">
+          <TabsContent value="emergency-info" className="space-y-4">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="flex items-center gap-2"
+              onClick={() => setCurrentTab("symptoms")}
+            >
+              <ArrowLeft className="h-4 w-4" /> Back to Dashboard
+            </Button>
             <EmergencyInfoCard />
           </TabsContent>
           
-          <TabsContent value="health-news" className="space-y-8">
+          <TabsContent value="health-news" className="space-y-4">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="flex items-center gap-2"
+              onClick={() => setCurrentTab("symptoms")}
+            >
+              <ArrowLeft className="h-4 w-4" /> Back to Dashboard
+            </Button>
             <HealthNewsFeed />
           </TabsContent>
         </Tabs>
