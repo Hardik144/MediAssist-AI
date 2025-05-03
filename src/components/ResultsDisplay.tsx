@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { availableLanguages, translateHealthInfo } from "@/services/geminiService";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface ResultsDisplayProps {
   results: any;
@@ -22,6 +23,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results: initialResults
   const [isTranslating, setIsTranslating] = useState(false);
   const [results, setResults] = useState(initialResults);
   const [targetLanguage, setTargetLanguage] = useState('english');
+  const isMobile = useIsMobile();
   
   // Effect to update results when initial results change
   useEffect(() => {
@@ -105,133 +107,136 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results: initialResults
   return (
     <div className="space-y-4">
       <Card className="medical-card overflow-hidden">
-        <div className="bg-gradient-to-r from-medical-primary to-medical-accent p-4 flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-2">
-          <div className="flex items-center gap-2">
-            <ClipboardCheck className="h-5 w-5 text-white" />
-            <h3 className="text-white text-lg font-medium">Health Assessment Results</h3>
-          </div>
-          <div className="flex flex-wrap gap-2 w-full sm:w-auto">
-            <Select
-              value={selectedLanguage}
-              onValueChange={handleLanguageChange}
-              disabled={isTranslating}
-            >
-              <SelectTrigger className="h-9 w-[160px] bg-white/10 text-white border-white/20">
-                <div className="flex items-center gap-2">
-                  <Globe className="h-4 w-4" />
-                  <SelectValue placeholder="Select Language" />
-                </div>
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  {availableLanguages.map(lang => (
-                    <SelectItem key={lang.code} value={lang.code}>
-                      {lang.name}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-            
-            <div className="flex gap-2 ml-auto sm:ml-0">
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="text-white hover:text-white/80 h-9"
-                onClick={downloadResults}
+        <div className="bg-gradient-to-r from-medical-primary to-medical-accent p-3 md:p-4">
+          <div className="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-2">
+            <div className="flex items-center gap-2 mb-2 sm:mb-0">
+              <ClipboardCheck className="h-4 w-4 md:h-5 md:w-5 text-white" />
+              <h3 className="text-white text-base md:text-lg font-medium">Health Assessment Results</h3>
+            </div>
+            <div className="flex flex-wrap gap-2 w-full sm:w-auto">
+              <Select
+                value={selectedLanguage}
+                onValueChange={handleLanguageChange}
+                disabled={isTranslating}
               >
-                <Download className="h-4 w-4 mr-1" />
-                <span className="hidden md:inline">Download</span>
-              </Button>
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="text-white hover:text-white/80 h-9"
-                onClick={shareResults}
-              >
-                <Share2 className="h-4 w-4 mr-1" />
-                <span className="hidden md:inline">Share</span>
-              </Button>
+                <SelectTrigger className="h-8 md:h-9 w-full sm:w-[160px] bg-white/10 text-white border-white/20 text-xs md:text-sm">
+                  <div className="flex items-center gap-1 md:gap-2">
+                    <Globe className="h-3 w-3 md:h-4 md:w-4" />
+                    <SelectValue placeholder="Select Language" />
+                  </div>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    {availableLanguages.map(lang => (
+                      <SelectItem key={lang.code} value={lang.code}>
+                        {lang.name}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+              
+              <div className="flex gap-1 md:gap-2 ml-auto sm:ml-0">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="text-white hover:text-white/80 h-8 md:h-9"
+                  onClick={downloadResults}
+                >
+                  <Download className="h-3 w-3 md:h-4 md:w-4" />
+                  <span className="sr-only md:not-sr-only md:ml-1 text-xs md:text-sm">Download</span>
+                </Button>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="text-white hover:text-white/80 h-8 md:h-9"
+                  onClick={shareResults}
+                >
+                  <Share2 className="h-3 w-3 md:h-4 md:w-4" />
+                  <span className="sr-only md:not-sr-only md:ml-1 text-xs md:text-sm">Share</span>
+                </Button>
+              </div>
             </div>
           </div>
         </div>
         
         {isTranslating && (
-          <div className="p-4 bg-blue-50 flex items-center justify-center">
+          <div className="p-3 md:p-4 bg-blue-50 flex items-center justify-center">
             <div className="flex items-center gap-2">
-              <div className="h-4 w-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-              <span>Translating to {availableLanguages.find(lang => lang.code === targetLanguage)?.name || targetLanguage}...</span>
+              <div className="h-3 w-3 md:h-4 md:w-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+              <span className="text-xs md:text-sm">Translating to {availableLanguages.find(lang => lang.code === targetLanguage)?.name || targetLanguage}...</span>
             </div>
           </div>
         )}
         
         {results.translatedLanguage && results.translatedLanguage !== 'english' && (
-          <div className="px-4 pt-2">
-            <Badge variant="secondary" className="flex items-center gap-1">
-              <Globe className="h-3 w-3" />
+          <div className="px-3 md:px-4 pt-2">
+            <Badge variant="secondary" className="flex items-center gap-1 text-xs">
+              <Globe className="h-2 w-2 md:h-3 md:w-3" />
               Translated to {availableLanguages.find(lang => lang.code === results.translatedLanguage)?.name || results.translatedLanguage}
             </Badge>
           </div>
         )}
         
         <Tabs defaultValue="condition" className="w-full">
-          <TabsList className="grid grid-cols-4 p-1 m-3">
-            <TabsTrigger value="condition">Condition</TabsTrigger>
-            <TabsTrigger value="treatment">Treatment</TabsTrigger>
-            <TabsTrigger value="advice">Advice</TabsTrigger>
-            <TabsTrigger value="info">Information</TabsTrigger>
+          <TabsList className={`grid ${isMobile ? 'grid-cols-2' : 'grid-cols-4'} p-1 m-2 md:m-3 gap-1 md:gap-0`}>
+            <TabsTrigger value="condition" className="text-xs md:text-sm py-1 md:py-1.5">Condition</TabsTrigger>
+            <TabsTrigger value="treatment" className="text-xs md:text-sm py-1 md:py-1.5">Treatment</TabsTrigger>
+            {isMobile && <div className="col-span-2"></div>}
+            <TabsTrigger value="advice" className="text-xs md:text-sm py-1 md:py-1.5">Advice</TabsTrigger>
+            <TabsTrigger value="info" className="text-xs md:text-sm py-1 md:py-1.5">Information</TabsTrigger>
           </TabsList>
 
           <TabsContent value="condition" className="m-0">
-            <CardContent className="p-4 space-y-4">
-              <div className="bg-blue-50 p-4 rounded-lg border border-blue-100">
-                <div className="flex items-center gap-2 mb-2">
-                  <HeartPulse className="h-5 w-5 text-medical-primary" />
-                  <h4 className="font-semibold text-gray-800">Potential Condition</h4>
+            <CardContent className="p-3 md:p-4 space-y-3 md:space-y-4">
+              <div className="bg-blue-50 p-3 md:p-4 rounded-lg border border-blue-100">
+                <div className="flex items-center gap-2 mb-1 md:mb-2">
+                  <HeartPulse className="h-4 w-4 md:h-5 md:w-5 text-medical-primary" />
+                  <h4 className="font-semibold text-sm md:text-base text-gray-800">Potential Condition</h4>
                 </div>
-                <p className="text-gray-700">{results.Disease}</p>
+                <p className="text-xs md:text-sm text-gray-700">{results.Disease}</p>
               </div>
               
-              <div className="p-4 border rounded-lg">
-                <div className="flex items-center gap-2 mb-2">
-                  <Search className="h-5 w-5 text-medical-accent" />
-                  <h4 className="font-semibold text-gray-800">Symptom Analysis</h4>
+              <div className="p-3 md:p-4 border rounded-lg">
+                <div className="flex items-center gap-2 mb-1 md:mb-2">
+                  <Search className="h-4 w-4 md:h-5 md:w-5 text-medical-accent" />
+                  <h4 className="font-semibold text-sm md:text-base text-gray-800">Symptom Analysis</h4>
                 </div>
-                <p className="text-gray-700">{results['Symptom Description']}</p>
+                <p className="text-xs md:text-sm text-gray-700">{results['Symptom Description']}</p>
               </div>
               
-              <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-100">
-                <div className="flex items-center gap-2 mb-2">
-                  <AlertTriangle className="h-5 w-5 text-medical-warning" />
-                  <h4 className="font-semibold text-gray-800">When to Consult a Doctor</h4>
+              <div className="bg-yellow-50 p-3 md:p-4 rounded-lg border border-yellow-100">
+                <div className="flex items-center gap-2 mb-1 md:mb-2">
+                  <AlertTriangle className="h-4 w-4 md:h-5 md:w-5 text-medical-warning" />
+                  <h4 className="font-semibold text-sm md:text-base text-gray-800">When to Consult a Doctor</h4>
                 </div>
-                <p className="text-gray-700">{results['When to Consult a Doctor']}</p>
+                <p className="text-xs md:text-sm text-gray-700">{results['When to Consult a Doctor']}</p>
               </div>
             </CardContent>
           </TabsContent>
 
           <TabsContent value="treatment" className="m-0">
-            <CardContent className="p-4 space-y-4">
-              <div className="bg-green-50 p-4 rounded-lg border border-green-100">
-                <div className="flex items-center gap-2 mb-2">
-                  <Pill className="h-5 w-5 text-medical-secondary" />
-                  <h4 className="font-semibold text-gray-800">Recommended Treatment</h4>
+            <CardContent className="p-3 md:p-4 space-y-3 md:space-y-4">
+              <div className="bg-green-50 p-3 md:p-4 rounded-lg border border-green-100">
+                <div className="flex items-center gap-2 mb-1 md:mb-2">
+                  <Pill className="h-4 w-4 md:h-5 md:w-5 text-medical-secondary" />
+                  <h4 className="font-semibold text-sm md:text-base text-gray-800">Recommended Treatment</h4>
                 </div>
-                <p className="text-gray-700">{results['Recommended Medicine']}</p>
+                <p className="text-xs md:text-sm text-gray-700">{results['Recommended Medicine']}</p>
                 
-                <div className="mt-3">
-                  <h5 className="text-sm font-medium text-gray-700">Dosage</h5>
-                  <p className="text-sm text-gray-600">{results.Dosage}</p>
+                <div className="mt-2 md:mt-3">
+                  <h5 className="text-xs md:text-sm font-medium text-gray-700">Dosage</h5>
+                  <p className="text-xs md:text-sm text-gray-600">{results.Dosage}</p>
                 </div>
               </div>
               
-              <div className="p-4 border rounded-lg">
-                <div className="flex items-center gap-2 mb-2">
-                  <h4 className="font-semibold text-gray-800">Alternative Medicines</h4>
+              <div className="p-3 md:p-4 border rounded-lg">
+                <div className="flex items-center gap-2 mb-1 md:mb-2">
+                  <h4 className="font-semibold text-sm md:text-base text-gray-800">Alternative Medicines</h4>
                 </div>
                 <ul className="space-y-1">
                   {results['Alternative Medicines'].map((medicine: string, index: number) => (
-                    <li key={index} className="flex items-start gap-2 text-gray-700">
+                    <li key={index} className="flex items-start gap-1 md:gap-2 text-xs md:text-sm text-gray-700">
                       <span className="text-medical-primary">•</span>
                       <span>{medicine}</span>
                     </li>
@@ -239,17 +244,17 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results: initialResults
                 </ul>
               </div>
               
-              <div className="bg-red-50 p-4 rounded-lg border border-red-100">
-                <div className="flex items-center gap-2 mb-2">
-                  <AlertTriangle className="h-5 w-5 text-medical-danger" />
-                  <h4 className="font-semibold text-gray-800">Side Effects & Precautions</h4>
+              <div className="bg-red-50 p-3 md:p-4 rounded-lg border border-red-100">
+                <div className="flex items-center gap-2 mb-1 md:mb-2">
+                  <AlertTriangle className="h-4 w-4 md:h-5 md:w-5 text-medical-danger" />
+                  <h4 className="font-semibold text-sm md:text-base text-gray-800">Side Effects & Precautions</h4>
                 </div>
-                <p className="text-gray-700 mb-2">{results.Precautions}</p>
+                <p className="text-xs md:text-sm text-gray-700 mb-1 md:mb-2">{results.Precautions}</p>
                 
-                <h5 className="text-sm font-medium text-gray-700 mt-3">Possible Side Effects:</h5>
+                <h5 className="text-xs md:text-sm font-medium text-gray-700 mt-2 md:mt-3">Possible Side Effects:</h5>
                 <ul className="space-y-1">
                   {results['Side Effects'].map((effect: string, index: number) => (
-                    <li key={index} className="flex items-start gap-2 text-gray-700">
+                    <li key={index} className="flex items-start gap-1 md:gap-2 text-xs md:text-sm text-gray-700">
                       <span className="text-medical-danger">•</span>
                       <span>{effect}</span>
                     </li>
@@ -260,15 +265,15 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results: initialResults
           </TabsContent>
 
           <TabsContent value="advice" className="m-0">
-            <CardContent className="p-4 space-y-4">
-              <div className="bg-indigo-50 p-4 rounded-lg border border-indigo-100">
-                <div className="flex items-center gap-2 mb-2">
-                  <Home className="h-5 w-5 text-indigo-600" />
-                  <h4 className="font-semibold text-gray-800">Home Remedies</h4>
+            <CardContent className="p-3 md:p-4 space-y-3 md:space-y-4">
+              <div className="bg-indigo-50 p-3 md:p-4 rounded-lg border border-indigo-100">
+                <div className="flex items-center gap-2 mb-1 md:mb-2">
+                  <Home className="h-4 w-4 md:h-5 md:w-5 text-indigo-600" />
+                  <h4 className="font-semibold text-sm md:text-base text-gray-800">Home Remedies</h4>
                 </div>
                 <ul className="space-y-1">
                   {results['Home Remedies'].map((remedy: string, index: number) => (
-                    <li key={index} className="flex items-start gap-2 text-gray-700">
+                    <li key={index} className="flex items-start gap-1 md:gap-2 text-xs md:text-sm text-gray-700">
                       <span className="text-indigo-600">•</span>
                       <span>{remedy}</span>
                     </li>
@@ -276,14 +281,14 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results: initialResults
                 </ul>
               </div>
               
-              <div className="bg-purple-50 p-4 rounded-lg border border-purple-100">
-                <div className="flex items-center gap-2 mb-2">
-                  <Heart className="h-5 w-5 text-medical-accent" />
-                  <h4 className="font-semibold text-gray-800">Lifestyle Tips</h4>
+              <div className="bg-purple-50 p-3 md:p-4 rounded-lg border border-purple-100">
+                <div className="flex items-center gap-2 mb-1 md:mb-2">
+                  <Heart className="h-4 w-4 md:h-5 md:w-5 text-medical-accent" />
+                  <h4 className="font-semibold text-sm md:text-base text-gray-800">Lifestyle Tips</h4>
                 </div>
                 <ul className="space-y-1">
                   {results['Lifestyle Tips'].map((tip: string, index: number) => (
-                    <li key={index} className="flex items-start gap-2 text-gray-700">
+                    <li key={index} className="flex items-start gap-1 md:gap-2 text-xs md:text-sm text-gray-700">
                       <span className="text-medical-accent">•</span>
                       <span>{tip}</span>
                     </li>
@@ -294,24 +299,24 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results: initialResults
           </TabsContent>
 
           <TabsContent value="info" className="m-0">
-            <CardContent className="p-4">
-              <div className="space-y-4">
-                <div className="p-4 border rounded-lg">
-                  <h4 className="font-semibold text-gray-800 mb-2">About Your Condition</h4>
-                  <p className="text-gray-700">{results['Symptom Description']}</p>
+            <CardContent className="p-3 md:p-4">
+              <div className="space-y-3 md:space-y-4">
+                <div className="p-3 md:p-4 border rounded-lg">
+                  <h4 className="font-semibold text-sm md:text-base text-gray-800 mb-1 md:mb-2">About Your Condition</h4>
+                  <p className="text-xs md:text-sm text-gray-700">{results['Symptom Description']}</p>
                 </div>
                 
-                <div className="bg-amber-50 p-4 rounded-lg border border-amber-100">
-                  <h4 className="font-semibold text-gray-800 mb-2">Medical Disclaimer</h4>
-                  <p className="text-gray-700">
+                <div className="bg-amber-50 p-3 md:p-4 rounded-lg border border-amber-100">
+                  <h4 className="font-semibold text-sm md:text-base text-gray-800 mb-1 md:mb-2">Medical Disclaimer</h4>
+                  <p className="text-xs md:text-sm text-gray-700">
                     {showFullDisclaimer 
                       ? results.Disclaimer 
-                      : `${results.Disclaimer.substring(0, 100)}...`}
+                      : `${results.Disclaimer.substring(0, 80)}...`}
                   </p>
                   {!showFullDisclaimer && (
                     <Button 
                       variant="link" 
-                      className="p-0 h-auto text-medical-primary" 
+                      className="p-0 h-auto text-xs md:text-sm text-medical-primary" 
                       onClick={() => setShowFullDisclaimer(true)}
                     >
                       Read More
@@ -319,7 +324,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results: initialResults
                   )}
                 </div>
                 
-                <div className="text-center text-sm text-gray-500 pt-2">
+                <div className="text-center text-xs text-gray-500 pt-2">
                   <p>Last updated: {new Date().toLocaleDateString()}</p>
                 </div>
               </div>
