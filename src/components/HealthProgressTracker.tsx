@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Activity, Plus } from "lucide-react";
@@ -78,7 +77,8 @@ const HealthProgressTracker = () => {
               ...m, 
               metricType: metricData.metricType, 
               value: metricData.value, 
-              unit: metricType.unit, 
+              unit: metricType.unit,
+              // Fix: Properly handle notes
               notes: metricData.notes 
             } 
           : m
@@ -93,7 +93,8 @@ const HealthProgressTracker = () => {
         metricType: metricData.metricType,
         value: metricData.value,
         unit: metricType.unit,
-        notes: metricData.notes
+        // Fix: Properly handle notes
+        ...(metricData.notes ? { notes: metricData.notes } : {})
       };
       
       setMetrics(prevMetrics => [...prevMetrics, newMetric]);
