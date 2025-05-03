@@ -110,24 +110,28 @@ const Index = () => {
           className="w-full max-w-4xl mx-auto"
         >
           {/* Main tabs - responsive design */}
-          <TabsList className={`w-full mb-4 md:mb-8 bg-muted ${isMobile ? 'grid grid-cols-2 gap-1' : 'grid grid-cols-4'}`}>
-            <TabsTrigger value="symptoms" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm py-1.5 data-[state=active]:bg-white">
-              <Stethoscope className="h-3 w-3 md:h-4 md:w-4" />
-              <span>Check Symptoms</span>
-            </TabsTrigger>
-            <TabsTrigger value="results" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm py-1.5 data-[state=active]:bg-white" disabled={!results && !isLoading}>
-              <ClipboardList className="h-3 w-3 md:h-4 md:w-4" />
-              <span>Results</span>
-            </TabsTrigger>
-            {isMobile && <div className="col-span-2"></div>}
-            <TabsTrigger value="ai-advisor" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm py-1.5 data-[state=active]:bg-white">
-              <Brain className="h-3 w-3 md:h-4 md:w-4" />
-              <span>AI Advisor</span>
-            </TabsTrigger>
-            <TabsTrigger value="resources" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm py-1.5 data-[state=active]:bg-white">
-              <Heart className="h-3 w-3 md:h-4 md:w-4" />
-              <span>Resources</span>
-            </TabsTrigger>
+          <TabsList className="w-full mb-4 md:mb-8 bg-muted flex flex-wrap justify-center">
+            <div className={`${isMobile ? 'w-full grid grid-cols-2 gap-1' : 'flex'}`}>
+              <TabsTrigger value="symptoms" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm py-1.5 data-[state=active]:bg-white">
+                <Stethoscope className="h-3 w-3 md:h-4 md:w-4" />
+                <span>Check Symptoms</span>
+              </TabsTrigger>
+              <TabsTrigger value="results" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm py-1.5 data-[state=active]:bg-white" disabled={!results && !isLoading}>
+                <ClipboardList className="h-3 w-3 md:h-4 md:w-4" />
+                <span>Results</span>
+              </TabsTrigger>
+            </div>
+            
+            <div className={`${isMobile ? 'w-full grid grid-cols-2 gap-1 mt-1' : 'flex'}`}>
+              <TabsTrigger value="ai-advisor" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm py-1.5 data-[state=active]:bg-white">
+                <Brain className="h-3 w-3 md:h-4 md:w-4" />
+                <span>AI Advisor</span>
+              </TabsTrigger>
+              <TabsTrigger value="resources" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm py-1.5 data-[state=active]:bg-white">
+                <Heart className="h-3 w-3 md:h-4 md:w-4" />
+                <span>Resources</span>
+              </TabsTrigger>
+            </div>
           </TabsList>
           
           <div className="flex flex-wrap justify-end gap-2 mb-3 md:mb-4">

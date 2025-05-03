@@ -68,11 +68,28 @@
   .glass-card {
     @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-lg;
   }
+  
+  .responsive-tabs {
+    @apply flex flex-wrap gap-1;
+  }
+  
+  .responsive-grid {
+    @apply grid gap-3 md:gap-4;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+  
+  .responsive-stats {
+    @apply flex flex-col items-center justify-center text-center p-2;
+  }
 }
 
 @media (max-width: 640px) {
   .container {
     @apply px-3;
+  }
+  
+  .tabs-mobile-layout {
+    @apply grid grid-cols-2 gap-1 w-full;
   }
 }
 

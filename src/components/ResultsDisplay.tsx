@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -179,13 +178,19 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results: initialResults
         )}
         
         <Tabs defaultValue="condition" className="w-full">
-          <TabsList className={`grid ${isMobile ? 'grid-cols-2' : 'grid-cols-4'} p-1 m-2 md:m-3 gap-1 md:gap-0`}>
-            <TabsTrigger value="condition" className="text-xs md:text-sm py-1 md:py-1.5">Condition</TabsTrigger>
-            <TabsTrigger value="treatment" className="text-xs md:text-sm py-1 md:py-1.5">Treatment</TabsTrigger>
-            {isMobile && <div className="col-span-2"></div>}
-            <TabsTrigger value="advice" className="text-xs md:text-sm py-1 md:py-1.5">Advice</TabsTrigger>
-            <TabsTrigger value="info" className="text-xs md:text-sm py-1 md:py-1.5">Information</TabsTrigger>
-          </TabsList>
+          <div className="p-2 md:p-3">
+            <TabsList className="w-full flex flex-wrap gap-1">
+              <div className={`${isMobile ? 'w-full grid grid-cols-2 gap-1' : 'flex gap-1'}`}>
+                <TabsTrigger value="condition" className="text-xs md:text-sm py-1 md:py-1.5 flex-1">Condition</TabsTrigger>
+                <TabsTrigger value="treatment" className="text-xs md:text-sm py-1 md:py-1.5 flex-1">Treatment</TabsTrigger>
+              </div>
+              
+              <div className={`${isMobile ? 'w-full grid grid-cols-2 gap-1 mt-1' : 'flex gap-1'}`}>
+                <TabsTrigger value="advice" className="text-xs md:text-sm py-1 md:py-1.5 flex-1">Advice</TabsTrigger>
+                <TabsTrigger value="info" className="text-xs md:text-sm py-1 md:py-1.5 flex-1">Information</TabsTrigger>
+              </div>
+            </TabsList>
+          </div>
 
           <TabsContent value="condition" className="m-0">
             <CardContent className="p-3 md:p-4 space-y-3 md:space-y-4">

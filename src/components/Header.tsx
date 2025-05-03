@@ -23,7 +23,7 @@ const Header = () => {
           </div>
           
           {!isMobile ? (
-            <div className="flex items-center gap-2 text-xs text-white/80">
+            <div className="flex items-center gap-6 text-xs text-white/80">
               <div className="flex flex-col items-center p-2">
                 <span className="text-xl md:text-2xl font-bold text-white">500k+</span>
                 <span>Symptoms Analyzed</span>
@@ -40,7 +40,7 @@ const Header = () => {
               </div>
             </div>
           ) : (
-            <div className="grid grid-cols-3 gap-2 text-[10px] md:text-xs text-white/80 w-full">
+            <div className="grid grid-cols-3 gap-4 text-[10px] md:text-xs text-white/80 w-full">
               <div className="flex flex-col items-center p-1 text-center">
                 <span className="text-lg font-bold text-white">500k+</span>
                 <span>Analyzed</span>
