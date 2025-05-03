@@ -1,26 +1,48 @@
 // This is a service for interacting with Google Gemini AI
 
-// In a real app, this key should be stored securely
-// For demo purposes, we're using localStorage
-let apiKey = '';
+// For frontend applications, we need to access environment variables differently
+// Vite uses import.meta.env, Create-React-App uses process.env with REACT_APP_ prefix
+const getEnvApiKey = () => {
+  if (typeof import.meta !== 'undefined' && import.meta.env) {
+    // Vite
+    return import.meta.env.VITE_GEMINI_API_KEY || '';
+  } else if (typeof process !== 'undefined' && process.env) {
+    // Node.js or Create-React-App
+    return process.env.REACT_APP_GEMINI_API_KEY || process.env.GEMINI_API_KEY || '';
+  }
+  return '';
+};
+
+// Initialize API key from environment variables or localStorage fallback
+let apiKey = getEnvApiKey();
 
 export const setGeminiApiKey = (key: string) => {
   apiKey = key;
-  // Save to localStorage for persistence
+  // We'll still save to localStorage as a fallback for browsers
   localStorage.setItem('geminiApiKey', key);
 };
 
 export const getGeminiApiKey = () => {
-  // Try to get from memory first, then from localStorage
+  // If we already have an apiKey in memory, return it
+  if (apiKey) {
+    return apiKey;
+  }
+  
+  // Try to get the API key from environment variables again
+  apiKey = getEnvApiKey();
+  
+  // If still not available, try localStorage as a fallback
   if (!apiKey) {
     apiKey = localStorage.getItem('geminiApiKey') || '';
   }
+  
   return apiKey;
 };
 
 export const askGemini = async (prompt: string): Promise<string> => {
-  if (!apiKey) {
-    return "Please set your Google Gemini API key first.";
+  const key = getGeminiApiKey();
+  if (!key) {
+    return "Please set your Google Gemini API key using setGeminiApiKey() or via environment variables.";
   }
 
   try {
@@ -30,7 +52,7 @@ export const askGemini = async (prompt: string): Promise<string> => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-goog-api-key": apiKey,
+          "x-goog-api-key": key,
         },
         body: JSON.stringify({
           contents: [
@@ -91,8 +113,9 @@ Question: ${prompt}`,
 
 // Function to get structured health information from Gemini
 export const getHealthConditionInfo = async (symptoms: string, language = 'english') => {
-  if (!apiKey) {
-    throw new Error("Please set your Google Gemini API key first.");
+  const key = getGeminiApiKey();
+  if (!key) {
+    throw new Error("Please set your Google Gemini API key using setGeminiApiKey() or via environment variables.");
   }
 
   try {
@@ -120,7 +143,7 @@ export const getHealthConditionInfo = async (symptoms: string, language = 'engli
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-goog-api-key": apiKey,
+          "x-goog-api-key": key,
         },
         body: JSON.stringify({
           contents: [
@@ -183,8 +206,9 @@ export const getHealthConditionInfo = async (symptoms: string, language = 'engli
 
 // Function to translate health information to the requested language
 export const translateHealthInfo = async (healthInfo: any, language: string) => {
-  if (!apiKey) {
-    throw new Error("Please set your Google Gemini API key first.");
+  const key = getGeminiApiKey();
+  if (!key) {
+    throw new Error("Please set your Google Gemini API key in the .env file (GEMINI_API_KEY=your_key).");
   }
 
   try {
@@ -236,7 +260,7 @@ export const translateHealthInfo = async (healthInfo: any, language: string) => 
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-goog-api-key": apiKey,
+          "x-goog-api-key": key,
         },
         body: JSON.stringify({
           contents: [
