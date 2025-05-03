@@ -79,11 +79,11 @@
 
 @layer components {
   .medical-card {
-    @apply bg-white shadow-lg rounded-xl border border-gray-100 overflow-hidden transition-all duration-300 hover:shadow-xl;
+    @apply bg-white dark:bg-gray-800 dark:text-white shadow-lg rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden transition-all duration-300 hover:shadow-xl;
   }
   
   .medical-input {
-    @apply w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none transition-all;
+    @apply w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none transition-all;
   }
   
   .pulse-animation {
@@ -96,6 +96,6 @@
   }
   
   .glass-card {
-    @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-lg;
+    @apply bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border border-white/20 dark:border-gray-700/50 shadow-lg;
   }
 }
