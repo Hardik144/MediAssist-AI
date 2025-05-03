@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Activity, Plus } from "lucide-react";
@@ -42,8 +43,10 @@ const HealthProgressTracker = () => {
   
   // Save metrics to localStorage whenever they change
   useEffect(() => {
-    localStorage.setItem('healthMetrics', JSON.stringify(metrics));
-    console.log("Saving metrics to localStorage:", metrics);
+    if (metrics.length > 0) {
+      localStorage.setItem('healthMetrics', JSON.stringify(metrics));
+      console.log("Saving metrics to localStorage:", metrics);
+    }
   }, [metrics]);
 
   const handleAddMetric = () => {
@@ -70,7 +73,7 @@ const HealthProgressTracker = () => {
     if (!metricType) return;
 
     if (editingMetric) {
-      // Update existing metric
+      // Update existing metric - ensure proper handling of notes
       const updatedMetrics = metrics.map(m => 
         m.id === editingMetric.id 
           ? { 
@@ -78,26 +81,32 @@ const HealthProgressTracker = () => {
               metricType: metricData.metricType, 
               value: metricData.value, 
               unit: metricType.unit,
-              // Fix: Properly handle notes
-              notes: metricData.notes 
+              // Only include notes if they exist
+              ...(metricData.notes ? { notes: metricData.notes } : {})
             } 
           : m
       );
       setMetrics(updatedMetrics);
       toast.success("Health metric updated");
     } else {
-      // Add new metric
+      // Add new metric with proper notes handling
       const newMetric: HealthMetric = {
         id: crypto.randomUUID(),
         date: new Date().toISOString(),
         metricType: metricData.metricType,
         value: metricData.value,
         unit: metricType.unit,
-        // Fix: Properly handle notes
+        // Only include notes if they exist
         ...(metricData.notes ? { notes: metricData.notes } : {})
       };
       
-      setMetrics(prevMetrics => [...prevMetrics, newMetric]);
+      // Ensure we're correctly adding to the state
+      setMetrics(prevMetrics => {
+        const updatedMetrics = [...prevMetrics, newMetric];
+        console.log("Updated metrics after adding:", updatedMetrics);
+        return updatedMetrics;
+      });
+      
       toast.success("Health metric added");
     }
 

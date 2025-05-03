@@ -62,8 +62,15 @@ const MetricFormDialog = ({
       return;
     }
 
-    // Fix: Properly handle notes - only pass notes if it has content
+    // Properly handle notes - only pass notes if it has content
     const notes = metricNotes.trim() || undefined;
+    
+    // Log what we're about to save to help debugging
+    console.log("Saving metric:", { 
+      metricType: currentMetricType, 
+      value, 
+      notes 
+    });
     
     onSave({
       metricType: currentMetricType,
