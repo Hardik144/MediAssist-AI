@@ -54,6 +54,7 @@ const HealthProgressTracker = () => {
         }
       } else {
         console.log("No saved metrics found");
+        setMetrics([]); // Initialize to empty array if no saved metrics
       }
     };
     
@@ -62,8 +63,10 @@ const HealthProgressTracker = () => {
   
   // Save metrics to localStorage whenever they change
   useEffect(() => {
-    console.log("Saving metrics:", metrics);
-    localStorage.setItem('healthMetrics', JSON.stringify(metrics));
+    if (metrics.length > 0) {
+      console.log("Saving metrics:", metrics);
+      localStorage.setItem('healthMetrics', JSON.stringify(metrics));
+    }
   }, [metrics]);
 
   const handleAddMetric = () => {
@@ -71,6 +74,7 @@ const HealthProgressTracker = () => {
     setEditingMetric(null);
     setMetricValue("");
     setMetricNotes("");
+    setCurrentMetricType(metricTypes[0].id); // Reset to default metric type
   };
 
   const handleEditMetric = (metric: HealthMetric) => {
