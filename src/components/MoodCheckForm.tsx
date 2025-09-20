@@ -63,7 +63,7 @@ const MoodCheckForm: React.FC<MoodCheckFormProps> = ({ onSubmit }) => {
             <Heart className="h-6 w-6 text-white" />
           </div>
         </div>
-        <h2 className="text-xl md:text-2xl font-bold text-gray-800">How are you feeling today?</h2>
+        <h2 className="text-xl md:text-2xl font-bold text-white">How are you feeling today?</h2>
         <p className="text-sm md:text-base text-gray-600 max-w-md mx-auto">
           This is your safe space. Share what's on your mind - everything is completely confidential.
         </p>

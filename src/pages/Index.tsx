@@ -106,8 +106,8 @@ const Index = () => {
           className="w-full max-w-5xl mx-auto"
         >
           {/* Modern tabs with reduced gaps */}
-          <TabsList className="w-full mb-6 md:mb-8 bg-card/90 backdrop-blur-md border border-border/50 shadow-xl rounded-2xl p-1">
-            <div className={`${isMobile ? 'w-full grid grid-cols-2 gap-1' : 'flex w-full justify-center gap-1'}`}>
+          <TabsList className="w-full mb-6 md:mb-8 bg-card/90 backdrop-blur-md border border-border/50 shadow-xl rounded-2xl">
+            <div className={`${isMobile ? 'w-full grid grid-cols-2 gap-1' : 'flex w-full justify-start gap-1'}`}>
               <TabsTrigger 
                 value="mood-check" 
                 className="flex items-center gap-2 text-sm md:text-base py-2.5 px-3 data-[state=active]:bg-gradient-primary data-[state=active]:text-white rounded-xl transition-all duration-200 hover:scale-105"
