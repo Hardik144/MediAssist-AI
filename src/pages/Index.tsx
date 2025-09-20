@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from "react";
 import { toast } from "sonner";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import MoodCheckForm from "@/components/MoodCheckForm";
@@ -229,11 +229,11 @@ const Index = () => {
               {tabValue === "wellness-tips" && <WellnessTips />}
               {tabValue === "peer-support" && (
                 <Card>
-                  <CardContent className="p-6 text-center">
+                  <div className="p-6 text-center">
                     <Users className="h-12 w-12 mx-auto mb-4 text-blue-500" />
                     <h3 className="text-lg font-semibold mb-2">Peer Support Coming Soon</h3>
                     <p className="text-gray-600">We're working on connecting you with peers who understand your journey.</p>
-                  </CardContent>
+                  </div>
                 </Card>
               )}
             </TabsContent>
