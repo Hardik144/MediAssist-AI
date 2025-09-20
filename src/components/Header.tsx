@@ -29,10 +29,10 @@ const Header = () => {
               <HeartPulse className="h-7 w-7 md:h-9 md:w-9" />
             </div>
             <div>
-              <h1 className="text-3xl md:text-4xl font-bold tracking-tight font-jakarta text-gradient-primary bg-white bg-clip-text text-transparent">
-                MindSpace
+              <h1 className="text-3xl md:text-4xl font-bold tracking-tight font-jakarta">
+                <span className="text-white drop-shadow-lg">MindSpace</span>
               </h1>
-              <p className="text-white/90 text-sm md:text-base max-w-md font-medium">
+              <p className="text-white/90 text-sm md:text-base max-w-md font-medium drop-shadow-sm">
                 Your safe, confidential AI companion for mental wellness
               </p>
             </div>

@@ -27,6 +27,7 @@ import MedicineScanner from "@/components/MedicineScanner";
 import EmergencyInfoCard from "@/components/EmergencyInfoCard";
 import HealthNewsFeed from "@/components/HealthNewsFeed";
 import { useIsMobile } from "@/hooks/use-mobile";
+import Footer from "@/components/Footer";
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -95,28 +96,36 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/30 transition-colors duration-300">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-teal-50 dark:from-gray-900 dark:via-purple-900/20 dark:to-blue-900/20 transition-colors duration-300">
       <Header />
       
-      <main className="container px-4 md:px-6 py-6 md:py-8">
+      {/* Calming background elements */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 left-10 w-32 h-32 bg-purple-200/30 dark:bg-purple-500/20 rounded-full blur-3xl animate-float"></div>
+        <div className="absolute top-40 right-16 w-24 h-24 bg-blue-200/40 dark:bg-blue-500/20 rounded-full blur-2xl animate-float" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute bottom-32 left-1/4 w-28 h-28 bg-teal-200/30 dark:bg-teal-500/20 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }}></div>
+        <div className="absolute bottom-20 right-1/3 w-20 h-20 bg-pink-200/40 dark:bg-pink-500/20 rounded-full blur-2xl animate-float" style={{ animationDelay: '6s' }}></div>
+      </div>
+      
+      <main className="container px-4 md:px-6 py-6 md:py-8 relative z-10">
         <Tabs 
           value={currentTab} 
           onValueChange={setCurrentTab}
           className="w-full max-w-5xl mx-auto"
         >
-          {/* Modern tabs with animations */}
-          <TabsList className="w-full mb-6 md:mb-10 bg-card/80 backdrop-blur-sm border border-border/50 shadow-lg rounded-2xl p-2">
-            <div className={`${isMobile ? 'w-full grid grid-cols-2 gap-2' : 'flex w-full justify-center gap-2'}`}>
+          {/* Modern tabs with reduced gaps */}
+          <TabsList className="w-full mb-6 md:mb-8 bg-card/90 backdrop-blur-md border border-border/50 shadow-xl rounded-2xl p-1">
+            <div className={`${isMobile ? 'w-full grid grid-cols-2 gap-1' : 'flex w-full justify-center gap-1'}`}>
               <TabsTrigger 
                 value="mood-check" 
-                className="flex items-center gap-2 text-sm md:text-base py-3 px-4 data-[state=active]:bg-gradient-primary data-[state=active]:text-white rounded-xl transition-all duration-200 hover:scale-105"
+                className="flex items-center gap-2 text-sm md:text-base py-2.5 px-3 data-[state=active]:bg-gradient-primary data-[state=active]:text-white rounded-xl transition-all duration-200 hover:scale-105"
               >
                 <Smile className="h-4 w-4" />
                 <span>Mood Check</span>
               </TabsTrigger>
               <TabsTrigger 
                 value="guidance" 
-                className="flex items-center gap-2 text-sm md:text-base py-3 px-4 data-[state=active]:bg-gradient-primary data-[state=active]:text-white rounded-xl transition-all duration-200 hover:scale-105" 
+                className="flex items-center gap-2 text-sm md:text-base py-2.5 px-3 data-[state=active]:bg-gradient-primary data-[state=active]:text-white rounded-xl transition-all duration-200 hover:scale-105" 
                 disabled={!results && !isLoading}
               >
                 <Heart className="h-4 w-4" />
@@ -124,17 +133,17 @@ const Index = () => {
               </TabsTrigger>
             </div>
             
-            <div className={`${isMobile ? 'w-full grid grid-cols-2 gap-2 mt-2' : 'flex gap-2'}`}>
+            <div className={`${isMobile ? 'w-full grid grid-cols-2 gap-1 mt-1' : 'flex gap-1'}`}>
               <TabsTrigger 
                 value="ai-support" 
-                className="flex items-center gap-2 text-sm md:text-base py-3 px-4 data-[state=active]:bg-gradient-secondary data-[state=active]:text-white rounded-xl transition-all duration-200 hover:scale-105"
+                className="flex items-center gap-2 text-sm md:text-base py-2.5 px-3 data-[state=active]:bg-gradient-secondary data-[state=active]:text-white rounded-xl transition-all duration-200 hover:scale-105"
               >
                 <Brain className="h-4 w-4" />
                 <span>AI Support</span>
               </TabsTrigger>
               <TabsTrigger 
                 value="resources" 
-                className="flex items-center gap-2 text-sm md:text-base py-3 px-4 data-[state=active]:bg-gradient-calm data-[state=active]:text-white rounded-xl transition-all duration-200 hover:scale-105"
+                className="flex items-center gap-2 text-sm md:text-base py-2.5 px-3 data-[state=active]:bg-gradient-calm data-[state=active]:text-white rounded-xl transition-all duration-200 hover:scale-105"
               >
                 <Globe className="h-4 w-4" />
                 <span>Resources</span>
@@ -163,40 +172,40 @@ const Index = () => {
             </Button>
           </div>
           
-          <TabsContent value="mood-check" className="space-y-8 animate-fade-in">
-            <Card className="wellness-card p-4 md:p-8 shadow-xl border-0 bg-gradient-subtle">
+          <TabsContent value="mood-check" className="space-y-6 animate-fade-in">
+            <Card className="wellness-card p-6 md:p-8 shadow-xl border-0 bg-white/70 dark:bg-gray-800/70 backdrop-blur-md">
               <MoodCheckForm onSubmit={handleMoodSubmit} />
             </Card>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-              <Card className="wellness-card p-4 md:p-6 cursor-pointer group hover:shadow-xl transition-all duration-300 hover:-translate-y-1" onClick={() => setCurrentTab("crisis-support")}>
+              <Card className="wellness-card p-4 md:p-6 cursor-pointer group hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 bg-gradient-to-br from-red-50 to-pink-50 dark:from-red-900/20 dark:to-pink-900/20 border-red-200/50" onClick={() => setCurrentTab("crisis-support")}>
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="p-3 bg-red-100 dark:bg-red-900/30 rounded-2xl group-hover:scale-110 transition-transform duration-200">
+                  <div className="p-3 bg-red-100 dark:bg-red-900/40 rounded-2xl group-hover:scale-110 transition-transform duration-200">
                     <Phone className="h-5 w-5 md:h-6 md:w-6 text-red-600" />
                   </div>
-                  <h3 className="font-semibold text-base md:text-lg">Crisis Support</h3>
+                  <h3 className="font-semibold text-base md:text-lg text-red-800 dark:text-red-200">Crisis Support</h3>
                 </div>
-                <p className="text-sm md:text-base text-muted-foreground">Immediate help and crisis resources available 24/7</p>
+                <p className="text-sm md:text-base text-red-700/80 dark:text-red-300/80">Immediate help and crisis resources available 24/7</p>
               </Card>
               
-              <Card className="wellness-card p-4 md:p-6 cursor-pointer group hover:shadow-xl transition-all duration-300 hover:-translate-y-1" onClick={() => setCurrentTab("wellness-tips")}>
+              <Card className="wellness-card p-4 md:p-6 cursor-pointer group hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 bg-gradient-to-br from-pink-50 to-purple-50 dark:from-pink-900/20 dark:to-purple-900/20 border-pink-200/50" onClick={() => setCurrentTab("wellness-tips")}>
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="p-3 bg-pink-100 dark:bg-pink-900/30 rounded-2xl group-hover:scale-110 transition-transform duration-200">
+                  <div className="p-3 bg-pink-100 dark:bg-pink-900/40 rounded-2xl group-hover:scale-110 transition-transform duration-200">
                     <Heart className="h-5 w-5 md:h-6 md:w-6 text-pink-600" />
                   </div>
-                  <h3 className="font-semibold text-base md:text-lg">Wellness Tips</h3>
+                  <h3 className="font-semibold text-base md:text-lg text-pink-800 dark:text-pink-200">Wellness Tips</h3>
                 </div>
-                <p className="text-sm md:text-base text-muted-foreground">Daily mental health tips and mindfulness strategies</p>
+                <p className="text-sm md:text-base text-pink-700/80 dark:text-pink-300/80">Daily mental health tips and mindfulness strategies</p>
               </Card>
               
-              <Card className="wellness-card p-4 md:p-6 cursor-pointer group hover:shadow-xl transition-all duration-300 hover:-translate-y-1" onClick={() => setCurrentTab("peer-support")}>
+              <Card className="wellness-card p-4 md:p-6 cursor-pointer group hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 bg-gradient-to-br from-blue-50 to-teal-50 dark:from-blue-900/20 dark:to-teal-900/20 border-blue-200/50" onClick={() => setCurrentTab("peer-support")}>
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-2xl group-hover:scale-110 transition-transform duration-200">
+                  <div className="p-3 bg-blue-100 dark:bg-blue-900/40 rounded-2xl group-hover:scale-110 transition-transform duration-200">
                     <Users className="h-5 w-5 md:h-6 md:w-6 text-blue-600" />
                   </div>
-                  <h3 className="font-semibold text-base md:text-lg">Peer Support</h3>
+                  <h3 className="font-semibold text-base md:text-lg text-blue-800 dark:text-blue-200">Peer Support</h3>
                 </div>
-                <p className="text-sm md:text-base text-muted-foreground">Connect with others who understand your journey</p>
+                <p className="text-sm md:text-base text-blue-700/80 dark:text-blue-300/80">Connect with others who understand your journey</p>
               </Card>
             </div>
           </TabsContent>
