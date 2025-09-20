@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from "react";
 import { toast } from "sonner";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import MoodCheckForm from "@/components/MoodCheckForm";
@@ -149,121 +149,93 @@ const Index = () => {
             </Button>
           </div>
           
-          <TabsContent value="symptoms" className="space-y-6">
+          <TabsContent value="mood-check" className="space-y-6">
             <Card className="medical-card p-3 md:p-6 shadow-lg">
-              <SymptomForm onSubmit={handleSymptomSubmit} />
+              <MoodCheckForm onSubmit={handleMoodSubmit} />
             </Card>
             
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
-              <Card className="p-3 md:p-4 shadow-md hover:shadow-lg transition-shadow cursor-pointer" onClick={() => setCurrentTab("drug-interaction")}>
+              <Card className="p-3 md:p-4 shadow-md hover:shadow-lg transition-shadow cursor-pointer" onClick={() => setCurrentTab("crisis-support")}>
                 <div className="flex items-center gap-1 md:gap-2 mb-1 md:mb-2">
-                  <Pill className="h-4 w-4 md:h-5 md:w-5 text-blue-600" />
-                  <h3 className="font-medium text-sm md:text-base">Drug Interaction Checker</h3>
+                  <Phone className="h-4 w-4 md:h-5 md:w-5 text-red-600" />
+                  <h3 className="font-medium text-sm md:text-base">Crisis Support</h3>
                 </div>
-                <p className="text-xs md:text-sm text-gray-600">Check if your medications interact with each other</p>
+                <p className="text-xs md:text-sm text-gray-600">Immediate help and crisis resources</p>
               </Card>
               
-              <Card className="p-3 md:p-4 shadow-md hover:shadow-lg transition-shadow cursor-pointer" onClick={() => setCurrentTab("health-tracker")}>
+              <Card className="p-3 md:p-4 shadow-md hover:shadow-lg transition-shadow cursor-pointer" onClick={() => setCurrentTab("wellness-tips")}>
                 <div className="flex items-center gap-1 md:gap-2 mb-1 md:mb-2">
-                  <Activity className="h-4 w-4 md:h-5 md:w-5 text-green-600" />
-                  <h3 className="font-medium text-sm md:text-base">Health Progress Tracker</h3>
+                  <Heart className="h-4 w-4 md:h-5 md:w-5 text-pink-600" />
+                  <h3 className="font-medium text-sm md:text-base">Wellness Tips</h3>
                 </div>
-                <p className="text-xs md:text-sm text-gray-600">Track your symptoms and health metrics over time</p>
+                <p className="text-xs md:text-sm text-gray-600">Daily mental health tips and strategies</p>
               </Card>
               
-              <Card className="p-3 md:p-4 shadow-md hover:shadow-lg transition-shadow cursor-pointer" onClick={() => setCurrentTab("doctor-directory")}>
+              <Card className="p-3 md:p-4 shadow-md hover:shadow-lg transition-shadow cursor-pointer" onClick={() => setCurrentTab("peer-support")}>
                 <div className="flex items-center gap-1 md:gap-2 mb-1 md:mb-2">
-                  <MapPin className="h-4 w-4 md:h-5 md:w-5 text-red-600" />
-                  <h3 className="font-medium text-sm md:text-base">Doctor Directory</h3>
+                  <Users className="h-4 w-4 md:h-5 md:w-5 text-blue-600" />
+                  <h3 className="font-medium text-sm md:text-base">Peer Support</h3>
                 </div>
-                <p className="text-xs md:text-sm text-gray-600">Find doctors and book appointments</p>
-              </Card>
-              
-              <Card className="p-3 md:p-4 shadow-md hover:shadow-lg transition-shadow cursor-pointer" onClick={() => setCurrentTab("medicine-scanner")}>
-                <div className="flex items-center gap-1 md:gap-2 mb-1 md:mb-2">
-                  <Camera className="h-4 w-4 md:h-5 md:w-5 text-purple-600" />
-                  <h3 className="font-medium text-sm md:text-base">Medicine Scanner</h3>
-                </div>
-                <p className="text-xs md:text-sm text-gray-600">Scan medicine packaging to get info</p>
-              </Card>
-              
-              <Card className="p-3 md:p-4 shadow-md hover:shadow-lg transition-shadow cursor-pointer" onClick={() => setCurrentTab("emergency-info")}>
-                <div className="flex items-center gap-1 md:gap-2 mb-1 md:mb-2">
-                  <IdCard className="h-4 w-4 md:h-5 md:w-5 text-orange-600" />
-                  <h3 className="font-medium text-sm md:text-base">Emergency Info Card</h3>
-                </div>
-                <p className="text-xs md:text-sm text-gray-600">Create emergency medical information card</p>
-              </Card>
-              
-              <Card className="p-3 md:p-4 shadow-md hover:shadow-lg transition-shadow cursor-pointer" onClick={() => setCurrentTab("health-news")}>
-                <div className="flex items-center gap-1 md:gap-2 mb-1 md:mb-2">
-                  <Newspaper className="h-4 w-4 md:h-5 md:w-5 text-indigo-600" />
-                  <h3 className="font-medium text-sm md:text-base">Health News</h3>
-                </div>
-                <p className="text-xs md:text-sm text-gray-600">Latest health news and articles</p>
+                <p className="text-xs md:text-sm text-gray-600">Connect with others who understand</p>
               </Card>
             </div>
-            
-            <TrendingSymptoms onSelect={(symptom) => {
-              // Auto-fill the form and trigger search
-              handleSymptomSubmit(symptom);
-            }} />
-            
-            <InfoSection />
           </TabsContent>
           
-          <TabsContent value="results" className="space-y-4 md:space-y-8">
+          <TabsContent value="guidance" className="space-y-4 md:space-y-8">
             {isLoading ? (
               <div className="flex flex-col items-center justify-center py-4 md:py-8">
                 <LoadingAnimation />
                 <p className="mt-3 md:mt-4 text-xs md:text-sm text-gray-500">
-                  Analyzing symptoms...
+                  Creating your personalized guidance...
                 </p>
               </div>
             ) : results ? (
-              <ResultsDisplay results={results} />
+              <WellnessGuidance results={results} />
             ) : (
               <div className="text-center p-4 md:p-8">
-                <p className="text-xs md:text-sm text-gray-500">No results to display yet. Check your symptoms first.</p>
+                <p className="text-xs md:text-sm text-gray-500">Share your feelings first to get personalized guidance.</p>
                 <Button 
-                  onClick={() => setCurrentTab("symptoms")} 
+                  onClick={() => setCurrentTab("mood-check")} 
                   variant="link"
                   className="mt-2 text-xs md:text-sm"
                 >
-                  Go to symptom checker
+                  Go to mood check
                 </Button>
               </div>
             )}
           </TabsContent>
 
-          <TabsContent value="ai-advisor" className="space-y-4 md:space-y-8">
-            <GeminiHealthAdvisor />
+          <TabsContent value="ai-support" className="space-y-4 md:space-y-8">
+            <MentalHealthSupport />
           </TabsContent>
           
           <TabsContent value="resources" className="space-y-4 md:space-y-8">
-            <MedicalResourcesSection />
-            <HealthTips />
+            <YouthResources />
           </TabsContent>
 
-          {/* Feature tabs with back buttons */}
-          {["drug-interaction", "health-tracker", "doctor-directory", 
-            "medicine-scanner", "emergency-info", "health-news"].map((tabValue) => (
+          {/* Feature tabs */}
+          {["crisis-support", "wellness-tips", "peer-support"].map((tabValue) => (
             <TabsContent key={tabValue} value={tabValue} className="space-y-3 md:space-y-4">
               <Button 
                 variant="outline" 
                 size={isMobile ? "sm" : "default"}
                 className="flex items-center gap-1 md:gap-2 text-xs md:text-sm h-8 md:h-10"
-                onClick={() => setCurrentTab("symptoms")}
+                onClick={() => setCurrentTab("mood-check")}
               >
                 <ArrowLeft className="h-3 w-3 md:h-4 md:w-4" /> Back to Dashboard
               </Button>
               
-              {tabValue === "drug-interaction" && <DrugInteractionChecker />}
-              {tabValue === "health-tracker" && <HealthProgressTracker />}
-              {tabValue === "doctor-directory" && <DoctorDirectory />}
-              {tabValue === "medicine-scanner" && <MedicineScanner />}
-              {tabValue === "emergency-info" && <EmergencyInfoCard />}
-              {tabValue === "health-news" && <HealthNewsFeed />}
+              {tabValue === "crisis-support" && <CrisisSupport />}
+              {tabValue === "wellness-tips" && <WellnessTips />}
+              {tabValue === "peer-support" && (
+                <Card>
+                  <CardContent className="p-6 text-center">
+                    <Users className="h-12 w-12 mx-auto mb-4 text-blue-500" />
+                    <h3 className="text-lg font-semibold mb-2">Peer Support Coming Soon</h3>
+                    <p className="text-gray-600">We're working on connecting you with peers who understand your journey.</p>
+                  </CardContent>
+                </Card>
+              )}
             </TabsContent>
           ))}
         </Tabs>
