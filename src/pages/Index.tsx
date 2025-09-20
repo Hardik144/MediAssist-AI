@@ -12,6 +12,7 @@ import WellnessTips from "@/components/WellnessTips";
 import YouthResources from "@/components/YouthResources";
 import CrisisSupport from "@/components/CrisisSupport";
 import MentalHealthSupport from "@/components/MentalHealthSupport";
+import AnimatedBot from "@/components/AnimatedBot";
 import { Heart, Smile, ClipboardList, History, Brain, Globe, Users, Activity, MessageCircle, Shield, Phone, BookOpen, ArrowLeft } from "lucide-react";
 import { useSymptomHistory } from "@/hooks/use-symptom-history";
 import MedicationReminders from "@/components/MedicationReminders";
@@ -94,45 +95,58 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/30 transition-colors duration-300">
       <Header />
       
-      <main className="container px-3 md:px-4 py-4 md:py-8">
+      <main className="container px-4 md:px-6 py-6 md:py-8">
         <Tabs 
           value={currentTab} 
           onValueChange={setCurrentTab}
-          className="w-full max-w-4xl mx-auto"
+          className="w-full max-w-5xl mx-auto"
         >
-          {/* Main tabs - responsive design */}
-          <TabsList className="w-full mb-4 md:mb-8 bg-muted flex flex-wrap justify-center">
-            <div className={`${isMobile ? 'w-full grid grid-cols-2 gap-1' : 'flex'}`}>
-              <TabsTrigger value="mood-check" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm py-1.5 data-[state=active]:bg-white">
-                <Smile className="h-3 w-3 md:h-4 md:w-4" />
+          {/* Modern tabs with animations */}
+          <TabsList className="w-full mb-6 md:mb-10 bg-card/80 backdrop-blur-sm border border-border/50 shadow-lg rounded-2xl p-2">
+            <div className={`${isMobile ? 'w-full grid grid-cols-2 gap-2' : 'flex w-full justify-center gap-2'}`}>
+              <TabsTrigger 
+                value="mood-check" 
+                className="flex items-center gap-2 text-sm md:text-base py-3 px-4 data-[state=active]:bg-gradient-primary data-[state=active]:text-white rounded-xl transition-all duration-200 hover:scale-105"
+              >
+                <Smile className="h-4 w-4" />
                 <span>Mood Check</span>
               </TabsTrigger>
-              <TabsTrigger value="guidance" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm py-1.5 data-[state=active]:bg-white" disabled={!results && !isLoading}>
-                <Heart className="h-3 w-3 md:h-4 md:w-4" />
+              <TabsTrigger 
+                value="guidance" 
+                className="flex items-center gap-2 text-sm md:text-base py-3 px-4 data-[state=active]:bg-gradient-primary data-[state=active]:text-white rounded-xl transition-all duration-200 hover:scale-105" 
+                disabled={!results && !isLoading}
+              >
+                <Heart className="h-4 w-4" />
                 <span>Guidance</span>
               </TabsTrigger>
             </div>
             
-            <div className={`${isMobile ? 'w-full grid grid-cols-2 gap-1 mt-1' : 'flex'}`}>
-              <TabsTrigger value="ai-support" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm py-1.5 data-[state=active]:bg-white">
-                <Brain className="h-3 w-3 md:h-4 md:w-4" />
+            <div className={`${isMobile ? 'w-full grid grid-cols-2 gap-2 mt-2' : 'flex gap-2'}`}>
+              <TabsTrigger 
+                value="ai-support" 
+                className="flex items-center gap-2 text-sm md:text-base py-3 px-4 data-[state=active]:bg-gradient-secondary data-[state=active]:text-white rounded-xl transition-all duration-200 hover:scale-105"
+              >
+                <Brain className="h-4 w-4" />
                 <span>AI Support</span>
               </TabsTrigger>
-              <TabsTrigger value="resources" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm py-1.5 data-[state=active]:bg-white">
-                <Globe className="h-3 w-3 md:h-4 md:w-4" />
+              <TabsTrigger 
+                value="resources" 
+                className="flex items-center gap-2 text-sm md:text-base py-3 px-4 data-[state=active]:bg-gradient-calm data-[state=active]:text-white rounded-xl transition-all duration-200 hover:scale-105"
+              >
+                <Globe className="h-4 w-4" />
                 <span>Resources</span>
               </TabsTrigger>
             </div>
           </TabsList>
           
-          <div className="flex flex-wrap justify-end gap-2 mb-3 md:mb-4">
+          <div className="flex flex-wrap justify-end gap-2 mb-3 md:mb-4 animate-fade-in">
             <Button
               variant="outline"
               size={isMobile ? "sm" : "default"}
-              className="flex items-center gap-1 text-xs md:text-sm h-8 md:h-10"
+              className="flex items-center gap-1 text-xs md:text-sm h-8 md:h-10 border-primary/20 bg-background/80 backdrop-blur-sm hover:bg-primary/10 transition-all duration-200"
               onClick={handleHistory}
             >
               <History className="h-3 w-3 md:h-4 md:w-4" />
@@ -141,7 +155,7 @@ const Index = () => {
             <Button
               variant="outline"
               size={isMobile ? "sm" : "default"}
-              className="flex items-center gap-1 text-xs md:text-sm h-8 md:h-10"
+              className="flex items-center gap-1 text-xs md:text-sm h-8 md:h-10 border-red-200 bg-red-50/80 text-red-700 hover:bg-red-100 transition-all duration-200"
               onClick={() => setCurrentTab("crisis-support")}
             >
               <Phone className="h-3 w-3 md:h-4 md:w-4" />
@@ -149,34 +163,40 @@ const Index = () => {
             </Button>
           </div>
           
-          <TabsContent value="mood-check" className="space-y-6">
-            <Card className="medical-card p-3 md:p-6 shadow-lg">
+          <TabsContent value="mood-check" className="space-y-8 animate-fade-in">
+            <Card className="wellness-card p-4 md:p-8 shadow-xl border-0 bg-gradient-subtle">
               <MoodCheckForm onSubmit={handleMoodSubmit} />
             </Card>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
-              <Card className="p-3 md:p-4 shadow-md hover:shadow-lg transition-shadow cursor-pointer" onClick={() => setCurrentTab("crisis-support")}>
-                <div className="flex items-center gap-1 md:gap-2 mb-1 md:mb-2">
-                  <Phone className="h-4 w-4 md:h-5 md:w-5 text-red-600" />
-                  <h3 className="font-medium text-sm md:text-base">Crisis Support</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+              <Card className="wellness-card p-4 md:p-6 cursor-pointer group hover:shadow-xl transition-all duration-300 hover:-translate-y-1" onClick={() => setCurrentTab("crisis-support")}>
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="p-3 bg-red-100 dark:bg-red-900/30 rounded-2xl group-hover:scale-110 transition-transform duration-200">
+                    <Phone className="h-5 w-5 md:h-6 md:w-6 text-red-600" />
+                  </div>
+                  <h3 className="font-semibold text-base md:text-lg">Crisis Support</h3>
                 </div>
-                <p className="text-xs md:text-sm text-gray-600">Immediate help and crisis resources</p>
+                <p className="text-sm md:text-base text-muted-foreground">Immediate help and crisis resources available 24/7</p>
               </Card>
               
-              <Card className="p-3 md:p-4 shadow-md hover:shadow-lg transition-shadow cursor-pointer" onClick={() => setCurrentTab("wellness-tips")}>
-                <div className="flex items-center gap-1 md:gap-2 mb-1 md:mb-2">
-                  <Heart className="h-4 w-4 md:h-5 md:w-5 text-pink-600" />
-                  <h3 className="font-medium text-sm md:text-base">Wellness Tips</h3>
+              <Card className="wellness-card p-4 md:p-6 cursor-pointer group hover:shadow-xl transition-all duration-300 hover:-translate-y-1" onClick={() => setCurrentTab("wellness-tips")}>
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="p-3 bg-pink-100 dark:bg-pink-900/30 rounded-2xl group-hover:scale-110 transition-transform duration-200">
+                    <Heart className="h-5 w-5 md:h-6 md:w-6 text-pink-600" />
+                  </div>
+                  <h3 className="font-semibold text-base md:text-lg">Wellness Tips</h3>
                 </div>
-                <p className="text-xs md:text-sm text-gray-600">Daily mental health tips and strategies</p>
+                <p className="text-sm md:text-base text-muted-foreground">Daily mental health tips and mindfulness strategies</p>
               </Card>
               
-              <Card className="p-3 md:p-4 shadow-md hover:shadow-lg transition-shadow cursor-pointer" onClick={() => setCurrentTab("peer-support")}>
-                <div className="flex items-center gap-1 md:gap-2 mb-1 md:mb-2">
-                  <Users className="h-4 w-4 md:h-5 md:w-5 text-blue-600" />
-                  <h3 className="font-medium text-sm md:text-base">Peer Support</h3>
+              <Card className="wellness-card p-4 md:p-6 cursor-pointer group hover:shadow-xl transition-all duration-300 hover:-translate-y-1" onClick={() => setCurrentTab("peer-support")}>
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="p-3 bg-blue-100 dark:bg-blue-900/30 rounded-2xl group-hover:scale-110 transition-transform duration-200">
+                    <Users className="h-5 w-5 md:h-6 md:w-6 text-blue-600" />
+                  </div>
+                  <h3 className="font-semibold text-base md:text-lg">Peer Support</h3>
                 </div>
-                <p className="text-xs md:text-sm text-gray-600">Connect with others who understand</p>
+                <p className="text-sm md:text-base text-muted-foreground">Connect with others who understand your journey</p>
               </Card>
             </div>
           </TabsContent>
@@ -205,11 +225,31 @@ const Index = () => {
             )}
           </TabsContent>
 
-          <TabsContent value="ai-support" className="space-y-4 md:space-y-8">
+          <TabsContent value="ai-support" className="space-y-6 animate-fade-in">
+            <div className="text-center mb-8 animate-slide-up">
+              <AnimatedBot size="lg" showHeartbeat />
+              <h2 className="text-2xl md:text-3xl font-bold text-gradient-primary mt-4 mb-2">
+                Your AI Mental Health Companion
+              </h2>
+              <p className="text-muted-foreground text-lg">
+                I'm here to listen, support, and guide you through any challenges you're facing.
+              </p>
+            </div>
             <MentalHealthSupport />
           </TabsContent>
           
-          <TabsContent value="resources" className="space-y-4 md:space-y-8">
+          <TabsContent value="resources" className="space-y-6 animate-fade-in">
+            <div className="text-center mb-8 animate-slide-up">
+              <div className="inline-flex items-center justify-center p-4 bg-gradient-calm rounded-3xl mb-4 animate-glow">
+                <Globe className="h-8 w-8 text-white" />
+              </div>
+              <h2 className="text-2xl md:text-3xl font-bold text-gradient-warm mb-2">
+                Professional Resources
+              </h2>
+              <p className="text-muted-foreground text-lg">
+                Trusted organizations and resources to support your mental wellness journey.
+              </p>
+            </div>
             <YouthResources />
           </TabsContent>
 

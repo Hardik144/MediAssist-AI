@@ -1,39 +1,124 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
 @layer base {
   :root {
-    --background: 210 40% 98%;
-    --foreground: 222.2 84% 4.9%;
-
+    /* Modern Light Theme */
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
+    --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 210 100% 50%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 150 64% 46%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 265 80% 75%;
-    --accent-foreground: 210 40% 98%;
-
+    --popover-foreground: 240 10% 3.9%;
+    
+    /* Modern Purple-Blue Gradient Primary */
+    --primary: 262 83% 58%;
+    --primary-foreground: 0 0% 98%;
+    --primary-glow: 277 92% 68%;
+    
+    /* Soft Secondary Colors */
+    --secondary: 220 14.3% 95.9%;
+    --secondary-foreground: 220.9 39.3% 11%;
+    
+    /* Elegant Neutrals */
+    --muted: 220 14.3% 95.9%;
+    --muted-foreground: 220 8.9% 46.1%;
+    --accent: 220 14.3% 95.9%;
+    --accent-foreground: 220.9 39.3% 11%;
+    
+    /* Status Colors */
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
+    --success: 142 76% 36%;
+    --warning: 38 92% 50%;
+    --info: 199 89% 48%;
+    
+    /* UI Elements */
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 262 83% 58%;
+    
+    /* Modern Mental Health Colors */
+    --wellness-primary: 262 83% 58%;
+    --wellness-secondary: 277 92% 68%;
+    --wellness-accent: 199 89% 48%;
+    --wellness-warm: 340 82% 52%;
+    --wellness-calm: 142 76% 36%;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(262 83% 58%), hsl(277 92% 68%));
+    --gradient-secondary: linear-gradient(135deg, hsl(199 89% 48%), hsl(262 83% 58%));
+    --gradient-warm: linear-gradient(135deg, hsl(340 82% 52%), hsl(277 92% 68%));
+    --gradient-calm: linear-gradient(135deg, hsl(142 76% 36%), hsl(199 89% 48%));
+    --gradient-subtle: linear-gradient(135deg, hsl(220 14.3% 95.9%), hsl(0 0% 100%));
+    
+    /* Shadows */
+    --shadow-soft: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --shadow-medium: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-large: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --shadow-glow: 0 0 20px hsl(262 83% 58% / 0.3);
+    
     --radius: 0.75rem;
+    --radius-sm: 0.5rem;
+    --radius-lg: 1rem;
+  }
+
+  .dark {
+    /* Modern Dark Theme */
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    
+    /* Bright Primary in Dark Mode */
+    --primary: 277 92% 68%;
+    --primary-foreground: 240 10% 3.9%;
+    --primary-glow: 262 83% 58%;
+    
+    /* Dark Mode Surfaces */
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    
+    /* Status Colors (Dark Mode) */
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --success: 142 76% 36%;
+    --warning: 38 92% 50%;
+    --info: 199 89% 48%;
+    
+    /* UI Elements (Dark Mode) */
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 277 92% 68%;
+    
+    /* Dark Mode Mental Health Colors */
+    --wellness-primary: 277 92% 68%;
+    --wellness-secondary: 262 83% 58%;
+    --wellness-accent: 199 89% 48%;
+    --wellness-warm: 340 82% 52%;
+    --wellness-calm: 142 76% 36%;
+    
+    /* Dark Mode Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(277 92% 68%), hsl(262 83% 58%));
+    --gradient-secondary: linear-gradient(135deg, hsl(199 89% 48%), hsl(277 92% 68%));
+    --gradient-warm: linear-gradient(135deg, hsl(340 82% 52%), hsl(262 83% 58%));
+    --gradient-calm: linear-gradient(135deg, hsl(142 76% 36%), hsl(199 89% 48%));
+    --gradient-subtle: linear-gradient(135deg, hsl(240 3.7% 15.9%), hsl(240 10% 3.9%));
+    
+    /* Dark Mode Shadows */
+    --shadow-soft: 0 1px 3px 0 rgb(0 0 0 / 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.3);
+    --shadow-medium: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+    --shadow-large: 0 10px 15px -3px rgb(0 0 0 / 0.3), 0 4px 6px -4px rgb(0 0 0 / 0.3);
+    --shadow-glow: 0 0 20px hsl(277 92% 68% / 0.4);
   }
 }
 
@@ -41,48 +126,223 @@
   * {
     @apply border-border;
   }
+  
+  html {
+    @apply scroll-smooth;
+  }
+  
   body {
-    @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    @apply bg-background text-foreground font-inter antialiased;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
 @layer components {
+  /* Modern Card Styles */
+  .wellness-card {
+    @apply bg-card/50 backdrop-blur-sm border border-border/50 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02];
+  }
+  
+  .wellness-card-glow {
+    @apply wellness-card;
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.3), 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  }
+  
+  /* Gradient Backgrounds */
+  .bg-gradient-primary {
+    background: var(--gradient-primary);
+  }
+  
+  .bg-gradient-secondary {
+    background: var(--gradient-secondary);
+  }
+  
+  .bg-gradient-warm {
+    background: var(--gradient-warm);
+  }
+  
+  .bg-gradient-calm {
+    background: var(--gradient-calm);
+  }
+  
+  .bg-gradient-subtle {
+    background: var(--gradient-subtle);
+  }
+  
+  /* Text Gradients */
+  .text-gradient-primary {
+    @apply bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent;
+  }
+  
+  .text-gradient-warm {
+    background: linear-gradient(135deg, hsl(var(--wellness-warm)), hsl(var(--wellness-secondary)));
+    @apply bg-clip-text text-transparent;
+  }
+  
+  /* Button Styles */
+  .btn-wellness {
+    @apply text-primary-foreground shadow-md hover:shadow-lg hover:scale-105 active:scale-95 transition-all duration-200;
+    background: var(--gradient-primary);
+  }
+  
+  /* Animation Classes */
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite alternate;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .animate-fade-in {
+    animation: fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .animate-scale-in {
+    animation: scaleIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .animate-bounce-gentle {
+    animation: bounceGentle 2s ease-in-out infinite;
+  }
+  
+  /* AI Bot Animation */
+  .animate-bot-pulse {
+    animation: botPulse 2s ease-in-out infinite;
+  }
+  
+  .animate-thinking {
+    animation: thinking 1.5s ease-in-out infinite;
+  }
+
+  /* Legacy card support */
   .medical-card {
-    @apply bg-white shadow-lg rounded-xl border border-gray-100 overflow-hidden transition-all duration-300 hover:shadow-xl;
-  }
-  
-  .medical-input {
-    @apply w-full px-2 md:px-4 py-2 md:py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-primary/30 focus:border-primary outline-none transition-all;
-  }
-  
-  .pulse-animation {
-    @apply relative;
-  }
-  
-  .pulse-animation::after {
-    content: '';
-    @apply absolute inset-0 rounded-full bg-primary/50 z-0 animate-ripple;
-  }
-  
-  .glass-card {
-    @apply bg-white/80 backdrop-blur-md border border-white/20 shadow-lg;
-  }
-  
-  .responsive-tabs {
-    @apply flex flex-wrap gap-1;
-  }
-  
-  .responsive-grid {
-    @apply grid gap-3 md:gap-4;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  }
-  
-  .responsive-stats {
-    @apply flex flex-col items-center justify-center text-center p-2;
+    @apply bg-card/80 backdrop-blur-sm border border-border/50 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02];
   }
 }
 
+/* Modern Animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes glow {
+  from {
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
+  }
+  to {
+    box-shadow: 0 0 30px hsl(var(--primary) / 0.6);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes bounceGentle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes botPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}
+
+@keyframes thinking {
+  0%, 100% {
+    opacity: 1;
+  }
+  25% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 0.7;
+  }
+}
+
+/* Progress bar animation */
+@keyframes progress {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100vw);
+  }
+}
+
+.animate-progress {
+  animation: progress 2s linear infinite;
+}
+
+/* Wellness specific styles */
+.wellness-input {
+  @apply border-border/50 focus:border-primary focus:ring-primary/20 bg-background/50 backdrop-blur-sm transition-all duration-200;
+}
+
+.pulse-animation {
+  animation: botPulse 2s ease-in-out infinite;
+}
+
+/* Theme Toggle Animation */
+.theme-toggle {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.theme-toggle:hover {
+  transform: rotate(180deg);
+}
+
+/* Responsive improvements */
 @media (max-width: 640px) {
   .container {
     @apply px-3;
@@ -91,24 +351,4 @@
   .tabs-mobile-layout {
     @apply grid grid-cols-2 gap-1 w-full;
   }
-}
-
-/* Custom animation for loading progress indicator */
-@keyframes progress {
-  0% { 
-    left: -5%;
-    width: 5%;
-  }
-  50% { 
-    left: 50%;
-    width: 25%;
-  }
-  100% { 
-    left: 105%;
-    width: 5%;
-  }
-}
-
-.animate-progress {
-  animation: progress 2s ease-in-out infinite;
 }

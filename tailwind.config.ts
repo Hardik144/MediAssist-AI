@@ -18,6 +18,11 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        'inter': ['Inter', 'system-ui', 'sans-serif'],
+        'jakarta': ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+        'sans': ['Inter', 'system-ui', 'sans-serif'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -27,6 +32,7 @@ export default {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
+          glow: "hsl(var(--primary-glow))",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -52,7 +58,15 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Medical theme colors
+        // Modern wellness colors
+        wellness: {
+          primary: "hsl(var(--wellness-primary))",
+          secondary: "hsl(var(--wellness-secondary))",
+          accent: "hsl(var(--wellness-accent))",
+          warm: "hsl(var(--wellness-warm))",
+          calm: "hsl(var(--wellness-calm))",
+        },
+        // Medical theme colors (legacy support)
         medical: {
           primary: "#3498db",
           secondary: "#2ecc71",
@@ -94,20 +108,50 @@ export default {
           "0%": { transform: "scale(0)", opacity: "1" },
           "100%": { transform: "scale(2.5)", opacity: "0" },
         },
-        progress: {
-          "0%": { width: "5%", left: "0%" },
-          "50%": { width: "25%", left: "50%" },
-          "100%": { width: "5%", left: "100%" },
+        slideUp: {
+          "0%": { opacity: "0", transform: "translateY(30px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        fadeIn: {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+        scaleIn: {
+          "0%": { opacity: "0", transform: "scale(0.9)" },
+          "100%": { opacity: "1", transform: "scale(1)" },
+        },
+        bounceGentle: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-5px)" },
+        },
+        float: {
+          "0%, 100%": { transform: "translateY(0px)" },
+          "50%": { transform: "translateY(-10px)" },
+        },
+        glow: {
+          "0%": { boxShadow: "0 0 20px hsl(var(--primary) / 0.3)" },
+          "100%": { boxShadow: "0 0 30px hsl(var(--primary) / 0.6)" },
+        },
+        botPulse: {
+          "0%, 100%": { transform: "scale(1)", opacity: "1" },
+          "50%": { transform: "scale(1.05)", opacity: "0.8" },
+        },
+        thinking: {
+          "0%, 100%": { opacity: "1" },
+          "25%": { opacity: "0.5" },
+          "50%": { opacity: "1" },
+          "75%": { opacity: "0.7" },
         },
       },
       animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
-        pulse: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-        breathe: "breathe 3s ease infinite",
-        "fade-in": "fade-in 0.5s ease-out forwards",
-        ripple: "ripple 1s linear infinite",
-        progress: "progress 2.5s ease-in-out infinite",
+        "slide-up": "slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1)",
+        "fade-in": "fadeIn 0.8s cubic-bezier(0.4, 0, 0.2, 1)",
+        "scale-in": "scaleIn 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
+        "bounce-gentle": "bounceGentle 2s ease-in-out infinite",
+        "bot-pulse": "botPulse 2s ease-in-out infinite",
+        "thinking": "thinking 1.5s ease-in-out infinite",
+        "float": "float 6s ease-in-out infinite",
+        "glow": "glow 2s ease-in-out infinite alternate",
       },
     },
   },
