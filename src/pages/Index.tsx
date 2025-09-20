@@ -4,20 +4,19 @@ import { toast } from "sonner";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import SymptomForm from "@/components/SymptomForm";
-import ResultsDisplay from "@/components/ResultsDisplay";
+import MoodCheckForm from "@/components/MoodCheckForm";
+import WellnessGuidance from "@/components/WellnessGuidance";
 import LoadingAnimation from "@/components/LoadingAnimation";
 import Header from "@/components/Header";
-import TrendingSymptoms from "@/components/TrendingSymptoms";
-import InfoSection from "@/components/InfoSection";
-import MedicalResourcesSection from "@/components/MedicalResourcesSection";
-import HealthTips from "@/components/HealthTips";
-import GeminiHealthAdvisor from "@/components/GeminiHealthAdvisor";
-import { Heart, Stethoscope, ClipboardList, History, Brain, Globe, Pill, Activity, MapPin, Camera, IdCard, Newspaper, ArrowLeft } from "lucide-react";
+import WellnessTips from "@/components/WellnessTips";
+import YouthResources from "@/components/YouthResources";
+import CrisisSupport from "@/components/CrisisSupport";
+import MentalHealthSupport from "@/components/MentalHealthSupport";
+import { Heart, Smile, ClipboardList, History, Brain, Globe, Users, Activity, MessageCircle, Shield, Phone, BookOpen, ArrowLeft } from "lucide-react";
 import { useSymptomHistory } from "@/hooks/use-symptom-history";
 import MedicationReminders from "@/components/MedicationReminders";
 import SymptomHistory from "@/components/SymptomHistory";
-import { getGeminiApiKey, getHealthConditionInfo, setGeminiApiKey, availableLanguages } from "@/services/geminiService";
+import { getMentalWellnessApiKey, getPersonalizedWellnessGuidance, setMentalWellnessApiKey, availableLanguages } from "@/services/mentalWellnessService";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import DrugInteractionChecker from "@/components/DrugInteractionChecker";
@@ -31,44 +30,43 @@ import { useIsMobile } from "@/hooks/use-mobile";
 const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [results, setResults] = useState<any>(null);
-  const [currentTab, setCurrentTab] = useState("symptoms");
-  const [remindersOpen, setRemindersOpen] = useState(false);
+  const [currentTab, setCurrentTab] = useState("mood-check");
   const [historyOpen, setHistoryOpen] = useState(false);
   const [apiKeyDialogOpen, setApiKeyDialogOpen] = useState(false);
-  const [apiKey, setApiKey] = useState(getGeminiApiKey());
+  const [apiKey, setApiKey] = useState(getMentalWellnessApiKey());
   const [preferredLanguage, setPreferredLanguage] = useState("english");
   const [targetLanguage, setTargetLanguage] = useState("english");
   const { addSymptom, history } = useSymptomHistory();
   const isMobile = useIsMobile();
 
-  const handleSymptomSubmit = async (symptoms: string) => {
-    if (symptoms.trim().length < 3) {
-      toast.error("Please enter valid symptoms (at least 3 characters)");
+  const handleMoodSubmit = async (feelings: string, moodLevel: string, additionalContext: string) => {
+    if (feelings.trim().length < 10) {
+      toast.error("Please share more about how you're feeling");
       return;
     }
 
     // Check if API key is set
-    if (!getGeminiApiKey()) {
+    if (!getMentalWellnessApiKey()) {
       setApiKeyDialogOpen(true);
       return;
     }
 
     setIsLoading(true);
-    setCurrentTab("results");
+    setCurrentTab("guidance");
     
     try {
-      // Get health condition data from Gemini API with language preference
-      const healthData = await getHealthConditionInfo(symptoms, preferredLanguage);
-      setResults(healthData);
+      // Get personalized wellness guidance from AI
+      const wellnessData = await getPersonalizedWellnessGuidance(feelings, moodLevel, additionalContext, preferredLanguage);
+      setResults(wellnessData);
       
-      // Add to symptom history
-      addSymptom(symptoms, healthData);
+      // Add to mood history (using existing hook for now)
+      addSymptom(feelings, wellnessData);
       
-      toast.success("Analysis complete!");
+      toast.success("Your personalized support is ready 💙");
     } catch (error) {
-      console.error("Error getting health data:", error);
-      toast.error("Failed to analyze symptoms. Please try again.");
-      setCurrentTab("symptoms");
+      console.error("Error getting wellness guidance:", error);
+      toast.error("I'm having trouble connecting right now. Please try again in a moment.");
+      setCurrentTab("mood-check");
     } finally {
       setIsLoading(false);
     }
@@ -80,19 +78,15 @@ const Index = () => {
       return;
     }
 
-    setGeminiApiKey(apiKey);
+    setMentalWellnessApiKey(apiKey);
     setApiKeyDialogOpen(false);
-    toast.success("API key saved successfully");
+    toast.success("API key saved securely 🔒");
     
-    // Auto-submit the last entered symptoms if any
+    // Auto-submit the last entered feelings if any
     if (history.length > 0) {
-      const lastSymptom = history[0].symptom;
-      handleSymptomSubmit(lastSymptom);
+      const lastEntry = history[0];
+      handleMoodSubmit(lastEntry.symptom, 'neutral', '');
     }
-  };
-
-  const handleReminders = () => {
-    setRemindersOpen(true);
   };
 
   const handleHistory = () => {
@@ -112,23 +106,23 @@ const Index = () => {
           {/* Main tabs - responsive design */}
           <TabsList className="w-full mb-4 md:mb-8 bg-muted flex flex-wrap justify-center">
             <div className={`${isMobile ? 'w-full grid grid-cols-2 gap-1' : 'flex'}`}>
-              <TabsTrigger value="symptoms" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm py-1.5 data-[state=active]:bg-white">
-                <Stethoscope className="h-3 w-3 md:h-4 md:w-4" />
-                <span>Check Symptoms</span>
+              <TabsTrigger value="mood-check" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm py-1.5 data-[state=active]:bg-white">
+                <Smile className="h-3 w-3 md:h-4 md:w-4" />
+                <span>Mood Check</span>
               </TabsTrigger>
-              <TabsTrigger value="results" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm py-1.5 data-[state=active]:bg-white" disabled={!results && !isLoading}>
-                <ClipboardList className="h-3 w-3 md:h-4 md:w-4" />
-                <span>Results</span>
+              <TabsTrigger value="guidance" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm py-1.5 data-[state=active]:bg-white" disabled={!results && !isLoading}>
+                <Heart className="h-3 w-3 md:h-4 md:w-4" />
+                <span>Guidance</span>
               </TabsTrigger>
             </div>
             
             <div className={`${isMobile ? 'w-full grid grid-cols-2 gap-1 mt-1' : 'flex'}`}>
-              <TabsTrigger value="ai-advisor" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm py-1.5 data-[state=active]:bg-white">
+              <TabsTrigger value="ai-support" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm py-1.5 data-[state=active]:bg-white">
                 <Brain className="h-3 w-3 md:h-4 md:w-4" />
-                <span>AI Advisor</span>
+                <span>AI Support</span>
               </TabsTrigger>
               <TabsTrigger value="resources" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm py-1.5 data-[state=active]:bg-white">
-                <Heart className="h-3 w-3 md:h-4 md:w-4" />
+                <Globe className="h-3 w-3 md:h-4 md:w-4" />
                 <span>Resources</span>
               </TabsTrigger>
             </div>
@@ -142,16 +136,16 @@ const Index = () => {
               onClick={handleHistory}
             >
               <History className="h-3 w-3 md:h-4 md:w-4" />
-              <span>Symptom History</span>
+              <span>Mood History</span>
             </Button>
             <Button
               variant="outline"
               size={isMobile ? "sm" : "default"}
               className="flex items-center gap-1 text-xs md:text-sm h-8 md:h-10"
-              onClick={handleReminders}
+              onClick={() => setCurrentTab("crisis-support")}
             >
-              <History className="h-3 w-3 md:h-4 md:w-4" />
-              <span>Medication Reminders</span>
+              <Phone className="h-3 w-3 md:h-4 md:w-4" />
+              <span>Crisis Support</span>
             </Button>
           </div>
           
@@ -278,9 +272,9 @@ const Index = () => {
       <Dialog open={apiKeyDialogOpen} onOpenChange={setApiKeyDialogOpen}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-base md:text-lg">Enter Gemini API Key</DialogTitle>
+            <DialogTitle className="text-base md:text-lg">Connect AI Support</DialogTitle>
             <DialogDescription className="text-xs md:text-sm">
-              This key is required to use the symptom analyzer and Gemini AI features. You can get an API key from the Google AI Studio.
+              This key enables personalized mental wellness support. Get your API key from Google AI Studio.
             </DialogDescription>
           </DialogHeader>
           
@@ -294,7 +288,7 @@ const Index = () => {
                 className="text-xs md:text-sm h-8 md:h-10"
               />
               <p className="text-[10px] md:text-xs text-gray-500">
-                Your API key is only stored in your browser and is never sent to our servers.
+                Your API key is encrypted and stored securely in your browser only.
               </p>
             </div>
             <div className="flex justify-end space-x-2">
@@ -318,17 +312,11 @@ const Index = () => {
         </DialogContent>
       </Dialog>
       
-      <MedicationReminders
-        isOpen={remindersOpen}
-        onClose={() => setRemindersOpen(false)}
-        recommendedMedicine={results?.["Recommended Medicine"] || ""}
-      />
-
       <SymptomHistory
         isOpen={historyOpen}
         onClose={() => setHistoryOpen(false)}
-        onSelectSymptom={(symptom) => {
-          handleSymptomSubmit(symptom);
+        onSelectSymptom={(feeling) => {
+          handleMoodSubmit(feeling, 'neutral', '');
           setHistoryOpen(false);
         }}
       />

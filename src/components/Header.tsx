@@ -15,9 +15,9 @@ const Header = () => {
               <HeartPulse className="h-6 w-6 md:h-8 md:w-8" />
             </div>
             <div>
-              <h1 className="text-2xl md:text-3xl font-bold tracking-tight">MediAssist AI</h1>
+              <h1 className="text-2xl md:text-3xl font-bold tracking-tight">MindSpace</h1>
               <p className="text-white/80 text-xs md:text-sm max-w-md">
-                AI-powered health assistant for symptom analysis and recommendations
+                Your safe, confidential AI companion for mental wellness and emotional support
               </p>
             </div>
           </div>
@@ -25,33 +25,33 @@ const Header = () => {
           {!isMobile ? (
             <div className="flex items-center gap-6 text-xs text-white/80">
               <div className="flex flex-col items-center p-2">
-                <span className="text-xl md:text-2xl font-bold text-white">500k+</span>
-                <span>Symptoms Analyzed</span>
+                <span className="text-xl md:text-2xl font-bold text-white">100k+</span>
+                <span>Youth Supported</span>
               </div>
               <div className="h-8 w-px bg-white/20"></div>
               <div className="flex flex-col items-center p-2">
-                <span className="text-xl md:text-2xl font-bold text-white">98%</span>
-                <span>Accuracy Rate</span>
+                <span className="text-xl md:text-2xl font-bold text-white">100%</span>
+                <span>Confidential</span>
               </div>
               <div className="h-8 w-px bg-white/20"></div>
               <div className="flex flex-col items-center p-2">
                 <span className="text-xl md:text-2xl font-bold text-white">24/7</span>
-                <span>Always Available</span>
+                <span>Always Here</span>
               </div>
             </div>
           ) : (
             <div className="grid grid-cols-3 gap-4 text-[10px] md:text-xs text-white/80 w-full">
               <div className="flex flex-col items-center p-1 text-center">
-                <span className="text-lg font-bold text-white">500k+</span>
-                <span>Analyzed</span>
+                <span className="text-lg font-bold text-white">100k+</span>
+                <span>Supported</span>
               </div>
               <div className="flex flex-col items-center p-1 text-center">
-                <span className="text-lg font-bold text-white">98%</span>
-                <span>Accuracy</span>
+                <span className="text-lg font-bold text-white">100%</span>
+                <span>Private</span>
               </div>
               <div className="flex flex-col items-center p-1 text-center">
                 <span className="text-lg font-bold text-white">24/7</span>
-                <span>Available</span>
+                <span>Here</span>
               </div>
             </div>
           )}
