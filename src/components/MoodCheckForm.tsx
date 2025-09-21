@@ -75,9 +75,9 @@ const MoodCheckForm: React.FC<MoodCheckFormProps> = ({ onSubmit }) => {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="mood-level" className="text-sm font-medium text-white">Current Mood Level</Label>
+          <Label htmlFor="mood-level" className="text-sm font-medium text-foreground">Current Mood Level</Label>
           <Select value={moodLevel} onValueChange={setMoodLevel}>
-            <SelectTrigger className="w-full glass-input text-white placeholder:text-white/60">
+            <SelectTrigger className="w-full">
               <SelectValue placeholder="How would you rate your mood right now?" />
             </SelectTrigger>
             <SelectContent>
@@ -91,11 +91,11 @@ const MoodCheckForm: React.FC<MoodCheckFormProps> = ({ onSubmit }) => {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="feelings" className="text-sm font-medium text-white">What's going on? Share your thoughts and feelings</Label>
+          <Label htmlFor="feelings" className="text-sm font-medium text-foreground">What's going on? Share your thoughts and feelings</Label>
           <div className="relative">
             <Textarea
               id="feelings"
-              className="min-h-[100px] resize-none glass-input text-white placeholder:text-white/60"
+              className="min-h-[100px] resize-none"
               placeholder="You can share anything here - your worries, stress, excitement, struggles... I'm here to listen and help."
               value={feelings}
               onChange={(e) => setFeelings(e.target.value)}
@@ -107,7 +107,7 @@ const MoodCheckForm: React.FC<MoodCheckFormProps> = ({ onSubmit }) => {
               type="button" 
               variant="ghost"
               size="sm"
-              className="flex items-center gap-1 text-white/80 hover:text-white hover:bg-white/10"
+              className="flex items-center gap-1"
               onClick={() => setVoiceInputOpen(true)}
             >
               <Mic className="h-3 w-3" />
@@ -117,10 +117,10 @@ const MoodCheckForm: React.FC<MoodCheckFormProps> = ({ onSubmit }) => {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="context" className="text-sm font-medium text-white">Additional Context (Optional)</Label>
+          <Label htmlFor="context" className="text-sm font-medium text-foreground">Additional Context (Optional)</Label>
           <Textarea
             id="context"
-            className="min-h-[60px] resize-none glass-input text-white placeholder:text-white/60"
+            className="min-h-[60px] resize-none"
             placeholder="Anything else you'd like to share? School, relationships, family, work..."
             value={additionalContext}
             onChange={(e) => setAdditionalContext(e.target.value)}
@@ -148,13 +148,13 @@ const MoodCheckForm: React.FC<MoodCheckFormProps> = ({ onSubmit }) => {
         </Button>
       </form>
 
-      <div className="pt-3 md:pt-4 border-t border-white/20">
-        <p className="text-xs md:text-sm text-white/70 mb-2">Common feelings teens share:</p>
+      <div className="pt-3 md:pt-4 border-t border-border">
+        <p className="text-xs md:text-sm text-muted-foreground mb-2">Common feelings teens share:</p>
         <div className="flex flex-wrap gap-1 md:gap-2">
           {exampleFeelings.map((example) => (
             <button
               key={example}
-              className="px-2 md:px-3 py-1 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-full text-xs md:text-sm text-white border border-white/20 transition-colors"
+              className="px-2 md:px-3 py-1 bg-secondary hover:bg-secondary/80 rounded-full text-xs md:text-sm text-secondary-foreground transition-colors"
               onClick={() => setFeelings(example)}
             >
               {example}

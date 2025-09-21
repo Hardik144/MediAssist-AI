@@ -140,31 +140,14 @@
 }
 
 @layer components {
-  /* Modern Card Styles with Glassmorphism */
+  /* Modern Card Styles */
   .wellness-card {
-    @apply backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-[1.02];
-    background: rgba(255, 255, 255, 0.1);
+    @apply bg-card/50 backdrop-blur-sm border border-border/50 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02];
   }
   
   .wellness-card-glow {
     @apply wellness-card;
-    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37), 0 4px 6px -1px rgb(0 0 0 / 0.1);
-  }
-
-  /* Glassmorphism Form Elements */
-  .glass-input {
-    @apply backdrop-blur-xl border border-white/20 rounded-xl transition-all duration-200;
-    background: rgba(255, 255, 255, 0.1);
-  }
-  
-  .glass-input:focus {
-    @apply border-white/40 ring-white/20;
-    background: rgba(255, 255, 255, 0.15);
-  }
-
-  .glass-card {
-    @apply backdrop-blur-xl border border-white/20 rounded-2xl shadow-lg;
-    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.3), 0 4px 6px -1px rgb(0 0 0 / 0.1);
   }
   
   /* Gradient Backgrounds */
