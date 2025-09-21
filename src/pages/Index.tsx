@@ -166,40 +166,40 @@ const Index = () => {
           
           <TabsContent value="mood-check" className="space-y-6 animate-fade-in">
             {/* Mood Check Form with Special Gradient */}
-            <Card className="wellness-card p-6 md:p-8 shadow-xl border-0 bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-indigo-900/30 dark:via-purple-900/30 dark:to-pink-900/30 backdrop-blur-md">
+            <Card className="glass-card p-6 md:p-8 shadow-2xl border-white/20">
               <MoodCheckForm onSubmit={handleMoodSubmit} />
             </Card>
             
             {/* Feature Cards with Single Gradient */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-              <Card className="wellness-card p-4 md:p-6 cursor-pointer group hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 bg-gradient-to-br from-blue-50 to-teal-100 dark:from-blue-900/30 dark:to-teal-900/30 border-blue-200/50" onClick={() => setCurrentTab("crisis-support")}>
+              <Card className="glass-card p-4 md:p-6 cursor-pointer group hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:bg-white/20 border-white/20" onClick={() => setCurrentTab("crisis-support")}>
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="p-3 bg-white/80 dark:bg-gray-800/80 rounded-2xl group-hover:scale-110 transition-transform duration-200 shadow-lg">
-                    <Phone className="h-5 w-5 md:h-6 md:w-6 text-red-600" />
+                  <div className="p-3 bg-white/20 backdrop-blur-sm rounded-2xl group-hover:scale-110 transition-transform duration-200 shadow-lg border border-white/10">
+                    <Phone className="h-5 w-5 md:h-6 md:w-6 text-red-400" />
                   </div>
                   <h3 className="font-semibold text-base md:text-lg text-white">Crisis Support</h3>
                 </div>
-                <p className="text-sm md:text-base text-white/90">Immediate help and crisis resources available 24/7</p>
+                <p className="text-sm md:text-base text-white/80">Immediate help and crisis resources available 24/7</p>
               </Card>
               
-              <Card className="wellness-card p-4 md:p-6 cursor-pointer group hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 bg-gradient-to-br from-blue-50 to-teal-100 dark:from-blue-900/30 dark:to-teal-900/30 border-blue-200/50" onClick={() => setCurrentTab("wellness-tips")}>
+              <Card className="glass-card p-4 md:p-6 cursor-pointer group hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:bg-white/20 border-white/20" onClick={() => setCurrentTab("wellness-tips")}>
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="p-3 bg-white/80 dark:bg-gray-800/80 rounded-2xl group-hover:scale-110 transition-transform duration-200 shadow-lg">
-                    <Heart className="h-5 w-5 md:h-6 md:w-6 text-pink-600" />
+                  <div className="p-3 bg-white/20 backdrop-blur-sm rounded-2xl group-hover:scale-110 transition-transform duration-200 shadow-lg border border-white/10">
+                    <Heart className="h-5 w-5 md:h-6 md:w-6 text-pink-400" />
                   </div>
                   <h3 className="font-semibold text-base md:text-lg text-white">Wellness Tips</h3>
                 </div>
-                <p className="text-sm md:text-base text-white/90">Daily mental health tips and mindfulness strategies</p>
+                <p className="text-sm md:text-base text-white/80">Daily mental health tips and mindfulness strategies</p>
               </Card>
               
-              <Card className="wellness-card p-4 md:p-6 cursor-pointer group hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 bg-gradient-to-br from-blue-50 to-teal-100 dark:from-blue-900/30 dark:to-teal-900/30 border-blue-200/50" onClick={() => setCurrentTab("peer-support")}>
+              <Card className="glass-card p-4 md:p-6 cursor-pointer group hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:bg-white/20 border-white/20" onClick={() => setCurrentTab("peer-support")}>
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="p-3 bg-white/80 dark:bg-gray-800/80 rounded-2xl group-hover:scale-110 transition-transform duration-200 shadow-lg">
-                    <Users className="h-5 w-5 md:h-6 md:w-6 text-blue-600" />
+                  <div className="p-3 bg-white/20 backdrop-blur-sm rounded-2xl group-hover:scale-110 transition-transform duration-200 shadow-lg border border-white/10">
+                    <Users className="h-5 w-5 md:h-6 md:w-6 text-blue-400" />
                   </div>
                   <h3 className="font-semibold text-base md:text-lg text-white">Peer Support</h3>
                 </div>
-                <p className="text-sm md:text-base text-white/90">Connect with others who understand your journey</p>
+                <p className="text-sm md:text-base text-white/80">Connect with others who understand your journey</p>
               </Card>
             </div>
           </TabsContent>
