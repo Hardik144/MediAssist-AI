@@ -2,7 +2,7 @@
 import React from "react";
 import { HeartPulse } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
-import ThemeToggle from "./ThemeToggle";
+
 
 const Header = () => {
   const isMobile = useIsMobile();
@@ -74,10 +74,6 @@ const Header = () => {
               </div>
             )}
             
-            {/* Theme Toggle */}
-            <div className="ml-4">
-              <ThemeToggle />
-            </div>
           </div>
         </div>
       </div>
