@@ -100,48 +100,66 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-b from-background via-muted/20 to-background">
       <Header />
       
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-primary via-primary/90 to-secondary py-12 md:py-20">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDE2YzAtMi4yMSAxLjc5LTQgNC00czQgMS43OSA0IDQtMS43OSA0LTQgNC00LTEuNzktNC00em0wIDI0YzAtMi4yMSAxLjc5LTQgNC00czQgMS43OSA0IDQtMS43OSA0LTQgNC00LTEuNzktNC00ek0xMiAxNmMwLTIuMjEgMS43OS00IDQtNHM0IDEuNzkgNCA0LTEuNzkgNC00IDQtNC0xLjc5LTQtNHptMCAyNGMwLTIuMjEgMS43OS00IDQtNHM0IDEuNzkgNCA0LTEuNzkgNC00IDQtNC0xLjc5LTQtNHoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-30"></div>
+      <section className="relative overflow-hidden py-20 md:py-32">
+        {/* Animated gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent"></div>
+        <div className="absolute inset-0">
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-secondary/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        </div>
+        
+        {/* Grid pattern overlay */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"></div>
         
         <div className="container relative px-4 md:px-6">
-          <div className="max-w-3xl mx-auto text-center space-y-6">
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 animate-fade-in">
-              Your Health, Simplified
+          <div className="max-w-4xl mx-auto text-center space-y-8">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-4 animate-fade-in">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+              </span>
+              AI-Powered Health Analysis
+            </div>
+            
+            <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-6 leading-tight animate-fade-in">
+              Your Health Assistant,
+              <span className="gradient-text block">Reimagined</span>
             </h1>
-            <p className="text-lg md:text-xl text-white/90 mb-8">
-              Get instant health insights powered by AI. Check symptoms, track wellness, and access medical resources—all in one place.
+            
+            <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed animate-fade-in">
+              Get instant AI-powered health insights, track your wellness journey, and access trusted medical resources—all in one intelligent platform.
             </p>
           </div>
         </div>
       </section>
       
-      <main className="container px-4 md:px-6 py-8 md:py-12 -mt-8 relative z-10">
+      <main className="container px-4 md:px-6 pb-20 -mt-12 relative z-10">
         <Tabs 
           value={currentTab} 
           onValueChange={setCurrentTab}
           className="w-full max-w-4xl mx-auto"
         >
-          {/* Main tabs - modern design */}
-          <TabsList className="w-full mb-6 md:mb-10 bg-card border border-border shadow-[var(--shadow-soft)] rounded-2xl p-2 grid grid-cols-2 md:flex md:justify-center gap-2">
-            <TabsTrigger value="symptoms" className="flex items-center gap-2 text-sm md:text-base py-3 rounded-xl data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all">
+          {/* Main tabs - premium design */}
+          <TabsList className="w-full mb-10 glass-effect shadow-[var(--shadow-medium)] rounded-2xl p-2 grid grid-cols-2 md:flex md:justify-center gap-2">
+            <TabsTrigger value="symptoms" className="flex items-center gap-2 text-sm md:text-base py-4 px-6 rounded-xl data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-[var(--shadow-glow)] transition-all duration-300 font-medium">
               <Stethoscope className="h-4 w-4" />
               <span className="hidden sm:inline">Check Symptoms</span>
               <span className="sm:hidden">Symptoms</span>
             </TabsTrigger>
-            <TabsTrigger value="results" className="flex items-center gap-2 text-sm md:text-base py-3 rounded-xl data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all" disabled={!results && !isLoading}>
+            <TabsTrigger value="results" className="flex items-center gap-2 text-sm md:text-base py-4 px-6 rounded-xl data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-[var(--shadow-glow)] transition-all duration-300 font-medium" disabled={!results && !isLoading}>
               <ClipboardList className="h-4 w-4" />
               <span>Results</span>
             </TabsTrigger>
-            <TabsTrigger value="ai-advisor" className="flex items-center gap-2 text-sm md:text-base py-3 rounded-xl data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all">
+            <TabsTrigger value="ai-advisor" className="flex items-center gap-2 text-sm md:text-base py-4 px-6 rounded-xl data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-[var(--shadow-glow)] transition-all duration-300 font-medium">
               <Brain className="h-4 w-4" />
               <span className="hidden sm:inline">AI Advisor</span>
               <span className="sm:hidden">AI</span>
             </TabsTrigger>
-            <TabsTrigger value="resources" className="flex items-center gap-2 text-sm md:text-base py-3 rounded-xl data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all">
+            <TabsTrigger value="resources" className="flex items-center gap-2 text-sm md:text-base py-4 px-6 rounded-xl data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-[var(--shadow-glow)] transition-all duration-300 font-medium">
               <Heart className="h-4 w-4" />
               <span>Resources</span>
             </TabsTrigger>
@@ -168,72 +186,92 @@ const Index = () => {
             </Button>
           </div>
           
-          <TabsContent value="symptoms" className="space-y-8">
-            <Card className="medical-card p-6 md:p-8">
+          <TabsContent value="symptoms" className="space-y-12">
+            <Card className="medical-card p-8 md:p-10">
               <SymptomForm onSubmit={handleSymptomSubmit} />
             </Card>
             
             <div>
-              <h2 className="text-2xl font-bold text-foreground mb-6">Explore Health Tools</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              <div className="text-center mb-10">
+                <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">
+                  Comprehensive Health Tools
+                </h2>
+                <p className="text-lg text-muted-foreground">
+                  Everything you need to manage your health in one place
+                </p>
+              </div>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div className="feature-card group" onClick={() => setCurrentTab("drug-interaction")}>
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="p-3 rounded-xl bg-blue-500/10 text-blue-600 group-hover:bg-blue-500 group-hover:text-white transition-colors">
-                      <Pill className="h-6 w-6" />
+                  <div className="relative z-10">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="p-3.5 rounded-2xl bg-primary/10 text-primary transition-all duration-500 group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground">
+                        <Pill className="h-7 w-7" />
+                      </div>
+                      <h3 className="font-semibold text-lg text-foreground">Drug Interaction</h3>
                     </div>
-                    <h3 className="font-semibold text-base">Drug Interaction</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">Check if your medications interact safely with comprehensive drug database</p>
                   </div>
-                  <p className="text-sm text-muted-foreground">Check if your medications interact safely</p>
                 </div>
                 
                 <div className="feature-card group" onClick={() => setCurrentTab("health-tracker")}>
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="p-3 rounded-xl bg-green-500/10 text-green-600 group-hover:bg-green-500 group-hover:text-white transition-colors">
-                      <Activity className="h-6 w-6" />
+                  <div className="relative z-10">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="p-3.5 rounded-2xl bg-secondary/10 text-secondary transition-all duration-500 group-hover:scale-110 group-hover:bg-secondary group-hover:text-secondary-foreground">
+                        <Activity className="h-7 w-7" />
+                      </div>
+                      <h3 className="font-semibold text-lg text-foreground">Health Tracker</h3>
                     </div>
-                    <h3 className="font-semibold text-base">Health Tracker</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">Monitor symptoms and track health metrics over time with insights</p>
                   </div>
-                  <p className="text-sm text-muted-foreground">Monitor symptoms and health metrics</p>
                 </div>
                 
                 <div className="feature-card group" onClick={() => setCurrentTab("doctor-directory")}>
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="p-3 rounded-xl bg-red-500/10 text-red-600 group-hover:bg-red-500 group-hover:text-white transition-colors">
-                      <MapPin className="h-6 w-6" />
+                  <div className="relative z-10">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="p-3.5 rounded-2xl bg-primary/10 text-primary transition-all duration-500 group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground">
+                        <MapPin className="h-7 w-7" />
+                      </div>
+                      <h3 className="font-semibold text-lg text-foreground">Doctor Directory</h3>
                     </div>
-                    <h3 className="font-semibold text-base">Doctor Directory</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">Find and book appointments with trusted healthcare providers</p>
                   </div>
-                  <p className="text-sm text-muted-foreground">Find and book healthcare providers</p>
                 </div>
                 
                 <div className="feature-card group" onClick={() => setCurrentTab("medicine-scanner")}>
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="p-3 rounded-xl bg-purple-500/10 text-purple-600 group-hover:bg-purple-500 group-hover:text-white transition-colors">
-                      <Camera className="h-6 w-6" />
+                  <div className="relative z-10">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="p-3.5 rounded-2xl bg-secondary/10 text-secondary transition-all duration-500 group-hover:scale-110 group-hover:bg-secondary group-hover:text-secondary-foreground">
+                        <Camera className="h-7 w-7" />
+                      </div>
+                      <h3 className="font-semibold text-lg text-foreground">Medicine Scanner</h3>
                     </div>
-                    <h3 className="font-semibold text-base">Medicine Scanner</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">Scan medication packaging to get instant information and details</p>
                   </div>
-                  <p className="text-sm text-muted-foreground">Scan packaging for medication info</p>
                 </div>
                 
                 <div className="feature-card group" onClick={() => setCurrentTab("emergency-info")}>
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="p-3 rounded-xl bg-orange-500/10 text-orange-600 group-hover:bg-orange-500 group-hover:text-white transition-colors">
-                      <IdCard className="h-6 w-6" />
+                  <div className="relative z-10">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="p-3.5 rounded-2xl bg-primary/10 text-primary transition-all duration-500 group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground">
+                        <IdCard className="h-7 w-7" />
+                      </div>
+                      <h3 className="font-semibold text-lg text-foreground">Emergency Info</h3>
                     </div>
-                    <h3 className="font-semibold text-base">Emergency Info</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">Create and store critical medical emergency information card</p>
                   </div>
-                  <p className="text-sm text-muted-foreground">Create medical emergency card</p>
                 </div>
                 
                 <div className="feature-card group" onClick={() => setCurrentTab("health-news")}>
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="p-3 rounded-xl bg-indigo-500/10 text-indigo-600 group-hover:bg-indigo-500 group-hover:text-white transition-colors">
-                      <Newspaper className="h-6 w-6" />
+                  <div className="relative z-10">
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="p-3.5 rounded-2xl bg-secondary/10 text-secondary transition-all duration-500 group-hover:scale-110 group-hover:bg-secondary group-hover:text-secondary-foreground">
+                        <Newspaper className="h-7 w-7" />
+                      </div>
+                      <h3 className="font-semibold text-lg text-foreground">Health News</h3>
                     </div>
-                    <h3 className="font-semibold text-base">Health News</h3>
+                    <p className="text-sm text-muted-foreground leading-relaxed">Stay informed with latest health news and medical breakthroughs</p>
                   </div>
-                  <p className="text-sm text-muted-foreground">Stay updated with health articles</p>
                 </div>
               </div>
             </div>
