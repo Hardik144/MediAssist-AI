@@ -4,20 +4,20 @@ import { toast } from "sonner";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import MoodCheckForm from "@/components/MoodCheckForm";
-import WellnessGuidance from "@/components/WellnessGuidance";
+import SymptomForm from "@/components/SymptomForm";
+import ResultsDisplay from "@/components/ResultsDisplay";
 import LoadingAnimation from "@/components/LoadingAnimation";
 import Header from "@/components/Header";
-import WellnessTips from "@/components/WellnessTips";
-import YouthResources from "@/components/YouthResources";
-import CrisisSupport from "@/components/CrisisSupport";
-import MentalHealthSupport from "@/components/MentalHealthSupport";
-import AnimatedBot from "@/components/AnimatedBot";
-import { Heart, Smile, ClipboardList, History, Brain, Globe, Users, Activity, MessageCircle, Shield, Phone, BookOpen, ArrowLeft } from "lucide-react";
+import TrendingSymptoms from "@/components/TrendingSymptoms";
+import InfoSection from "@/components/InfoSection";
+import MedicalResourcesSection from "@/components/MedicalResourcesSection";
+import HealthTips from "@/components/HealthTips";
+import GeminiHealthAdvisor from "@/components/GeminiHealthAdvisor";
+import { Heart, Stethoscope, ClipboardList, History, Brain, Globe, Pill, Activity, MapPin, Camera, IdCard, Newspaper, ArrowLeft } from "lucide-react";
 import { useSymptomHistory } from "@/hooks/use-symptom-history";
 import MedicationReminders from "@/components/MedicationReminders";
 import SymptomHistory from "@/components/SymptomHistory";
-import { getMentalWellnessApiKey, getPersonalizedWellnessGuidance, setMentalWellnessApiKey, availableLanguages } from "@/services/mentalWellnessService";
+import { getGeminiApiKey, getHealthConditionInfo, setGeminiApiKey, availableLanguages } from "@/services/geminiService";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import DrugInteractionChecker from "@/components/DrugInteractionChecker";
@@ -27,48 +27,48 @@ import MedicineScanner from "@/components/MedicineScanner";
 import EmergencyInfoCard from "@/components/EmergencyInfoCard";
 import HealthNewsFeed from "@/components/HealthNewsFeed";
 import { useIsMobile } from "@/hooks/use-mobile";
-import Footer from "@/components/Footer";
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [results, setResults] = useState<any>(null);
-  const [currentTab, setCurrentTab] = useState("mood-check");
+  const [currentTab, setCurrentTab] = useState("symptoms");
+  const [remindersOpen, setRemindersOpen] = useState(false);
   const [historyOpen, setHistoryOpen] = useState(false);
   const [apiKeyDialogOpen, setApiKeyDialogOpen] = useState(false);
-  const [apiKey, setApiKey] = useState(getMentalWellnessApiKey());
+  const [apiKey, setApiKey] = useState(getGeminiApiKey());
   const [preferredLanguage, setPreferredLanguage] = useState("english");
   const [targetLanguage, setTargetLanguage] = useState("english");
   const { addSymptom, history } = useSymptomHistory();
   const isMobile = useIsMobile();
 
-  const handleMoodSubmit = async (feelings: string, moodLevel: string, additionalContext: string) => {
-    if (feelings.trim().length < 10) {
-      toast.error("Please share more about how you're feeling");
+  const handleSymptomSubmit = async (symptoms: string) => {
+    if (symptoms.trim().length < 3) {
+      toast.error("Please enter valid symptoms (at least 3 characters)");
       return;
     }
 
     // Check if API key is set
-    if (!getMentalWellnessApiKey()) {
+    if (!getGeminiApiKey()) {
       setApiKeyDialogOpen(true);
       return;
     }
 
     setIsLoading(true);
-    setCurrentTab("guidance");
+    setCurrentTab("results");
     
     try {
-      // Get personalized wellness guidance from AI
-      const wellnessData = await getPersonalizedWellnessGuidance(feelings, moodLevel, additionalContext, preferredLanguage);
-      setResults(wellnessData);
+      // Get health condition data from Gemini API with language preference
+      const healthData = await getHealthConditionInfo(symptoms, preferredLanguage);
+      setResults(healthData);
       
-      // Add to mood history (using existing hook for now)
-      addSymptom(feelings, wellnessData);
+      // Add to symptom history
+      addSymptom(symptoms, healthData);
       
-      toast.success("Your personalized support is ready 💙");
+      toast.success("Analysis complete!");
     } catch (error) {
-      console.error("Error getting wellness guidance:", error);
-      toast.error("I'm having trouble connecting right now. Please try again in a moment.");
-      setCurrentTab("mood-check");
+      console.error("Error getting health data:", error);
+      toast.error("Failed to analyze symptoms. Please try again.");
+      setCurrentTab("symptoms");
     } finally {
       setIsLoading(false);
     }
@@ -80,15 +80,19 @@ const Index = () => {
       return;
     }
 
-    setMentalWellnessApiKey(apiKey);
+    setGeminiApiKey(apiKey);
     setApiKeyDialogOpen(false);
-    toast.success("API key saved securely 🔒");
+    toast.success("API key saved successfully");
     
-    // Auto-submit the last entered feelings if any
+    // Auto-submit the last entered symptoms if any
     if (history.length > 0) {
-      const lastEntry = history[0];
-      handleMoodSubmit(lastEntry.symptom, 'neutral', '');
+      const lastSymptom = history[0].symptom;
+      handleSymptomSubmit(lastSymptom);
     }
+  };
+
+  const handleReminders = () => {
+    setRemindersOpen(true);
   };
 
   const handleHistory = () => {
@@ -96,189 +100,176 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors duration-300">
+    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
       <Header />
       
-      <main className="container px-4 md:px-6 py-6 md:py-8 relative z-10">
+      <main className="container px-3 md:px-4 py-4 md:py-8">
         <Tabs 
           value={currentTab} 
           onValueChange={setCurrentTab}
-          className="w-full max-w-5xl mx-auto"
+          className="w-full max-w-4xl mx-auto"
         >
-          {/* Modern tabs with reduced gaps */}
-          <TabsList className="w-full mb-6 md:mb-8 bg-card/90 backdrop-blur-md border border-border/50 shadow-xl rounded-2xl">
-            <div className={`${isMobile ? 'w-full grid grid-cols-2 gap-1' : 'flex w-full justify-start gap-1'}`}>
-              <TabsTrigger 
-                value="mood-check" 
-                className="flex items-center gap-2 text-sm md:text-base py-2.5 px-3 data-[state=active]:bg-gradient-primary data-[state=active]:text-white rounded-xl transition-all duration-200 hover:scale-105"
-              >
-                <Smile className="h-4 w-4" />
-                <span>Mood Check</span>
+          {/* Main tabs - responsive design */}
+          <TabsList className="w-full mb-4 md:mb-8 bg-muted flex flex-wrap justify-center">
+            <div className={`${isMobile ? 'w-full grid grid-cols-2 gap-1' : 'flex'}`}>
+              <TabsTrigger value="symptoms" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm py-1.5 data-[state=active]:bg-white">
+                <Stethoscope className="h-3 w-3 md:h-4 md:w-4" />
+                <span>Check Symptoms</span>
               </TabsTrigger>
-              <TabsTrigger 
-                value="guidance" 
-                className="flex items-center gap-2 text-sm md:text-base py-2.5 px-3 data-[state=active]:bg-gradient-primary data-[state=active]:text-white rounded-xl transition-all duration-200 hover:scale-105" 
-                disabled={!results && !isLoading}
-              >
-                <Heart className="h-4 w-4" />
-                <span>Guidance</span>
+              <TabsTrigger value="results" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm py-1.5 data-[state=active]:bg-white" disabled={!results && !isLoading}>
+                <ClipboardList className="h-3 w-3 md:h-4 md:w-4" />
+                <span>Results</span>
               </TabsTrigger>
             </div>
             
-            <div className={`${isMobile ? 'w-full grid grid-cols-2 gap-1 mt-1' : 'flex gap-1'}`}>
-              <TabsTrigger 
-                value="ai-support" 
-                className="flex items-center gap-2 text-sm md:text-base py-2.5 px-3 data-[state=active]:bg-gradient-secondary data-[state=active]:text-white rounded-xl transition-all duration-200 hover:scale-105"
-              >
-                <Brain className="h-4 w-4" />
-                <span>AI Support</span>
+            <div className={`${isMobile ? 'w-full grid grid-cols-2 gap-1 mt-1' : 'flex'}`}>
+              <TabsTrigger value="ai-advisor" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm py-1.5 data-[state=active]:bg-white">
+                <Brain className="h-3 w-3 md:h-4 md:w-4" />
+                <span>AI Advisor</span>
               </TabsTrigger>
-              <TabsTrigger 
-                value="resources" 
-                className="flex items-center gap-2 text-sm md:text-base py-2.5 px-3 data-[state=active]:bg-gradient-calm data-[state=active]:text-white rounded-xl transition-all duration-200 hover:scale-105"
-              >
-                <Globe className="h-4 w-4" />
+              <TabsTrigger value="resources" className="flex items-center gap-1 md:gap-2 text-xs md:text-sm py-1.5 data-[state=active]:bg-white">
+                <Heart className="h-3 w-3 md:h-4 md:w-4" />
                 <span>Resources</span>
               </TabsTrigger>
             </div>
           </TabsList>
           
-          <div className="flex flex-wrap justify-end gap-2 mb-3 md:mb-4 animate-fade-in">
+          <div className="flex flex-wrap justify-end gap-2 mb-3 md:mb-4">
             <Button
               variant="outline"
               size={isMobile ? "sm" : "default"}
-              className="flex items-center gap-1 text-xs md:text-sm h-8 md:h-10 border-primary/20 bg-background/80 backdrop-blur-sm hover:bg-primary/10 transition-all duration-200"
+              className="flex items-center gap-1 text-xs md:text-sm h-8 md:h-10"
               onClick={handleHistory}
             >
               <History className="h-3 w-3 md:h-4 md:w-4" />
-              <span>Mood History</span>
+              <span>Symptom History</span>
             </Button>
             <Button
               variant="outline"
               size={isMobile ? "sm" : "default"}
-              className="flex items-center gap-1 text-xs md:text-sm h-8 md:h-10 border-red-200 bg-red-50/20 text-red-300 hover:bg-red-100/20 hover:text-red-200 transition-all duration-200"
-              onClick={() => setCurrentTab("crisis-support")}
+              className="flex items-center gap-1 text-xs md:text-sm h-8 md:h-10"
+              onClick={handleReminders}
             >
-              <Phone className="h-3 w-3 md:h-4 md:w-4" />
-              <span>Crisis Support</span>
+              <History className="h-3 w-3 md:h-4 md:w-4" />
+              <span>Medication Reminders</span>
             </Button>
           </div>
           
-          <TabsContent value="mood-check" className="space-y-6 animate-fade-in">
-            {/* Mood Check Form with Special Gradient */}
-            <Card className="wellness-card p-6 md:p-8 shadow-xl border-0 bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 dark:from-indigo-900/30 dark:via-purple-900/30 dark:to-pink-900/30 backdrop-blur-md">
-              <MoodCheckForm onSubmit={handleMoodSubmit} />
+          <TabsContent value="symptoms" className="space-y-6">
+            <Card className="medical-card p-3 md:p-6 shadow-lg">
+              <SymptomForm onSubmit={handleSymptomSubmit} />
             </Card>
             
-            {/* Feature Cards with Single Gradient */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-              <Card className="wellness-card p-4 md:p-6 cursor-pointer group hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 bg-gradient-to-br from-blue-50 to-teal-100 dark:from-blue-900/30 dark:to-teal-900/30 border-blue-200/50" onClick={() => setCurrentTab("crisis-support")}>
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="p-3 bg-white/80 dark:bg-gray-800/80 rounded-2xl group-hover:scale-110 transition-transform duration-200 shadow-lg">
-                    <Phone className="h-5 w-5 md:h-6 md:w-6 text-red-600" />
-                  </div>
-                  <h3 className="font-semibold text-base md:text-lg text-white">Crisis Support</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
+              <Card className="p-3 md:p-4 shadow-md hover:shadow-lg transition-shadow cursor-pointer" onClick={() => setCurrentTab("drug-interaction")}>
+                <div className="flex items-center gap-1 md:gap-2 mb-1 md:mb-2">
+                  <Pill className="h-4 w-4 md:h-5 md:w-5 text-blue-600" />
+                  <h3 className="font-medium text-sm md:text-base">Drug Interaction Checker</h3>
                 </div>
-                <p className="text-sm md:text-base text-white/90">Immediate help and crisis resources available 24/7</p>
+                <p className="text-xs md:text-sm text-gray-600">Check if your medications interact with each other</p>
               </Card>
               
-              <Card className="wellness-card p-4 md:p-6 cursor-pointer group hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 bg-gradient-to-br from-blue-50 to-teal-100 dark:from-blue-900/30 dark:to-teal-900/30 border-blue-200/50" onClick={() => setCurrentTab("wellness-tips")}>
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="p-3 bg-white/80 dark:bg-gray-800/80 rounded-2xl group-hover:scale-110 transition-transform duration-200 shadow-lg">
-                    <Heart className="h-5 w-5 md:h-6 md:w-6 text-pink-600" />
-                  </div>
-                  <h3 className="font-semibold text-base md:text-lg text-white">Wellness Tips</h3>
+              <Card className="p-3 md:p-4 shadow-md hover:shadow-lg transition-shadow cursor-pointer" onClick={() => setCurrentTab("health-tracker")}>
+                <div className="flex items-center gap-1 md:gap-2 mb-1 md:mb-2">
+                  <Activity className="h-4 w-4 md:h-5 md:w-5 text-green-600" />
+                  <h3 className="font-medium text-sm md:text-base">Health Progress Tracker</h3>
                 </div>
-                <p className="text-sm md:text-base text-white/90">Daily mental health tips and mindfulness strategies</p>
+                <p className="text-xs md:text-sm text-gray-600">Track your symptoms and health metrics over time</p>
               </Card>
               
-              <Card className="wellness-card p-4 md:p-6 cursor-pointer group hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 bg-gradient-to-br from-blue-50 to-teal-100 dark:from-blue-900/30 dark:to-teal-900/30 border-blue-200/50" onClick={() => setCurrentTab("peer-support")}>
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="p-3 bg-white/80 dark:bg-gray-800/80 rounded-2xl group-hover:scale-110 transition-transform duration-200 shadow-lg">
-                    <Users className="h-5 w-5 md:h-6 md:w-6 text-blue-600" />
-                  </div>
-                  <h3 className="font-semibold text-base md:text-lg text-white">Peer Support</h3>
+              <Card className="p-3 md:p-4 shadow-md hover:shadow-lg transition-shadow cursor-pointer" onClick={() => setCurrentTab("doctor-directory")}>
+                <div className="flex items-center gap-1 md:gap-2 mb-1 md:mb-2">
+                  <MapPin className="h-4 w-4 md:h-5 md:w-5 text-red-600" />
+                  <h3 className="font-medium text-sm md:text-base">Doctor Directory</h3>
                 </div>
-                <p className="text-sm md:text-base text-white/90">Connect with others who understand your journey</p>
+                <p className="text-xs md:text-sm text-gray-600">Find doctors and book appointments</p>
+              </Card>
+              
+              <Card className="p-3 md:p-4 shadow-md hover:shadow-lg transition-shadow cursor-pointer" onClick={() => setCurrentTab("medicine-scanner")}>
+                <div className="flex items-center gap-1 md:gap-2 mb-1 md:mb-2">
+                  <Camera className="h-4 w-4 md:h-5 md:w-5 text-purple-600" />
+                  <h3 className="font-medium text-sm md:text-base">Medicine Scanner</h3>
+                </div>
+                <p className="text-xs md:text-sm text-gray-600">Scan medicine packaging to get info</p>
+              </Card>
+              
+              <Card className="p-3 md:p-4 shadow-md hover:shadow-lg transition-shadow cursor-pointer" onClick={() => setCurrentTab("emergency-info")}>
+                <div className="flex items-center gap-1 md:gap-2 mb-1 md:mb-2">
+                  <IdCard className="h-4 w-4 md:h-5 md:w-5 text-orange-600" />
+                  <h3 className="font-medium text-sm md:text-base">Emergency Info Card</h3>
+                </div>
+                <p className="text-xs md:text-sm text-gray-600">Create emergency medical information card</p>
+              </Card>
+              
+              <Card className="p-3 md:p-4 shadow-md hover:shadow-lg transition-shadow cursor-pointer" onClick={() => setCurrentTab("health-news")}>
+                <div className="flex items-center gap-1 md:gap-2 mb-1 md:mb-2">
+                  <Newspaper className="h-4 w-4 md:h-5 md:w-5 text-indigo-600" />
+                  <h3 className="font-medium text-sm md:text-base">Health News</h3>
+                </div>
+                <p className="text-xs md:text-sm text-gray-600">Latest health news and articles</p>
               </Card>
             </div>
+            
+            <TrendingSymptoms onSelect={(symptom) => {
+              // Auto-fill the form and trigger search
+              handleSymptomSubmit(symptom);
+            }} />
+            
+            <InfoSection />
           </TabsContent>
           
-          <TabsContent value="guidance" className="space-y-4 md:space-y-8">
+          <TabsContent value="results" className="space-y-4 md:space-y-8">
             {isLoading ? (
               <div className="flex flex-col items-center justify-center py-4 md:py-8">
                 <LoadingAnimation />
                 <p className="mt-3 md:mt-4 text-xs md:text-sm text-gray-500">
-                  Creating your personalized guidance...
+                  Analyzing symptoms...
                 </p>
               </div>
             ) : results ? (
-              <WellnessGuidance results={results} />
+              <ResultsDisplay results={results} />
             ) : (
               <div className="text-center p-4 md:p-8">
-                <p className="text-xs md:text-sm text-gray-500">Share your feelings first to get personalized guidance.</p>
+                <p className="text-xs md:text-sm text-gray-500">No results to display yet. Check your symptoms first.</p>
                 <Button 
-                  onClick={() => setCurrentTab("mood-check")} 
+                  onClick={() => setCurrentTab("symptoms")} 
                   variant="link"
                   className="mt-2 text-xs md:text-sm"
                 >
-                  Go to mood check
+                  Go to symptom checker
                 </Button>
               </div>
             )}
           </TabsContent>
 
-          <TabsContent value="ai-support" className="space-y-6 animate-fade-in">
-            <div className="text-center mb-8 animate-slide-up">
-              <AnimatedBot size="lg" showHeartbeat />
-              <h2 className="text-2xl md:text-3xl font-bold text-gradient-primary mt-4 mb-2">
-                Your AI Mental Health Companion
-              </h2>
-              <p className="text-muted-foreground text-lg">
-                I'm here to listen, support, and guide you through any challenges you're facing.
-              </p>
-            </div>
-            <MentalHealthSupport />
+          <TabsContent value="ai-advisor" className="space-y-4 md:space-y-8">
+            <GeminiHealthAdvisor />
           </TabsContent>
           
-          <TabsContent value="resources" className="space-y-6 animate-fade-in">
-            <div className="text-center mb-8 animate-slide-up">
-              <div className="inline-flex items-center justify-center p-4 bg-gradient-calm rounded-3xl mb-4 animate-glow">
-                <Globe className="h-8 w-8 text-white" />
-              </div>
-              <h2 className="text-2xl md:text-3xl font-bold text-gradient-warm mb-2">
-                Professional Resources
-              </h2>
-              <p className="text-muted-foreground text-lg">
-                Trusted organizations and resources to support your mental wellness journey.
-              </p>
-            </div>
-            <YouthResources />
+          <TabsContent value="resources" className="space-y-4 md:space-y-8">
+            <MedicalResourcesSection />
+            <HealthTips />
           </TabsContent>
 
-          {/* Feature tabs */}
-          {["crisis-support", "wellness-tips", "peer-support"].map((tabValue) => (
+          {/* Feature tabs with back buttons */}
+          {["drug-interaction", "health-tracker", "doctor-directory", 
+            "medicine-scanner", "emergency-info", "health-news"].map((tabValue) => (
             <TabsContent key={tabValue} value={tabValue} className="space-y-3 md:space-y-4">
               <Button 
                 variant="outline" 
                 size={isMobile ? "sm" : "default"}
                 className="flex items-center gap-1 md:gap-2 text-xs md:text-sm h-8 md:h-10"
-                onClick={() => setCurrentTab("mood-check")}
+                onClick={() => setCurrentTab("symptoms")}
               >
                 <ArrowLeft className="h-3 w-3 md:h-4 md:w-4" /> Back to Dashboard
               </Button>
               
-              {tabValue === "crisis-support" && <CrisisSupport />}
-              {tabValue === "wellness-tips" && <WellnessTips />}
-              {tabValue === "peer-support" && (
-                <Card>
-                  <div className="p-6 text-center">
-                    <Users className="h-12 w-12 mx-auto mb-4 text-blue-500" />
-                    <h3 className="text-lg font-semibold mb-2">Peer Support Coming Soon</h3>
-                    <p className="text-gray-600">We're working on connecting you with peers who understand your journey.</p>
-                  </div>
-                </Card>
-              )}
+              {tabValue === "drug-interaction" && <DrugInteractionChecker />}
+              {tabValue === "health-tracker" && <HealthProgressTracker />}
+              {tabValue === "doctor-directory" && <DoctorDirectory />}
+              {tabValue === "medicine-scanner" && <MedicineScanner />}
+              {tabValue === "emergency-info" && <EmergencyInfoCard />}
+              {tabValue === "health-news" && <HealthNewsFeed />}
             </TabsContent>
           ))}
         </Tabs>
@@ -287,9 +278,9 @@ const Index = () => {
       <Dialog open={apiKeyDialogOpen} onOpenChange={setApiKeyDialogOpen}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-base md:text-lg">Connect AI Support</DialogTitle>
+            <DialogTitle className="text-base md:text-lg">Enter Gemini API Key</DialogTitle>
             <DialogDescription className="text-xs md:text-sm">
-              This key enables personalized mental wellness support. Get your API key from Google AI Studio.
+              This key is required to use the symptom analyzer and Gemini AI features. You can get an API key from the Google AI Studio.
             </DialogDescription>
           </DialogHeader>
           
@@ -303,7 +294,7 @@ const Index = () => {
                 className="text-xs md:text-sm h-8 md:h-10"
               />
               <p className="text-[10px] md:text-xs text-gray-500">
-                Your API key is encrypted and stored securely in your browser only.
+                Your API key is only stored in your browser and is never sent to our servers.
               </p>
             </div>
             <div className="flex justify-end space-x-2">
@@ -327,11 +318,17 @@ const Index = () => {
         </DialogContent>
       </Dialog>
       
+      <MedicationReminders
+        isOpen={remindersOpen}
+        onClose={() => setRemindersOpen(false)}
+        recommendedMedicine={results?.["Recommended Medicine"] || ""}
+      />
+
       <SymptomHistory
         isOpen={historyOpen}
         onClose={() => setHistoryOpen(false)}
-        onSelectSymptom={(feeling) => {
-          handleMoodSubmit(feeling, 'neutral', '');
+        onSelectSymptom={(symptom) => {
+          handleSymptomSubmit(symptom);
           setHistoryOpen(false);
         }}
       />
