@@ -55,22 +55,24 @@ const SymptomForm: React.FC<SymptomFormProps> = ({ onSubmit }) => {
   };
 
   return (
-    <div className="space-y-4 md:space-y-6">
-      <div className="space-y-1 md:space-y-2">
-        <h2 className="text-xl md:text-2xl font-bold text-gray-800">Symptom Checker</h2>
-        <p className="text-sm md:text-base text-gray-600">
+    <div className="space-y-6">
+      <div className="space-y-2">
+        <h2 className="text-2xl md:text-3xl font-bold text-foreground">Symptom Checker</h2>
+        <p className="text-base text-muted-foreground">
           Describe your symptoms in detail for the most accurate analysis
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="symptoms">What symptoms are you experiencing?</Label>
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="space-y-3">
+          <Label htmlFor="symptoms" className="text-base font-medium text-foreground">
+            What symptoms are you experiencing?
+          </Label>
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground h-5 w-5" />
             <Input
               id="symptoms"
-              className="pl-10 medical-input text-sm md:text-base"
+              className="pl-12 medical-input text-base h-14"
               placeholder="e.g., headache and fever for 2 days"
               value={symptoms}
               onChange={(e) => setSymptoms(e.target.value)}
@@ -79,55 +81,56 @@ const SymptomForm: React.FC<SymptomFormProps> = ({ onSubmit }) => {
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-2 justify-center md:justify-start">
+        <div className="flex flex-wrap gap-2">
           <Button 
             type="button" 
             variant="outline"
-            size={isMobile ? "sm" : "default"}
-            className="flex items-center gap-1 px-2 md:px-3 h-8 md:h-10"
+            size="default"
+            className="flex items-center gap-2 rounded-xl border-2"
             onClick={() => setHistoryOpen(true)}
           >
-            <History className="h-3 w-3 md:h-4 md:w-4" />
-            <span className="text-xs md:text-sm">History</span>
+            <History className="h-4 w-4" />
+            <span>History</span>
           </Button>
           
           <Button 
             type="button" 
             variant="outline" 
-            size={isMobile ? "sm" : "default"}
-            className="flex items-center gap-1 px-2 md:px-3 h-8 md:h-10"
+            size="default"
+            className="flex items-center gap-2 rounded-xl border-2"
             onClick={() => setBodyMapOpen(true)}
           >
-            <MapPin className="h-3 w-3 md:h-4 md:w-4" />
-            <span className="text-xs md:text-sm">Body Map</span>
+            <MapPin className="h-4 w-4" />
+            <span>Body Map</span>
           </Button>
           
           <Button 
             type="button" 
             variant="outline"
-            size={isMobile ? "sm" : "default"}
-            className="flex items-center gap-1 px-2 md:px-3 h-8 md:h-10"
+            size="default"
+            className="flex items-center gap-2 rounded-xl border-2"
             onClick={() => setVoiceInputOpen(true)}
           >
-            <Mic className="h-3 w-3 md:h-4 md:w-4" />
-            <span className="text-xs md:text-sm">Voice</span>
+            <Mic className="h-4 w-4" />
+            <span>Voice</span>
           </Button>
           
           <Button 
             type="button" 
             variant="outline"
-            size={isMobile ? "sm" : "default"}
-            className="flex items-center gap-1 px-2 md:px-3 h-8 md:h-10"
+            size="default"
+            className="flex items-center gap-2 rounded-xl border-2"
             onClick={() => setRemindersOpen(true)}
           >
-            <Bell className="h-3 w-3 md:h-4 md:w-4" />
-            <span className="text-xs md:text-sm">Reminders</span>
+            <Bell className="h-4 w-4" />
+            <span>Reminders</span>
           </Button>
         </div>
 
         <Button 
           type="submit" 
-          className="w-full bg-medical-secondary hover:bg-medical-secondary/90 text-white relative overflow-hidden" 
+          size="lg"
+          className="w-full rounded-xl text-base h-14 bg-secondary hover:bg-secondary/90 text-secondary-foreground relative overflow-hidden" 
           disabled={isSubmitting}
         >
           {loading ? (
@@ -136,7 +139,7 @@ const SymptomForm: React.FC<SymptomFormProps> = ({ onSubmit }) => {
                 <div className="h-full bg-white/20 w-5 blur-sm animate-progress"></div>
               </div>
               <span className="relative z-10 animate-pulse flex items-center">
-                <span className="mr-2 h-4 w-4 rounded-full border-2 border-white border-t-transparent animate-spin"></span>
+                <span className="mr-2 h-5 w-5 rounded-full border-2 border-white border-t-transparent animate-spin"></span>
                 Analyzing Symptoms...
               </span>
             </div>
@@ -146,13 +149,13 @@ const SymptomForm: React.FC<SymptomFormProps> = ({ onSubmit }) => {
         </Button>
       </form>
 
-      <div className="pt-3 md:pt-4 border-t border-gray-100">
-        <p className="text-xs md:text-sm text-gray-500 mb-2">Try examples:</p>
-        <div className="flex flex-wrap gap-1 md:gap-2">
+      <div className="pt-4 border-t border-border">
+        <p className="text-sm text-muted-foreground mb-3">Quick examples:</p>
+        <div className="flex flex-wrap gap-2">
           {exampleSymptoms.map((example) => (
             <button
               key={example}
-              className="px-2 md:px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full text-xs md:text-sm text-gray-700 transition-colors"
+              className="px-4 py-2 bg-muted hover:bg-muted/80 rounded-xl text-sm text-foreground transition-all hover:shadow-sm"
               onClick={() => setSymptoms(example)}
             >
               {example}
