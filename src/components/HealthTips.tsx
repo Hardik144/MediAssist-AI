@@ -40,8 +40,8 @@ const HealthTips = () => {
   return (
     <Card className="medical-card">
       <CardHeader className="pb-2">
-        <CardTitle className="flex items-center gap-2">
-          <Heart className="h-5 w-5 text-medical-accent" />
+        <CardTitle className="flex items-center gap-2 text-foreground">
+          <Heart className="h-5 w-5 text-accent" />
           Daily Health Tips
         </CardTitle>
       </CardHeader>
@@ -50,11 +50,11 @@ const HealthTips = () => {
           {healthTips.map((tip) => (
             <div 
               key={tip.title}
-              className="p-4 border rounded-lg hover:border-medical-accent/50 hover:bg-medical-accent/5 transition-colors"
+              className="p-4 border border-border rounded-lg hover:border-accent/50 hover:bg-accent/5 transition-colors bg-card"
             >
               <div className="text-2xl mb-2">{tip.icon}</div>
-              <h4 className="font-medium text-gray-800 mb-1">{tip.title}</h4>
-              <p className="text-sm text-gray-600">{tip.description}</p>
+              <h4 className="font-medium text-foreground mb-1">{tip.title}</h4>
+              <p className="text-sm text-muted-foreground">{tip.description}</p>
             </div>
           ))}
         </div>

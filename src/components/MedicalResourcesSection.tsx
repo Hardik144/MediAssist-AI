@@ -47,7 +47,7 @@ const MedicalResourcesSection = () => {
   return (
     <Card className="medical-card">
       <CardHeader className="pb-2">
-        <CardTitle>Reliable Medical Resources</CardTitle>
+        <CardTitle className="text-foreground">Reliable Medical Resources</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -59,17 +59,17 @@ const MedicalResourcesSection = () => {
               className="block"
               key={resource.title}
             >
-              <div className="border rounded-lg p-4 h-full hover:border-medical-primary transition-colors">
+              <div className="border border-border rounded-lg p-4 h-full hover:border-primary transition-colors bg-card">
                 <div className="flex justify-between items-start">
                   <div>
-                    <h4 className="font-medium text-gray-800 mb-1">{resource.title}</h4>
-                    <p className="text-sm text-gray-600">{resource.description}</p>
+                    <h4 className="font-medium text-foreground mb-1">{resource.title}</h4>
+                    <p className="text-sm text-muted-foreground">{resource.description}</p>
                   </div>
-                  <span className="text-xs font-medium px-2 py-1 rounded-full bg-gray-100 text-gray-600">
+                  <span className="text-xs font-medium px-2 py-1 rounded-full bg-muted text-muted-foreground">
                     {resource.category}
                   </span>
                 </div>
-                <div className="mt-4 text-xs text-medical-primary flex items-center gap-1">
+                <div className="mt-4 text-xs text-primary flex items-center gap-1">
                   <span>Visit website</span>
                   <ExternalLink className="h-3 w-3" />
                 </div>
@@ -79,7 +79,7 @@ const MedicalResourcesSection = () => {
         </div>
         
         <div className="mt-6 text-center">
-          <Button variant="outline" className="text-medical-primary border-medical-primary hover:bg-medical-primary/5">
+          <Button variant="outline" className="text-primary border-primary hover:bg-primary/5">
             View More Resources
           </Button>
         </div>
