@@ -98,9 +98,13 @@ const Index = () => {
               AI-Powered Health Analysis
             </div>
             
-            <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-6 leading-tight animate-fade-in">
-              Your Health Assistant,
-              <span className="gradient-text block">Reimagined</span>
+            <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-6 leading-tight">
+              <span className="inline-block animate-fade-in" style={{ animationDelay: '0.1s', animationFillMode: 'both' }}>
+                Your Health Assistant,
+              </span>
+              <span className="gradient-text block animate-fade-in hover:scale-105 transition-transform duration-300 cursor-default" style={{ animationDelay: '0.3s', animationFillMode: 'both' }}>
+                Reimagined
+              </span>
             </h1>
             
             <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed animate-fade-in">
