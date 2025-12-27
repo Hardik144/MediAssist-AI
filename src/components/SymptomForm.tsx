@@ -28,9 +28,9 @@ const SymptomForm: React.FC<SymptomFormProps> = ({ onSubmit }) => {
   const exampleSymptoms = [
     "Headache and fever",
     "Sore throat and cough",
-    "Upset stomach and nausea",
-    "Joint pain and swelling",
-    "Rash and itching",
+    "Upset stomach",
+    "Joint pain",
+    "Skin rash",
   ];
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -38,13 +38,11 @@ const SymptomForm: React.FC<SymptomFormProps> = ({ onSubmit }) => {
     setIsSubmitting(true);
     setLoading(true);
     
-    // Call the parent's onSubmit function after a short delay to show loading animation
     setTimeout(() => {
       onSubmit(symptoms);
       setLoading(false);
     }, 800);
     
-    // Reset submitting state after a short delay
     setTimeout(() => setIsSubmitting(false), 500);
   };
 
@@ -56,23 +54,25 @@ const SymptomForm: React.FC<SymptomFormProps> = ({ onSubmit }) => {
 
   return (
     <div className="space-y-6">
-      <div className="space-y-2">
-        <h2 className="text-2xl md:text-3xl font-bold text-foreground">Symptom Checker</h2>
-        <p className="text-base text-muted-foreground">
-          Describe your symptoms in detail for the most accurate analysis
+      {/* Header */}
+      <div className="space-y-1">
+        <h2 className="text-xl font-semibold text-foreground">Symptom Checker</h2>
+        <p className="text-sm text-muted-foreground">
+          Describe your symptoms for AI-powered analysis
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="space-y-3">
-          <Label htmlFor="symptoms" className="text-base font-medium text-foreground">
+      {/* Form */}
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="space-y-2">
+          <Label htmlFor="symptoms" className="text-sm font-medium text-foreground">
             What symptoms are you experiencing?
           </Label>
           <div className="relative">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground h-5 w-5" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground h-4 w-4" />
             <Input
               id="symptoms"
-              className="pl-12 medical-input text-base h-14"
+              className="pl-10 h-11"
               placeholder="e.g., headache and fever for 2 days"
               value={symptoms}
               onChange={(e) => setSymptoms(e.target.value)}
@@ -81,81 +81,76 @@ const SymptomForm: React.FC<SymptomFormProps> = ({ onSubmit }) => {
           </div>
         </div>
 
+        {/* Quick Actions */}
         <div className="flex flex-wrap gap-2">
           <Button 
             type="button" 
             variant="outline"
-            size="default"
-            className="flex items-center gap-2 rounded-xl border-2"
+            size="sm"
             onClick={() => setHistoryOpen(true)}
           >
             <History className="h-4 w-4" />
-            <span>History</span>
+            History
           </Button>
           
           <Button 
             type="button" 
             variant="outline" 
-            size="default"
-            className="flex items-center gap-2 rounded-xl border-2"
+            size="sm"
             onClick={() => setBodyMapOpen(true)}
           >
             <MapPin className="h-4 w-4" />
-            <span>Body Map</span>
+            Body Map
           </Button>
           
           <Button 
             type="button" 
             variant="outline"
-            size="default"
-            className="flex items-center gap-2 rounded-xl border-2"
+            size="sm"
             onClick={() => setVoiceInputOpen(true)}
           >
             <Mic className="h-4 w-4" />
-            <span>Voice</span>
+            Voice
           </Button>
           
           <Button 
             type="button" 
             variant="outline"
-            size="default"
-            className="flex items-center gap-2 rounded-xl border-2"
+            size="sm"
             onClick={() => setRemindersOpen(true)}
           >
             <Bell className="h-4 w-4" />
-            <span>Reminders</span>
+            Reminders
           </Button>
         </div>
 
+        {/* Submit Button */}
         <Button 
           type="submit" 
           size="lg"
-          className="w-full rounded-xl text-base h-14 bg-secondary hover:bg-secondary/90 text-secondary-foreground relative overflow-hidden" 
+          className="w-full h-11 relative overflow-hidden" 
           disabled={isSubmitting}
         >
           {loading ? (
-            <div className="flex items-center justify-center w-full">
-              <div className="absolute inset-0 overflow-hidden">
-                <div className="h-full bg-white/20 w-5 blur-sm animate-progress"></div>
-              </div>
-              <span className="relative z-10 animate-pulse flex items-center">
-                <span className="mr-2 h-5 w-5 rounded-full border-2 border-white border-t-transparent animate-spin"></span>
-                Analyzing Symptoms...
-              </span>
+            <div className="flex items-center gap-2">
+              <div className="h-4 w-4 rounded-full border-2 border-primary-foreground border-t-transparent animate-spin" />
+              Analyzing...
             </div>
           ) : (
-            <>Get Health Recommendations</>
+            "Analyze Symptoms"
           )}
         </Button>
       </form>
 
+      {/* Example Symptoms */}
       <div className="pt-4 border-t border-border">
-        <p className="text-sm text-muted-foreground mb-3">Quick examples:</p>
+        <p className="text-xs text-muted-foreground mb-2">Quick examples:</p>
         <div className="flex flex-wrap gap-2">
           {exampleSymptoms.map((example) => (
             <button
               key={example}
-              className="px-4 py-2 bg-muted hover:bg-muted/80 rounded-xl text-sm text-foreground transition-all hover:shadow-sm"
+              type="button"
+              className="px-3 py-1.5 bg-muted hover:bg-muted/80 rounded-md text-xs text-foreground transition-colors"
               onClick={() => setSymptoms(example)}
             >
               {example}
