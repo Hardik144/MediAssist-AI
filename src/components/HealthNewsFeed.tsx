@@ -292,7 +292,7 @@ const HealthNewsFeed = () => {
                         onClick={() => handleArticleClick(article)}
                       >
                         <div 
-                          className="h-48 bg-gray-200 bg-cover bg-center" 
+                          className="h-48 bg-muted bg-cover bg-center"
                           style={{ 
                             backgroundImage: `url(${article.imageUrl || 'https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=800&h=500&fit=crop'})` 
                           }}
@@ -302,7 +302,7 @@ const HealthNewsFeed = () => {
                             <Badge className="bg-blue-100 hover:bg-blue-100 text-blue-800">
                               {article.category}
                             </Badge>
-                            <span className="text-xs text-gray-500 flex items-center">
+                            <span className="text-xs text-muted-foreground flex items-center">
                               <Clock className="h-3 w-3 mr-1" />
                               {formatDate(article.publishedAt)}
                             </span>
@@ -312,11 +312,11 @@ const HealthNewsFeed = () => {
                             {article.title}
                           </h3>
                           
-                          <p className="text-gray-600 line-clamp-3 text-sm mb-3">
+                          <p className="text-muted-foreground line-clamp-3 text-sm mb-3">
                             {article.summary}
                           </p>
                           
-                          <div className="flex items-center justify-between text-xs text-gray-500">
+                          <div className="flex items-center justify-between text-xs text-muted-foreground">
                             <div className="flex items-center">
                               <User className="h-3 w-3 mr-1" />
                               <span>{article.author}</span>
@@ -329,7 +329,7 @@ const HealthNewsFeed = () => {
                   </div>
                 ) : (
                   <div className="text-center py-12">
-                    <p className="text-gray-500 mb-2">No articles found matching your criteria.</p>
+                    <p className="text-muted-foreground mb-2">No articles found matching your criteria.</p>
                     <Button variant="link" onClick={() => {
                       setSearchTerm("");
                       setActiveCategory("Latest");
@@ -349,7 +349,7 @@ const HealthNewsFeed = () => {
         <Dialog open={!!selectedArticle} onOpenChange={() => closeArticle()}>
           <DialogContent className="max-w-3xl p-0 overflow-hidden">
             <div 
-              className="h-60 bg-gray-200 bg-cover bg-center relative" 
+              className="h-60 bg-muted bg-cover bg-center relative"
               style={{ 
                 backgroundImage: `url(${selectedArticle.imageUrl || 'https://images.unsplash.com/photo-1505751172876-fa1923c5c528?w=800&h=500&fit=crop'})` 
               }}

@@ -177,8 +177,8 @@ const DrugInteractionChecker = () => {
         <CardContent className="pt-6">
           <div className="space-y-6">
             <div>
-              <h3 className="text-lg font-medium mb-2">Your Medications</h3>
-              <p className="text-sm text-gray-500 mb-4">
+              <h3 className="text-lg font-medium mb-2 text-foreground">Your Medications</h3>
+              <p className="text-sm text-muted-foreground mb-4">
                 Add the medications you're taking to check for potential interactions.
               </p>
               
@@ -216,7 +216,7 @@ const DrugInteractionChecker = () => {
                   ))}
                 </div>
               ) : (
-                <p className="mt-4 text-sm text-gray-500">No medications added yet.</p>
+                <p className="mt-4 text-sm text-muted-foreground">No medications added yet.</p>
               )}
               
               <div className="mt-6 flex justify-end">
@@ -233,7 +233,7 @@ const DrugInteractionChecker = () => {
             {isLoading ? (
               <div className="flex flex-col items-center justify-center py-8">
                 <LoadingAnimation />
-                <p className="mt-4 text-sm text-gray-500">Analyzing drug interactions...</p>
+                <p className="mt-4 text-sm text-muted-foreground">Analyzing drug interactions...</p>
               </div>
             ) : interactions.length > 0 ? (
               <div className="mt-6">
@@ -255,7 +255,7 @@ const DrugInteractionChecker = () => {
                             </div>
                             <p className="text-sm mb-2">{interaction.description}</p>
                             <p className="text-sm font-medium">Recommendation:</p>
-                            <p className="text-sm text-gray-700">{interaction.recommendation}</p>
+                            <p className="text-sm text-muted-foreground">{interaction.recommendation}</p>
                           </div>
                           <Badge 
                             variant={interaction.severity === "none" ? "outline" : "destructive"}
@@ -301,7 +301,7 @@ const DrugInteractionChecker = () => {
                 value={apiKey}
                 onChange={(e) => setApiKey(e.target.value)}
               />
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-muted-foreground">
                 Your API key is only stored in your browser and is never sent to our servers.
               </p>
             </div>
