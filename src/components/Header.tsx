@@ -8,39 +8,50 @@ const Header = () => {
   const { theme, setTheme } = useTheme();
   
   return (
-    <header className="glass-effect sticky top-0 z-50 shadow-[var(--shadow-soft)]">
-      <div className="container mx-auto px-4 md:px-6 py-5">
+    <header className="sticky top-0 z-50 glass-effect">
+      <div className="section-container py-4">
         <div className="flex items-center justify-between">
+          {/* Logo */}
           <div className="flex items-center gap-3">
-            <div className="relative group">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary to-primary/60 rounded-2xl blur-lg opacity-40 group-hover:opacity-60 transition-opacity"></div>
-              <div className="relative bg-gradient-to-br from-primary to-primary/80 p-3 rounded-2xl shadow-lg group-hover:scale-105 transition-transform">
-                <HeartPulse className="h-6 w-6 text-white" />
-              </div>
+            <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-primary text-primary-foreground">
+              <HeartPulse className="h-5 w-5" />
             </div>
-            <div>
-              <h1 className="text-2xl md:text-3xl font-bold">
-                <span className="bg-gradient-to-r from-primary via-primary to-primary/80 bg-clip-text text-transparent">
-                  MediAssist
-                </span>
-                <span className="text-foreground"> AI</span>
-              </h1>
-              <p className="text-xs md:text-sm text-muted-foreground font-medium">
-                Intelligent Health Platform
-              </p>
+            <div className="flex items-center gap-1.5">
+              <span className="text-lg font-semibold text-foreground">
+                MediAssist
+              </span>
+              <span className="text-lg font-semibold text-primary">
+                AI
+              </span>
             </div>
           </div>
+
+          {/* Navigation - can be expanded later */}
+          <nav className="hidden md:flex items-center gap-1">
+            <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
+              Features
+            </Button>
+            <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
+              Resources
+            </Button>
+            <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
+              About
+            </Button>
+          </nav>
           
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-            className="rounded-xl hover:bg-muted transition-all h-11 w-11"
-          >
-            <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-            <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-            <span className="sr-only">Toggle theme</span>
-          </Button>
+          {/* Actions */}
+          <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+              className="h-9 w-9 rounded-lg text-muted-foreground hover:text-foreground"
+            >
+              <Sun className="h-4 w-4 rotate-0 scale-100 transition-transform duration-200 dark:-rotate-90 dark:scale-0" />
+              <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-transform duration-200 dark:rotate-0 dark:scale-100" />
+              <span className="sr-only">Toggle theme</span>
+            </Button>
+          </div>
         </div>
       </div>
     </header>
