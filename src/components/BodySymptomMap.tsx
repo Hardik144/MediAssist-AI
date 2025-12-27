@@ -41,12 +41,12 @@ const BodySymptomMap: React.FC<BodySymptomMapProps> = ({
           </DialogTitle>
         </DialogHeader>
 
-        <div className="relative h-[500px] mx-auto my-4">
+        <div className="relative h-[500px] mx-auto my-4 animate-fade-in">
           {/* Body outline - simplified version */}
           <div className="w-[200px] h-full mx-auto relative">
             <svg
               viewBox="0 0 100 250"
-              className="w-full h-full"
+              className="w-full h-full drop-shadow-lg"
               xmlns="http://www.w3.org/2000/svg"
             >
               {/* Simple body outline */}
@@ -58,24 +58,25 @@ const BodySymptomMap: React.FC<BodySymptomMapProps> = ({
                 L45,220 C40,210 35,190 35,170 C35,160 40,155 40,150 
                 L40,110 C35,100 30,90 30,80 C30,65 40,62 40,60 
                 L40,45 C40,40 35,35 35,25 C35,15 40,10 50,10 Z"
-                fill="#e0f2fe"
-                stroke="#3b82f6"
+                className="fill-primary/10 stroke-primary transition-all duration-300"
                 strokeWidth="1"
               />
               {/* Head circle */}
-              <circle cx="50" cy="15" r="10" fill="#e0f2fe" stroke="#3b82f6" />
+              <circle cx="50" cy="15" r="10" className="fill-primary/10 stroke-primary" />
             </svg>
 
             {/* Clickable body part hotspots */}
-            {bodyParts.map((part) => (
+            {bodyParts.map((part, index) => (
               <div
                 key={part.id}
-                className={`absolute w-8 h-8 rounded-full -translate-x-1/2 -translate-y-1/2 flex items-center justify-center cursor-pointer transition-all ${
-                  hoveredPart === part.id ? "bg-medical-primary/20" : "bg-transparent"
+                className={`absolute w-8 h-8 rounded-full -translate-x-1/2 -translate-y-1/2 flex items-center justify-center cursor-pointer transition-all duration-300 animate-scale-in ${
+                  hoveredPart === part.id ? "bg-primary/20 scale-125" : "bg-transparent"
                 }`}
                 style={{
                   top: part.top,
                   left: part.left,
+                  animationDelay: `${index * 0.05}s`,
+                  animationFillMode: 'both'
                 }}
                 onMouseEnter={() => setHoveredPart(part.id)}
                 onMouseLeave={() => setHoveredPart(null)}
@@ -85,12 +86,12 @@ const BodySymptomMap: React.FC<BodySymptomMapProps> = ({
                 }}
               >
                 <div 
-                  className={`w-3 h-3 rounded-full ${
-                    hoveredPart === part.id ? "bg-medical-primary scale-125" : "bg-medical-primary/50"
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                    hoveredPart === part.id ? "bg-primary scale-150 shadow-lg" : "bg-primary/60 animate-pulse"
                   }`}
                 ></div>
                 {hoveredPart === part.id && (
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 px-2 py-1 bg-white text-xs border rounded shadow whitespace-nowrap">
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 mt-1 px-2 py-1 bg-popover text-popover-foreground text-xs border border-border rounded-lg shadow-lg whitespace-nowrap animate-fade-in z-50">
                     {part.name}
                   </div>
                 )}
@@ -99,12 +100,12 @@ const BodySymptomMap: React.FC<BodySymptomMapProps> = ({
           </div>
         </div>
 
-        <div className="text-center text-sm text-gray-500 pt-2">
+        <div className="text-center text-sm text-muted-foreground pt-2">
           Click on a body part to select symptoms for that area
         </div>
 
         <div className="flex justify-end">
-          <Button variant="outline" onClick={onClose}>
+          <Button variant="outline" onClick={onClose} className="text-foreground">
             Cancel
           </Button>
         </div>
