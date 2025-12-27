@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { toast } from "sonner";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -13,13 +13,11 @@ import InfoSection from "@/components/InfoSection";
 import MedicalResourcesSection from "@/components/MedicalResourcesSection";
 import HealthTips from "@/components/HealthTips";
 import GeminiHealthAdvisor from "@/components/GeminiHealthAdvisor";
-import { Heart, Stethoscope, ClipboardList, History, Brain, Globe, Pill, Activity, MapPin, Camera, IdCard, Newspaper, ArrowLeft } from "lucide-react";
+import { Heart, Stethoscope, ClipboardList, History, Brain, Pill, Activity, MapPin, Camera, IdCard, Newspaper, ArrowLeft } from "lucide-react";
 import { useSymptomHistory } from "@/hooks/use-symptom-history";
 import MedicationReminders from "@/components/MedicationReminders";
 import SymptomHistory from "@/components/SymptomHistory";
-import { getGeminiApiKey, getHealthConditionInfo, setGeminiApiKey, availableLanguages } from "@/services/geminiService";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
+import { analyzeSymptoms } from "@/services/healthAIService";
 import DrugInteractionChecker from "@/components/DrugInteractionChecker";
 import HealthProgressTracker from "@/components/HealthProgressTracker";
 import DoctorDirectory from "@/components/DoctorDirectory";
@@ -34,10 +32,7 @@ const Index = () => {
   const [currentTab, setCurrentTab] = useState("symptoms");
   const [remindersOpen, setRemindersOpen] = useState(false);
   const [historyOpen, setHistoryOpen] = useState(false);
-  const [apiKeyDialogOpen, setApiKeyDialogOpen] = useState(false);
-  const [apiKey, setApiKey] = useState(getGeminiApiKey());
   const [preferredLanguage, setPreferredLanguage] = useState("english");
-  const [targetLanguage, setTargetLanguage] = useState("english");
   const { addSymptom, history } = useSymptomHistory();
   const isMobile = useIsMobile();
 
@@ -47,18 +42,12 @@ const Index = () => {
       return;
     }
 
-    // Check if API key is set
-    if (!getGeminiApiKey()) {
-      setApiKeyDialogOpen(true);
-      return;
-    }
-
     setIsLoading(true);
     setCurrentTab("results");
     
     try {
-      // Get health condition data from Gemini API with language preference
-      const healthData = await getHealthConditionInfo(symptoms, preferredLanguage);
+      // Get health condition data from AI with language preference
+      const healthData = await analyzeSymptoms(symptoms, preferredLanguage);
       setResults(healthData);
       
       // Add to symptom history
@@ -71,23 +60,6 @@ const Index = () => {
       setCurrentTab("symptoms");
     } finally {
       setIsLoading(false);
-    }
-  };
-
-  const handleApiKeySave = () => {
-    if (!apiKey.trim()) {
-      toast.error("Please enter a valid API key");
-      return;
-    }
-
-    setGeminiApiKey(apiKey);
-    setApiKeyDialogOpen(false);
-    toast.success("API key saved successfully");
-    
-    // Auto-submit the last entered symptoms if any
-    if (history.length > 0) {
-      const lastSymptom = history[0].symptom;
-      handleSymptomSubmit(lastSymptom);
     }
   };
 
@@ -341,49 +313,6 @@ const Index = () => {
           ))}
         </Tabs>
       </main>
-      
-      <Dialog open={apiKeyDialogOpen} onOpenChange={setApiKeyDialogOpen}>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <DialogTitle className="text-base md:text-lg">Enter Gemini API Key</DialogTitle>
-            <DialogDescription className="text-xs md:text-sm">
-              This key is required to use the symptom analyzer and Gemini AI features. You can get an API key from the Google AI Studio.
-            </DialogDescription>
-          </DialogHeader>
-          
-          <div className="space-y-3 md:space-y-4">
-            <div className="space-y-2">
-              <Input
-                type="password"
-                placeholder="Enter your Gemini API key..."
-                value={apiKey}
-                onChange={(e) => setApiKey(e.target.value)}
-                className="text-xs md:text-sm h-8 md:h-10"
-              />
-              <p className="text-[10px] md:text-xs text-gray-500">
-                Your API key is only stored in your browser and is never sent to our servers.
-              </p>
-            </div>
-            <div className="flex justify-end space-x-2">
-              <Button 
-                variant="outline" 
-                onClick={() => setApiKeyDialogOpen(false)} 
-                size={isMobile ? "sm" : "default"}
-                className="text-xs md:text-sm h-8 md:h-10"
-              >
-                Cancel
-              </Button>
-              <Button 
-                onClick={handleApiKeySave}
-                size={isMobile ? "sm" : "default"}
-                className="text-xs md:text-sm h-8 md:h-10"
-              >
-                Save & Continue
-              </Button>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
       
       <MedicationReminders
         isOpen={remindersOpen}
