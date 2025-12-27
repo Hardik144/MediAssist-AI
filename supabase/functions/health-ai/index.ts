@@ -12,7 +12,7 @@ serve(async (req) => {
   }
 
   try {
-    const { symptoms, type, question, language = 'english' } = await req.json();
+    const { symptoms, type, question, language = 'english', healthInfo, targetLanguage } = await req.json();
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     
     if (!LOVABLE_API_KEY) {
@@ -48,6 +48,13 @@ serve(async (req) => {
     } else if (type === 'question') {
       systemPrompt = `You are a helpful medical assistant AI. Provide informative, evidence-based answers about health topics. Include disclaimers when appropriate. Always encourage consulting healthcare professionals for medical advice.`;
       userPrompt = question;
+    } else if (type === 'translate') {
+      systemPrompt = `You are a professional medical translator. Translate health information accurately while preserving medical terminology meaning.`;
+      userPrompt = `Translate the following health information to ${targetLanguage}. Keep the exact same JSON structure but translate all values. Return ONLY valid JSON:
+
+${JSON.stringify(healthInfo, null, 2)}
+
+IMPORTANT: Return ONLY valid JSON with the same structure. Do not add any additional text.`;
     } else {
       throw new Error("Invalid request type");
     }
@@ -98,7 +105,7 @@ serve(async (req) => {
 
     console.log("AI response received successfully");
 
-    if (type === 'analyze') {
+    if (type === 'analyze' || type === 'translate') {
       // Parse JSON from the response
       let jsonStr = content;
       
@@ -111,12 +118,15 @@ serve(async (req) => {
       
       try {
         const parsedResult = JSON.parse(jsonStr);
+        if (type === 'translate') {
+          parsedResult.translatedLanguage = targetLanguage;
+        }
         return new Response(JSON.stringify({ result: parsedResult }), {
           headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       } catch (parseError) {
         console.error("Error parsing JSON response:", parseError);
-        return new Response(JSON.stringify({ error: "Failed to parse health analysis" }), {
+        return new Response(JSON.stringify({ error: "Failed to parse response" }), {
           status: 500,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
