@@ -1,73 +1,100 @@
-# Welcome to your Lovable project
+# MediAssist-AI
 
-## Project info
+MediAssist-AI is a web-based assistant that helps users get quick, AI-powered medical information and assistance. It combines a modern frontend, a lightweight backend (Supabase), and AI model integrations to provide symptom explanations, medication information, and general health guidance. This repository contains the frontend application, Supabase integration helpers, and configuration to run locally or deploy.
 
-**URL**: https://lovable.dev/projects/b773f555-fdc5-4727-bc1a-af6a7709b9e8
+> IMPORTANT: MediAssist-AI is an informational tool only. It does NOT provide medical diagnoses. Always consult a qualified healthcare professional for medical advice, diagnosis, or treatment. Do NOT use this project as a substitute for professional medical advice.
 
-## How can I edit this code?
+Table of contents
+- Features
+- Tech stack
+- Project structure
+- Quick start
+- Environment variables
+- Scripts
+- Deployment
+- Security & privacy
+- Contributing
+- License
 
-There are several ways of editing your application.
+Features
+- AI-powered assistance for symptoms, medications, and general medical questions (requires AI API key).
+- Supabase used for lightweight persistence (user sessions, logs, or application data).
+- Responsive web UI built with Vite + TypeScript + Tailwind CSS.
+- Environment-driven configuration for API keys and endpoints.
 
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/b773f555-fdc5-4727-bc1a-af6a7709b9e8) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
+Tech stack
+- Vite (build tool)
 - TypeScript
-- React
-- shadcn-ui
 - Tailwind CSS
+- Supabase (backend/database/auth)
+- AI provider (configure via environment variable, e.g. OpenAI)
 
-## How can I deploy this project?
+Project structure
+- public/ — static assets
+- src/ — frontend source code
+- supabase/ — Supabase helper files and SQL (migrations, table definitions)
+- README.md — this file
+- .env — local environment variable template (DO NOT commit secrets)
+- package.json — npm scripts and dependencies
 
-Simply open [Lovable](https://lovable.dev/projects/b773f555-fdc5-4727-bc1a-af6a7709b9e8) and click on Share -> Publish.
+Quick start (local)
+1. Clone the repo
+   git clone https://github.com/Hardik144/MediAssist-AI.git
+   cd MediAssist-AI
 
-## Can I connect a custom domain to my Lovable project?
+2. Install dependencies
+   npm install
 
-Yes, you can!
+3. Create a .env file at the project root (see Environment variables below). Copy the existing .env if present.
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+4. Run the dev server
+   npm run dev
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+5. Open the app in your browser (usually http://localhost:5173)
+
+Environment variables
+Create a .env file and add the following (names are examples — match the keys used in the code):
+- VITE_SUPABASE_URL=your-supabase-url
+- VITE_SUPABASE_ANON_KEY=your-supabase-anon-key
+- OPENAI_API_KEY=your-openai-api-key (or other AI provider key)
+- NEXT_PUBLIC_SUPABASE_URL (if used by the code)
+- NEXT_PUBLIC_SUPABASE_ANON_KEY (if used by the code)
+
+Notes:
+- Never commit secrets or API keys to Git. Use environment variables or a secret manager.
+- If this repo uses a different variable naming convention, update the .env keys accordingly.
+
+Scripts (common)
+- npm run dev — start development server
+- npm run build — build for production
+- npm run preview — locally preview production build
+- npm test — run tests (if available)
+
+Deployment
+- Build for production using `npm run build` and deploy the output directory via your hosting provider (Vercel, Netlify, static host, or a Node server).
+- If using Supabase, configure your production Supabase project and set the appropriate environment variables in your host provider.
+
+Security & privacy
+- This project may process sensitive health information. Take care to secure data in transit and at rest.
+- Follow HIPAA or other applicable regulations when storing or transmitting personal health information.
+- Review third-party AI provider policies and data usage terms.
+
+Contributing
+- Contributions and bug reports are welcome. Please open an issue first to discuss larger changes.
+- Pull requests should include clear descriptions and, where appropriate, tests.
+
+License
+- Add your license here (e.g., MIT). If there is already a LICENSE file, mirror that here.
+
+Contact
+- Project: MediAssist-AI
+- Maintainer: Hardik144 (GitHub)
+
+---
+
+If you'd like, I can:  
+- run a quick scan of the code to pull exact dependency names and update the Tech stack section,  
+- add usage examples/screenshots, or  
+- create a PR instead of pushing directly to main.  
+
+(Changes applied to README.md)
