@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
 import SymptomForm from "@/components/SymptomForm";
 import ResultsDisplay from "@/components/ResultsDisplay";
 import LoadingAnimation from "@/components/LoadingAnimation";
@@ -14,11 +14,11 @@ import InfoSection from "@/components/InfoSection";
 import MedicalResourcesSection from "@/components/MedicalResourcesSection";
 import HealthTips from "@/components/HealthTips";
 import GeminiHealthAdvisor from "@/components/GeminiHealthAdvisor";
-import { Heart, Stethoscope, ClipboardList, History, Brain, Pill, Activity, MapPin, Camera, IdCard, Newspaper, ArrowLeft, Globe } from "lucide-react";
+import { Heart, Stethoscope, ClipboardList, History, Brain, Pill, Activity, MapPin, Camera, IdCard, Newspaper, ArrowLeft } from "lucide-react";
 import { useSymptomHistory } from "@/hooks/use-symptom-history";
 import MedicationReminders from "@/components/MedicationReminders";
 import SymptomHistory from "@/components/SymptomHistory";
-import { analyzeSymptoms, availableLanguages } from "@/services/healthAIService";
+import { analyzeSymptoms } from "@/services/healthAIService";
 import DrugInteractionChecker from "@/components/DrugInteractionChecker";
 import HealthProgressTracker from "@/components/HealthProgressTracker";
 import DoctorDirectory from "@/components/DoctorDirectory";
@@ -138,47 +138,25 @@ const Index = () => {
             </TabsTrigger>
           </TabsList>
           
-          <div className="flex flex-wrap justify-between items-center gap-3 mb-6">
-            <div className="flex items-center gap-2">
-              <Globe className="h-4 w-4 text-muted-foreground" />
-              <Select value={preferredLanguage} onValueChange={setPreferredLanguage}>
-                <SelectTrigger className="w-[160px] rounded-xl border-2 bg-background">
-                  <SelectValue placeholder="Language" />
-                </SelectTrigger>
-                <SelectContent className="bg-background border-2 rounded-xl z-50">
-                  {availableLanguages.map((lang) => (
-                    <SelectItem 
-                      key={lang.code} 
-                      value={lang.code}
-                      className="cursor-pointer hover:bg-muted"
-                    >
-                      {lang.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            
-            <div className="flex flex-wrap gap-3">
-              <Button
-                variant="outline"
-                size="default"
-                className="flex items-center gap-2 rounded-xl border-2"
-                onClick={handleHistory}
-              >
-                <History className="h-4 w-4" />
-                <span>History</span>
-              </Button>
-              <Button
-                variant="outline"
-                size="default"
-                className="flex items-center gap-2 rounded-xl border-2"
-                onClick={handleReminders}
-              >
-                <History className="h-4 w-4" />
-                <span>Reminders</span>
-              </Button>
-            </div>
+          <div className="flex flex-wrap justify-end gap-3 mb-6">
+            <Button
+              variant="outline"
+              size="default"
+              className="flex items-center gap-2 rounded-xl border-2"
+              onClick={handleHistory}
+            >
+              <History className="h-4 w-4" />
+              <span>History</span>
+            </Button>
+            <Button
+              variant="outline"
+              size="default"
+              className="flex items-center gap-2 rounded-xl border-2"
+              onClick={handleReminders}
+            >
+              <History className="h-4 w-4" />
+              <span>Reminders</span>
+            </Button>
           </div>
           
           <TabsContent value="symptoms" className="space-y-12">
