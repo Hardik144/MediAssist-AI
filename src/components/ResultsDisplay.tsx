@@ -124,7 +124,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results: initialResults
                     <SelectValue placeholder="Select Language" />
                   </div>
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-popover text-popover-foreground border border-border z-50">
                   <SelectGroup>
                     {availableLanguages.map(lang => (
                       <SelectItem key={lang.code} value={lang.code}>
@@ -160,10 +160,12 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results: initialResults
         </div>
         
         {isTranslating && (
-          <div className="p-3 md:p-4 bg-blue-50 flex items-center justify-center">
+          <div className="p-3 md:p-4 bg-muted/40 flex items-center justify-center">
             <div className="flex items-center gap-2">
-              <div className="h-3 w-3 md:h-4 md:w-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-              <span className="text-xs md:text-sm">Translating to {availableLanguages.find(lang => lang.code === targetLanguage)?.name || targetLanguage}...</span>
+              <div className="h-3 w-3 md:h-4 md:w-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+              <span className="text-xs md:text-sm text-muted-foreground">
+                Translating to {availableLanguages.find(lang => lang.code === targetLanguage)?.name || targetLanguage}...
+              </span>
             </div>
           </div>
         )}
@@ -192,56 +194,56 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results: initialResults
             </TabsList>
           </div>
 
-          <TabsContent value="condition" className="m-0">
+          <TabsContent value="condition" className="m-0 animate-fade-in">
             <CardContent className="p-3 md:p-4 space-y-3 md:space-y-4">
-              <div className="bg-blue-50 p-3 md:p-4 rounded-lg border border-blue-100">
+              <div className="bg-primary/10 dark:bg-primary/20 p-3 md:p-4 rounded-lg border border-primary/20">
                 <div className="flex items-center gap-2 mb-1 md:mb-2">
                   <HeartPulse className="h-4 w-4 md:h-5 md:w-5 text-medical-primary" />
-                  <h4 className="font-semibold text-sm md:text-base text-gray-800">Potential Condition</h4>
+                  <h4 className="font-semibold text-sm md:text-base text-foreground">Potential Condition</h4>
                 </div>
-                <p className="text-xs md:text-sm text-gray-700">{results.Disease}</p>
+                <p className="text-xs md:text-sm text-muted-foreground">{results.Disease}</p>
               </div>
               
               <div className="p-3 md:p-4 border rounded-lg">
                 <div className="flex items-center gap-2 mb-1 md:mb-2">
                   <Search className="h-4 w-4 md:h-5 md:w-5 text-medical-accent" />
-                  <h4 className="font-semibold text-sm md:text-base text-gray-800">Symptom Analysis</h4>
+                  <h4 className="font-semibold text-sm md:text-base text-foreground">Symptom Analysis</h4>
                 </div>
-                <p className="text-xs md:text-sm text-gray-700">{results['Symptom Description']}</p>
+                <p className="text-xs md:text-sm text-muted-foreground">{results['Symptom Description']}</p>
               </div>
               
-              <div className="bg-yellow-50 p-3 md:p-4 rounded-lg border border-yellow-100">
+              <div className="bg-amber-500/10 dark:bg-amber-500/20 p-3 md:p-4 rounded-lg border border-amber-500/20">
                 <div className="flex items-center gap-2 mb-1 md:mb-2">
                   <AlertTriangle className="h-4 w-4 md:h-5 md:w-5 text-medical-warning" />
-                  <h4 className="font-semibold text-sm md:text-base text-gray-800">When to Consult a Doctor</h4>
+                  <h4 className="font-semibold text-sm md:text-base text-foreground">When to Consult a Doctor</h4>
                 </div>
-                <p className="text-xs md:text-sm text-gray-700">{results['When to Consult a Doctor']}</p>
+                <p className="text-xs md:text-sm text-muted-foreground">{results['When to Consult a Doctor']}</p>
               </div>
             </CardContent>
           </TabsContent>
 
-          <TabsContent value="treatment" className="m-0">
+          <TabsContent value="treatment" className="m-0 animate-fade-in">
             <CardContent className="p-3 md:p-4 space-y-3 md:space-y-4">
-              <div className="bg-green-50 p-3 md:p-4 rounded-lg border border-green-100">
+              <div className="bg-green-500/10 dark:bg-green-500/20 p-3 md:p-4 rounded-lg border border-green-500/20">
                 <div className="flex items-center gap-2 mb-1 md:mb-2">
                   <Pill className="h-4 w-4 md:h-5 md:w-5 text-medical-secondary" />
-                  <h4 className="font-semibold text-sm md:text-base text-gray-800">Recommended Treatment</h4>
+                  <h4 className="font-semibold text-sm md:text-base text-foreground">Recommended Treatment</h4>
                 </div>
-                <p className="text-xs md:text-sm text-gray-700">{results['Recommended Medicine']}</p>
+                <p className="text-xs md:text-sm text-muted-foreground">{results['Recommended Medicine']}</p>
                 
                 <div className="mt-2 md:mt-3">
-                  <h5 className="text-xs md:text-sm font-medium text-gray-700">Dosage</h5>
-                  <p className="text-xs md:text-sm text-gray-600">{results.Dosage}</p>
+                  <h5 className="text-xs md:text-sm font-medium text-foreground">Dosage</h5>
+                  <p className="text-xs md:text-sm text-muted-foreground">{results.Dosage}</p>
                 </div>
               </div>
               
               <div className="p-3 md:p-4 border rounded-lg">
                 <div className="flex items-center gap-2 mb-1 md:mb-2">
-                  <h4 className="font-semibold text-sm md:text-base text-gray-800">Alternative Medicines</h4>
+                  <h4 className="font-semibold text-sm md:text-base text-foreground">Alternative Medicines</h4>
                 </div>
                 <ul className="space-y-1">
                   {results['Alternative Medicines'].map((medicine: string, index: number) => (
-                    <li key={index} className="flex items-start gap-1 md:gap-2 text-xs md:text-sm text-gray-700">
+                    <li key={index} className="flex items-start gap-1 md:gap-2 text-xs md:text-sm text-muted-foreground">
                       <span className="text-medical-primary">•</span>
                       <span>{medicine}</span>
                     </li>
@@ -249,17 +251,17 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results: initialResults
                 </ul>
               </div>
               
-              <div className="bg-red-50 p-3 md:p-4 rounded-lg border border-red-100">
+              <div className="bg-destructive/10 dark:bg-destructive/20 p-3 md:p-4 rounded-lg border border-destructive/20">
                 <div className="flex items-center gap-2 mb-1 md:mb-2">
                   <AlertTriangle className="h-4 w-4 md:h-5 md:w-5 text-medical-danger" />
-                  <h4 className="font-semibold text-sm md:text-base text-gray-800">Side Effects & Precautions</h4>
+                  <h4 className="font-semibold text-sm md:text-base text-foreground">Side Effects & Precautions</h4>
                 </div>
-                <p className="text-xs md:text-sm text-gray-700 mb-1 md:mb-2">{results.Precautions}</p>
+                <p className="text-xs md:text-sm text-muted-foreground mb-1 md:mb-2">{results.Precautions}</p>
                 
-                <h5 className="text-xs md:text-sm font-medium text-gray-700 mt-2 md:mt-3">Possible Side Effects:</h5>
+                <h5 className="text-xs md:text-sm font-medium text-foreground mt-2 md:mt-3">Possible Side Effects:</h5>
                 <ul className="space-y-1">
                   {results['Side Effects'].map((effect: string, index: number) => (
-                    <li key={index} className="flex items-start gap-1 md:gap-2 text-xs md:text-sm text-gray-700">
+                    <li key={index} className="flex items-start gap-1 md:gap-2 text-xs md:text-sm text-muted-foreground">
                       <span className="text-medical-danger">•</span>
                       <span>{effect}</span>
                     </li>
@@ -269,31 +271,31 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results: initialResults
             </CardContent>
           </TabsContent>
 
-          <TabsContent value="advice" className="m-0">
+          <TabsContent value="advice" className="m-0 animate-fade-in">
             <CardContent className="p-3 md:p-4 space-y-3 md:space-y-4">
-              <div className="bg-indigo-50 p-3 md:p-4 rounded-lg border border-indigo-100">
+              <div className="bg-indigo-500/10 dark:bg-indigo-500/20 p-3 md:p-4 rounded-lg border border-indigo-500/20">
                 <div className="flex items-center gap-2 mb-1 md:mb-2">
-                  <Home className="h-4 w-4 md:h-5 md:w-5 text-indigo-600" />
-                  <h4 className="font-semibold text-sm md:text-base text-gray-800">Home Remedies</h4>
+                  <Home className="h-4 w-4 md:h-5 md:w-5 text-indigo-600 dark:text-indigo-400" />
+                  <h4 className="font-semibold text-sm md:text-base text-foreground">Home Remedies</h4>
                 </div>
                 <ul className="space-y-1">
                   {results['Home Remedies'].map((remedy: string, index: number) => (
-                    <li key={index} className="flex items-start gap-1 md:gap-2 text-xs md:text-sm text-gray-700">
-                      <span className="text-indigo-600">•</span>
+                    <li key={index} className="flex items-start gap-1 md:gap-2 text-xs md:text-sm text-muted-foreground">
+                      <span className="text-indigo-600 dark:text-indigo-400">•</span>
                       <span>{remedy}</span>
                     </li>
                   ))}
                 </ul>
               </div>
               
-              <div className="bg-purple-50 p-3 md:p-4 rounded-lg border border-purple-100">
+              <div className="bg-purple-500/10 dark:bg-purple-500/20 p-3 md:p-4 rounded-lg border border-purple-500/20">
                 <div className="flex items-center gap-2 mb-1 md:mb-2">
                   <Heart className="h-4 w-4 md:h-5 md:w-5 text-medical-accent" />
-                  <h4 className="font-semibold text-sm md:text-base text-gray-800">Lifestyle Tips</h4>
+                  <h4 className="font-semibold text-sm md:text-base text-foreground">Lifestyle Tips</h4>
                 </div>
                 <ul className="space-y-1">
                   {results['Lifestyle Tips'].map((tip: string, index: number) => (
-                    <li key={index} className="flex items-start gap-1 md:gap-2 text-xs md:text-sm text-gray-700">
+                    <li key={index} className="flex items-start gap-1 md:gap-2 text-xs md:text-sm text-muted-foreground">
                       <span className="text-medical-accent">•</span>
                       <span>{tip}</span>
                     </li>
@@ -303,17 +305,17 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results: initialResults
             </CardContent>
           </TabsContent>
 
-          <TabsContent value="info" className="m-0">
+          <TabsContent value="info" className="m-0 animate-fade-in">
             <CardContent className="p-3 md:p-4">
               <div className="space-y-3 md:space-y-4">
                 <div className="p-3 md:p-4 border rounded-lg">
-                  <h4 className="font-semibold text-sm md:text-base text-gray-800 mb-1 md:mb-2">About Your Condition</h4>
-                  <p className="text-xs md:text-sm text-gray-700">{results['Symptom Description']}</p>
+                  <h4 className="font-semibold text-sm md:text-base text-foreground mb-1 md:mb-2">About Your Condition</h4>
+                  <p className="text-xs md:text-sm text-muted-foreground">{results['Symptom Description']}</p>
                 </div>
                 
-                <div className="bg-amber-50 p-3 md:p-4 rounded-lg border border-amber-100">
-                  <h4 className="font-semibold text-sm md:text-base text-gray-800 mb-1 md:mb-2">Medical Disclaimer</h4>
-                  <p className="text-xs md:text-sm text-gray-700">
+                <div className="bg-amber-500/10 dark:bg-amber-500/20 p-3 md:p-4 rounded-lg border border-amber-500/20">
+                  <h4 className="font-semibold text-sm md:text-base text-foreground mb-1 md:mb-2">Medical Disclaimer</h4>
+                  <p className="text-xs md:text-sm text-muted-foreground">
                     {showFullDisclaimer 
                       ? results.Disclaimer 
                       : `${results.Disclaimer.substring(0, 80)}...`}
@@ -329,7 +331,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results: initialResults
                   )}
                 </div>
                 
-                <div className="text-center text-xs text-gray-500 pt-2">
+                <div className="text-center text-xs text-muted-foreground pt-2">
                   <p>Last updated: {new Date().toLocaleDateString()}</p>
                 </div>
               </div>

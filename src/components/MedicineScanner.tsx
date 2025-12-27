@@ -236,9 +236,9 @@ const MedicineScanner = () => {
                 
                 <TabsContent value="camera" className="space-y-4">
                   {!capturedImage ? (
-                    <div className="relative border-2 border-dashed border-gray-300 rounded-lg p-3">
+                    <div className="relative border-2 border-dashed border-border rounded-lg p-3">
                       {isCapturing ? (
-                        <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden relative">
+                        <div className="aspect-video bg-muted rounded-lg overflow-hidden relative">
                           <video
                             ref={videoRef}
                             autoPlay
@@ -267,12 +267,12 @@ const MedicineScanner = () => {
                         </div>
                       ) : (
                         <div className="min-h-[200px] flex flex-col items-center justify-center gap-4">
-                          <div className="p-4 rounded-full bg-purple-100">
-                            <Camera className="h-8 w-8 text-purple-600" />
+                          <div className="p-4 rounded-full bg-purple-500/10">
+                            <Camera className="h-8 w-8 text-purple-600 dark:text-purple-400" />
                           </div>
                           <div className="text-center">
-                            <h3 className="font-medium mb-1">Scan Medicine Package</h3>
-                            <p className="text-sm text-gray-500 mb-4">
+                            <h3 className="font-medium mb-1 text-foreground">Scan Medicine Package</h3>
+                            <p className="text-sm text-muted-foreground mb-4">
                               Position your medicine box or bottle in frame
                             </p>
                           </div>
@@ -306,7 +306,7 @@ const MedicineScanner = () => {
                           <img 
                             src={capturedImage} 
                             alt="Captured medicine" 
-                            className="w-full h-full object-contain bg-gray-100"
+                            className="w-full h-full object-contain bg-muted"
                           />
                           <Button
                             size="sm"
@@ -348,7 +348,7 @@ const MedicineScanner = () => {
                         Search
                       </Button>
                     </div>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-muted-foreground">
                       Enter the exact name from the medicine packaging for best results
                     </p>
                   </div>
@@ -358,7 +358,7 @@ const MedicineScanner = () => {
               {isLoading && (
                 <div className="flex flex-col items-center justify-center py-8">
                   <LoadingAnimation />
-                  <p className="mt-4 text-sm text-gray-500">Analyzing medicine information...</p>
+                  <p className="mt-4 text-sm text-muted-foreground">Analyzing medicine information...</p>
                 </div>
               )}
             </div>
