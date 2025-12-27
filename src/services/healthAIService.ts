@@ -52,6 +52,26 @@ export const askHealthQuestion = async (question: string): Promise<string> => {
   return data.result;
 };
 
+export const translateHealthInfo = async (
+  healthInfo: HealthAnalysisResult,
+  targetLanguage: string
+): Promise<HealthAnalysisResult> => {
+  const { data, error } = await supabase.functions.invoke('health-ai', {
+    body: { healthInfo, targetLanguage, type: 'translate' }
+  });
+
+  if (error) {
+    console.error("Error translating:", error);
+    throw new Error(error.message || "Failed to translate");
+  }
+
+  if (data.error) {
+    throw new Error(data.error);
+  }
+
+  return data.result;
+};
+
 // Available languages for translation
 export const availableLanguages = [
   { code: 'english', name: 'English' },

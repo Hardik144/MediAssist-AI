@@ -7,7 +7,7 @@ import {
   Search, Heart, Download, Share2, Globe
 } from "lucide-react";
 import { toast } from "sonner";
-import { availableLanguages, translateHealthInfo } from "@/services/geminiService";
+import { availableLanguages, translateHealthInfo } from "@/services/healthAIService";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { useIsMobile } from "@/hooks/use-mobile";
