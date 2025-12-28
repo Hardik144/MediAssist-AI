@@ -4,22 +4,32 @@ import { Button } from "@/components/ui/button";
 import { useTheme } from "@/components/theme-provider";
 import { useState } from "react";
 
-const Header = () => {
+interface HeaderProps {
+  onNavigate?: (section: string) => void;
+}
+
+const Header = ({ onNavigate }: HeaderProps) => {
   const { theme, setTheme } = useTheme();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" });
+  const handleNavClick = (sectionId: string) => {
+    if (onNavigate) {
+      onNavigate(sectionId);
     }
+    // Also try to scroll to the section
+    setTimeout(() => {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 100);
     setMobileMenuOpen(false);
   };
 
   const navItems = [
     { label: "Features", sectionId: "features" },
     { label: "Resources", sectionId: "resources" },
-    { label: "About", sectionId: "about" },
+    { label: "Trending Symptoms", sectionId: "trending-symptoms" },
   ];
 
   return (
@@ -48,7 +58,7 @@ const Header = () => {
                 key={item.sectionId}
                 variant="ghost"
                 size="sm"
-                onClick={() => scrollToSection(item.sectionId)}
+                onClick={() => handleNavClick(item.sectionId)}
                 className="text-muted-foreground hover:text-foreground"
               >
                 {item.label}
@@ -91,7 +101,7 @@ const Header = () => {
                   key={item.sectionId}
                   variant="ghost"
                   size="sm"
-                  onClick={() => scrollToSection(item.sectionId)}
+                  onClick={() => handleNavClick(item.sectionId)}
                   className="justify-start text-muted-foreground hover:text-foreground"
                 >
                   {item.label}
