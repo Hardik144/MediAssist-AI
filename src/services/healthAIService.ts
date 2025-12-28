@@ -72,6 +72,61 @@ export const translateHealthInfo = async (
   return data.result;
 };
 
+// Drug interaction checker
+export interface DrugInteraction {
+  drug1: string;
+  drug2: string;
+  severity: "severe" | "moderate" | "mild" | "none";
+  description: string;
+  recommendation: string;
+}
+
+export const checkDrugInteractions = async (medications: string[]): Promise<DrugInteraction[]> => {
+  const { data, error } = await supabase.functions.invoke('health-ai', {
+    body: { medications, type: 'drug-interaction' }
+  });
+
+  if (error) {
+    console.error("Error checking drug interactions:", error);
+    throw new Error(error.message || "Failed to check drug interactions");
+  }
+
+  if (data.error) {
+    throw new Error(data.error);
+  }
+
+  return data.result;
+};
+
+// Medicine information lookup
+export interface MedicineInfo {
+  name: string;
+  description: string;
+  ingredients: string[];
+  usedFor: string[];
+  dosage: string;
+  sideEffects: string[];
+  warnings: string[];
+  interactions: string[];
+}
+
+export const getMedicineInfo = async (medicineName: string): Promise<MedicineInfo> => {
+  const { data, error } = await supabase.functions.invoke('health-ai', {
+    body: { medicineName, type: 'medicine-info' }
+  });
+
+  if (error) {
+    console.error("Error getting medicine info:", error);
+    throw new Error(error.message || "Failed to get medicine information");
+  }
+
+  if (data.error) {
+    throw new Error(data.error);
+  }
+
+  return data.result;
+};
+
 // Available languages for translation
 export const availableLanguages = [
   { code: 'english', name: 'English' },
