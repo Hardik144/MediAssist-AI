@@ -12,7 +12,7 @@ serve(async (req) => {
   }
 
   try {
-    const { symptoms, type, question, language = 'english', healthInfo, targetLanguage } = await req.json();
+    const { symptoms, type, question, language = 'english', healthInfo, targetLanguage, medications, medicineName } = await req.json();
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     
     if (!LOVABLE_API_KEY) {
@@ -55,6 +55,45 @@ serve(async (req) => {
 ${JSON.stringify(healthInfo, null, 2)}
 
 IMPORTANT: Return ONLY valid JSON with the same structure. Do not add any additional text.`;
+    } else if (type === 'drug-interaction') {
+      systemPrompt = `You are a clinical pharmacist AI assistant specializing in drug interactions. Provide accurate, evidence-based information about medication interactions. Always include appropriate safety warnings and encourage consultation with healthcare professionals.`;
+      
+      userPrompt = `Analyze potential drug interactions between these medications: ${medications.join(", ")}. 
+      
+      For each possible pair of drugs, provide information about potential interactions in this JSON format:
+      
+      [
+        {
+          "drug1": "Drug Name 1",
+          "drug2": "Drug Name 2",
+          "severity": "severe|moderate|mild|none",
+          "description": "Description of the interaction and why it occurs",
+          "recommendation": "Specific recommendation for the patient"
+        }
+      ]
+      
+      Consider all possible pairs. If there is no significant interaction between a pair, still include it with severity "none".
+      
+      IMPORTANT: Return ONLY valid JSON array with this exact structure. Do not add any explanations outside the JSON.`;
+    } else if (type === 'medicine-info') {
+      systemPrompt = `You are a pharmaceutical information AI assistant. Provide comprehensive, accurate medication information based on official drug databases and medical literature. Always include appropriate disclaimers.`;
+      
+      userPrompt = `Provide detailed information about the medicine: "${medicineName}". Return the information in this exact JSON format:
+      
+      {
+        "name": "Full medication name (brand and generic if applicable)",
+        "description": "Brief description of what this medication is and its drug class",
+        "ingredients": ["Active ingredient 1", "Active ingredient 2"],
+        "usedFor": ["Primary condition 1", "Primary condition 2", "Other uses"],
+        "dosage": "Standard dosage information for adults",
+        "sideEffects": ["Common side effect 1", "Common side effect 2", "Rare but serious effects"],
+        "warnings": ["Important warning 1", "Contraindications", "Special populations warnings"],
+        "interactions": ["Drug interaction 1", "Food interaction", "Other interactions"]
+      }
+      
+      Provide accurate medical information based on standard pharmaceutical references.
+      
+      IMPORTANT: Return ONLY valid JSON with this exact structure. Do not add any additional text.`;
     } else {
       throw new Error("Invalid request type");
     }
@@ -105,7 +144,7 @@ IMPORTANT: Return ONLY valid JSON with the same structure. Do not add any additi
 
     console.log("AI response received successfully");
 
-    if (type === 'analyze' || type === 'translate') {
+    if (type === 'analyze' || type === 'translate' || type === 'drug-interaction' || type === 'medicine-info') {
       // Parse JSON from the response
       let jsonStr = content;
       
