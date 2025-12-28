@@ -73,6 +73,14 @@ const Index = () => {
     setHistoryOpen(true);
   };
 
+  const handleNavigation = (section: string) => {
+    if (section === "resources") {
+      setCurrentTab("resources");
+    } else if (section === "features" || section === "trending-symptoms") {
+      setCurrentTab("symptoms");
+    }
+  };
+
   const features = [
     { id: "drug-interaction", icon: Pill, title: "Drug Interaction", description: "Check medication safety and interactions" },
     { id: "health-tracker", icon: Activity, title: "Health Tracker", description: "Monitor your health metrics over time" },
@@ -84,7 +92,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header />
+      <Header onNavigate={handleNavigation} />
       
       {/* Hero Section */}
       <section id="hero" className="relative py-16 md:py-24 overflow-hidden">
@@ -206,9 +214,11 @@ const Index = () => {
               </div>
             </div>
             
-            <TrendingSymptoms onSelect={(symptom) => {
-              handleSymptomSubmit(symptom);
-            }} />
+            <div id="trending-symptoms" className="scroll-mt-24">
+              <TrendingSymptoms onSelect={(symptom) => {
+                handleSymptomSubmit(symptom);
+              }} />
+            </div>
             
             <InfoSection />
           </TabsContent>
@@ -280,34 +290,6 @@ const Index = () => {
         onClose={() => setRemindersOpen(false)}
         recommendedMedicine={results?.["Recommended Medicine"] || ""}
       />
-
-      {/* About Section */}
-      <section id="about" className="py-16 md:py-20 bg-muted/30 scroll-mt-24">
-        <div className="section-container">
-          <div className="max-w-3xl mx-auto text-center space-y-6">
-            <h2 className="text-3xl md:text-4xl font-semibold text-foreground">
-              About MediAssist AI
-            </h2>
-            <p className="text-lg text-muted-foreground">
-              MediAssist AI is your intelligent health companion, designed to provide AI-powered health insights and help you make informed decisions about your well-being. Our platform combines cutting-edge artificial intelligence with trusted medical resources.
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6">
-              <div className="p-6 rounded-xl bg-background border border-border">
-                <h3 className="text-2xl font-bold text-primary mb-2">10M+</h3>
-                <p className="text-sm text-muted-foreground">Health analyses performed</p>
-              </div>
-              <div className="p-6 rounded-xl bg-background border border-border">
-                <h3 className="text-2xl font-bold text-primary mb-2">500K+</h3>
-                <p className="text-sm text-muted-foreground">Active users worldwide</p>
-              </div>
-              <div className="p-6 rounded-xl bg-background border border-border">
-                <h3 className="text-2xl font-bold text-primary mb-2">99.9%</h3>
-                <p className="text-sm text-muted-foreground">Uptime reliability</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       <Footer />
 
