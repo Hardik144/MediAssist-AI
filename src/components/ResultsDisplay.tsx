@@ -124,7 +124,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results: initialResults
                     <SelectValue placeholder="Select Language" />
                   </div>
                 </SelectTrigger>
-                <SelectContent className="bg-popover text-popover-foreground border border-border z-50">
+                <SelectContent className="bg-background text-foreground border border-border shadow-lg z-50">
                   <SelectGroup>
                     {availableLanguages.map(lang => (
                       <SelectItem key={lang.code} value={lang.code}>
