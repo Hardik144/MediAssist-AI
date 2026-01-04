@@ -139,7 +139,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results: initialResults
                 <Button 
                   variant="ghost" 
                   size="sm" 
-                  className="text-white hover:text-white/80 h-8 md:h-9"
+                  className="h-8 md:h-9 bg-background/20 text-foreground hover:bg-background/30 hover:text-foreground/90 backdrop-blur-sm"
                   onClick={downloadResults}
                 >
                   <Download className="h-3 w-3 md:h-4 md:w-4" />
@@ -148,7 +148,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results: initialResults
                 <Button 
                   variant="ghost" 
                   size="sm" 
-                  className="text-white hover:text-white/80 h-8 md:h-9"
+                  className="h-8 md:h-9 bg-background/20 text-foreground hover:bg-background/30 hover:text-foreground/90 backdrop-blur-sm"
                   onClick={shareResults}
                 >
                   <Share2 className="h-3 w-3 md:h-4 md:w-4" />
