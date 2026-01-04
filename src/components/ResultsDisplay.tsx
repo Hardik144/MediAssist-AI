@@ -118,7 +118,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results: initialResults
                 onValueChange={handleLanguageChange}
                 disabled={isTranslating}
               >
-                <SelectTrigger className="h-8 md:h-9 w-full sm:w-[160px] bg-white/10 text-white border-white/20 text-xs md:text-sm">
+                <SelectTrigger className="h-8 md:h-9 w-full sm:w-[160px] bg-white/20 dark:bg-white/10 text-white border-white/30 dark:border-white/20 text-xs md:text-sm">
                   <div className="flex items-center gap-1 md:gap-2">
                     <Globe className="h-3 w-3 md:h-4 md:w-4" />
                     <SelectValue placeholder="Select Language" />
