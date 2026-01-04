@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -7,6 +6,7 @@ import { toast } from "sonner";
 import { FileText, Send, Mic, Brain } from "lucide-react";
 import { askHealthQuestion } from "@/services/healthAIService";
 import VoiceInput from "./VoiceInput";
+import MarkdownLite from "@/components/MarkdownLite";
 
 const GeminiHealthAdvisor = () => {
   const [question, setQuestion] = useState("");
@@ -16,7 +16,7 @@ const GeminiHealthAdvisor = () => {
 
   const handleQuestionSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!question.trim()) {
       toast.error("Please enter a question");
       return;
@@ -60,8 +60,8 @@ const GeminiHealthAdvisor = () => {
               onChange={(e) => setQuestion(e.target.value)}
               className="flex-1"
             />
-            <Button 
-              type="button" 
+            <Button
+              type="button"
               variant="outline"
               size="icon"
               onClick={() => setVoiceInputOpen(true)}
@@ -89,8 +89,8 @@ const GeminiHealthAdvisor = () => {
                 <FileText className="h-4 w-4 text-primary" />
                 AI Response
               </div>
-              <div className="whitespace-pre-wrap rounded-lg bg-muted p-4 text-sm text-foreground">
-                {response}
+              <div className="rounded-lg bg-muted p-4 text-sm text-foreground">
+                <MarkdownLite content={response} />
               </div>
             </div>
           )}

@@ -46,7 +46,7 @@ serve(async (req) => {
       
       IMPORTANT: Return ONLY valid JSON with these exact keys. Do not add any additional text, and ensure it's properly formatted JSON.`;
     } else if (type === 'question') {
-      systemPrompt = `You are a helpful medical assistant AI. Provide informative, evidence-based answers about health topics. Include disclaimers when appropriate. Always encourage consulting healthcare professionals for medical advice.`;
+      systemPrompt = `You are a helpful medical assistant AI. Provide informative, evidence-based answers about health topics. Include disclaimers when appropriate. Always encourage consulting healthcare professionals for medical advice. IMPORTANT: Use plain text only. Do NOT use markdown formatting (no *, **, #, backticks, or bullet symbols). Use short paragraphs and simple numbering like "1)" if needed.`;
       userPrompt = question;
     } else if (type === 'translate') {
       systemPrompt = `You are a professional medical translator. Translate health information accurately while preserving medical terminology meaning.`;
