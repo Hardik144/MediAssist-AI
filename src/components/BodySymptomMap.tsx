@@ -11,17 +11,16 @@ interface BodySymptomMapProps {
 }
 
 const bodyParts = [
-  { id: "head", name: "Head", top: "5%", left: "50%" },
-  { id: "throat", name: "Throat", top: "15%", left: "50%" },
-  { id: "chest", name: "Chest", top: "25%", left: "50%" },
-  { id: "stomach", name: "Stomach", top: "35%", left: "50%" },
-  { id: "leftArm", name: "Left Arm", top: "30%", left: "30%" },
-  { id: "rightArm", name: "Right Arm", top: "30%", left: "70%" },
-  { id: "lowerAbdomen", name: "Lower Abdomen", top: "45%", left: "50%" },
-  { id: "back", name: "Back", top: "30%", left: "50%" },
-  { id: "leftLeg", name: "Left Leg", top: "65%", left: "42%" },
-  { id: "rightLeg", name: "Right Leg", top: "65%", left: "58%" },
-  { id: "feet", name: "Feet", top: "85%", left: "50%" },
+  { id: "head", name: "Head", top: "6%", left: "50%" },
+  { id: "throat", name: "Throat", top: "18%", left: "50%" },
+  { id: "chest", name: "Chest", top: "28%", left: "50%" },
+  { id: "stomach", name: "Stomach", top: "40%", left: "50%" },
+  { id: "leftArm", name: "Left Arm", top: "35%", left: "28%" },
+  { id: "rightArm", name: "Right Arm", top: "35%", left: "72%" },
+  { id: "lowerAbdomen", name: "Lower Abdomen", top: "52%", left: "50%" },
+  { id: "leftLeg", name: "Left Leg", top: "72%", left: "40%" },
+  { id: "rightLeg", name: "Right Leg", top: "72%", left: "60%" },
+  { id: "feet", name: "Feet", top: "92%", left: "50%" },
 ];
 
 const BodySymptomMap: React.FC<BodySymptomMapProps> = ({
