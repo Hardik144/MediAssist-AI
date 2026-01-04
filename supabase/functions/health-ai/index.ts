@@ -76,24 +76,27 @@ IMPORTANT: Return ONLY valid JSON with the same structure. Do not add any additi
       
       IMPORTANT: Return ONLY valid JSON array with this exact structure. Do not add any explanations outside the JSON.`;
     } else if (type === 'medicine-info') {
-      systemPrompt = `You are a pharmaceutical information AI assistant. Provide comprehensive, accurate medication information based on official drug databases and medical literature. Always include appropriate disclaimers.`;
+      systemPrompt = `You are a pharmaceutical information AI assistant. Provide comprehensive, accurate medication information based on official drug databases and medical literature. Always include appropriate disclaimers. NEVER use markdown formatting like **, *, #, or any other formatting symbols in your responses. Use plain text only.`;
       
       userPrompt = `Provide detailed information about the medicine: "${medicineName}". Return the information in this exact JSON format:
       
       {
         "name": "Full medication name (brand and generic if applicable)",
-        "description": "Brief description of what this medication is and its drug class",
+        "description": "A brief 1-2 sentence plain text description of what this medication is and its drug class. No formatting.",
         "ingredients": ["Active ingredient 1", "Active ingredient 2"],
-        "usedFor": ["Primary condition 1", "Primary condition 2", "Other uses"],
-        "dosage": "Standard dosage information for adults",
-        "sideEffects": ["Common side effect 1", "Common side effect 2", "Rare but serious effects"],
-        "warnings": ["Important warning 1", "Contraindications", "Special populations warnings"],
-        "interactions": ["Drug interaction 1", "Food interaction", "Other interactions"]
+        "usedFor": ["Primary use 1", "Primary use 2", "Other common use"],
+        "dosage": "Standard dosage information for adults in plain text",
+        "sideEffects": ["Side effect 1", "Side effect 2", "Side effect 3"],
+        "warnings": ["Warning 1", "Warning 2", "Warning 3"],
+        "interactions": ["Drug or food interaction 1", "Interaction 2", "Interaction 3"]
       }
       
-      Provide accurate medical information based on standard pharmaceutical references.
-      
-      IMPORTANT: Return ONLY valid JSON with this exact structure. Do not add any additional text.`;
+      CRITICAL INSTRUCTIONS:
+      - Return ONLY valid JSON with this exact structure
+      - Do NOT use any markdown formatting (no **, *, #, or bullet points)
+      - Keep all text as plain text without any formatting symbols
+      - Each array item should be a simple, concise string
+      - The description should be 1-2 sentences maximum`;
     } else {
       throw new Error("Invalid request type");
     }
