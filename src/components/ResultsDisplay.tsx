@@ -106,11 +106,11 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results: initialResults
   return (
     <div className="space-y-4">
       <Card className="medical-card overflow-hidden">
-        <div className="bg-gradient-to-r from-medical-primary to-medical-accent p-3 md:p-4">
+        <div className="bg-gradient-to-r from-primary to-primary/80 p-3 md:p-4 text-primary-foreground">
           <div className="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-2">
             <div className="flex items-center gap-2 mb-2 sm:mb-0">
-              <ClipboardCheck className="h-4 w-4 md:h-5 md:w-5 text-white" />
-              <h3 className="text-white text-base md:text-lg font-medium">Health Assessment Results</h3>
+              <ClipboardCheck className="h-4 w-4 md:h-5 md:w-5 text-primary-foreground" />
+              <h3 className="text-primary-foreground text-base md:text-lg font-medium">Health Assessment Results</h3>
             </div>
             <div className="flex flex-wrap gap-2 w-full sm:w-auto">
               <Select
@@ -118,7 +118,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results: initialResults
                 onValueChange={handleLanguageChange}
                 disabled={isTranslating}
               >
-                <SelectTrigger className="h-8 md:h-9 w-full sm:w-[160px] bg-white/20 dark:bg-white/10 text-white border-white/30 dark:border-white/20 text-xs md:text-sm">
+                <SelectTrigger className="h-8 md:h-9 w-full sm:w-[160px] bg-background/70 text-foreground border-border shadow-sm backdrop-blur-sm hover:bg-background/80 text-xs md:text-sm">
                   <div className="flex items-center gap-1 md:gap-2">
                     <Globe className="h-3 w-3 md:h-4 md:w-4" />
                     <SelectValue placeholder="Select Language" />
@@ -126,7 +126,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results: initialResults
                 </SelectTrigger>
                 <SelectContent className="bg-background text-foreground border border-border shadow-lg z-50">
                   <SelectGroup>
-                    {availableLanguages.map(lang => (
+                    {availableLanguages.map((lang) => (
                       <SelectItem key={lang.code} value={lang.code}>
                         {lang.name}
                       </SelectItem>
@@ -139,7 +139,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results: initialResults
                 <Button 
                   variant="ghost" 
                   size="sm" 
-                  className="h-8 md:h-9 bg-background/20 text-foreground hover:bg-background/30 hover:text-foreground/90 backdrop-blur-sm"
+                  className="h-8 md:h-9 bg-background/70 text-foreground hover:bg-background/80 backdrop-blur-sm"
                   onClick={downloadResults}
                 >
                   <Download className="h-3 w-3 md:h-4 md:w-4" />
@@ -148,7 +148,7 @@ const ResultsDisplay: React.FC<ResultsDisplayProps> = ({ results: initialResults
                 <Button 
                   variant="ghost" 
                   size="sm" 
-                  className="h-8 md:h-9 bg-background/20 text-foreground hover:bg-background/30 hover:text-foreground/90 backdrop-blur-sm"
+                  className="h-8 md:h-9 bg-background/70 text-foreground hover:bg-background/80 backdrop-blur-sm"
                   onClick={shareResults}
                 >
                   <Share2 className="h-3 w-3 md:h-4 md:w-4" />
