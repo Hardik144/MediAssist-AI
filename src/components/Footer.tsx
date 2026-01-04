@@ -6,10 +6,8 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const socialLinks = [
-    { icon: Twitter, href: "#", label: "Twitter" },
-    { icon: Linkedin, href: "#", label: "LinkedIn" },
-    { icon: Github, href: "#", label: "GitHub" },
-    { icon: Youtube, href: "#", label: "YouTube" },
+    { icon: Linkedin, href: "https://www.linkedin.com/in/hardikpatidar/", label: "LinkedIn" },
+    { icon: Github, href: "https://github.com/Hardik144/MediAssist-AI.git", label: "GitHub" },
   ];
 
   return (
@@ -31,7 +29,7 @@ const Footer = () => {
                 asChild
                 className="h-9 w-9 text-muted-foreground hover:text-foreground"
               >
-                <a href={social.href} aria-label={social.label}>
+                <a href={social.href} aria-label={social.label} target="_blank">
                   <social.icon className="h-4 w-4" />
                 </a>
               </Button>

@@ -38,14 +38,14 @@ const Header = ({ onNavigate }: HeaderProps) => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center gap-3">
-            <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-primary text-primary-foreground">
+            <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-primary text-primary-foreground">
               <HeartPulse className="h-5 w-5" />
             </div>
             <div className="flex items-center gap-1.5">
-              <span className="text-lg font-semibold text-foreground">
+              <span className="text-2xl font-semibold text-foreground">
                 MediAssist
               </span>
-              <span className="text-lg font-semibold text-primary">
+              <span className="text-2xl font-semibold text-primary">
                 AI
               </span>
             </div>
@@ -59,7 +59,7 @@ const Header = ({ onNavigate }: HeaderProps) => {
                 variant="ghost"
                 size="sm"
                 onClick={() => handleNavClick(item.sectionId)}
-                className="text-muted-foreground hover:text-foreground"
+                className="text-muted-foreground hover:text-foreground text-md"
               >
                 {item.label}
               </Button>

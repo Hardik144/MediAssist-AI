@@ -41,7 +41,7 @@ const TrendingSymptoms: React.FC<TrendingSymptomsProps> = ({ onSelect }) => {
                   <li key={symptom}>
                     <button
                       onClick={() => onSelect(symptom)}
-                      className="w-full text-left px-2 py-1.5 text-sm rounded-md hover:bg-gray-100 transition-colors flex items-center"
+                      className="w-full text-left px-2 py-1.5 text-sm rounded-md transition-colors flex items-center transition-transform duration-300 transform hover:scale-105"
                     >
                       <span className="text-medical-primary mr-1.5">•</span>
                       {symptom}

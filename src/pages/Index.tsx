@@ -154,7 +154,7 @@ const Index = () => {
             
             {/* Quick Actions */}
             <div className="flex gap-2">
-              <Button
+              {/* <Button
                 variant="outline"
                 size="sm"
                 className="flex items-center gap-2"
@@ -162,7 +162,7 @@ const Index = () => {
               >
                 <History className="h-4 w-4" />
                 History
-              </Button>
+              </Button> */}
               <Button
                 variant="outline"
                 size="sm"
@@ -192,12 +192,12 @@ const Index = () => {
                 </p>
               </div>
               
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 ">
                 {features.map((feature, index) => (
                   <button
                     key={feature.id}
                     onClick={() => setCurrentTab(feature.id)}
-                    className="feature-card text-left group animate-fade-in"
+                    className="feature-card text-left group animate-fade-in "
                     style={{ animationDelay: `${index * 0.05}s` }}
                   >
                     <div className="flex items-start gap-4">

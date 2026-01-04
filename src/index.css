@@ -198,6 +198,8 @@
   .feature-card:hover {
     @apply border-primary/20 -translate-y-0.5;
     box-shadow: var(--shadow-md);
+    scale: 1.05;
+    border: 1px solid rgb(71, 71, 165)
   }
 
   /* Gradient text */

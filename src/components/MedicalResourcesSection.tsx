@@ -45,7 +45,7 @@ const MedicalResourcesSection = () => {
   ];
 
   return (
-    <Card className="medical-card">
+    <Card className="medical-card mb-10">
       <CardHeader className="pb-2">
         <CardTitle className="text-foreground">Reliable Medical Resources</CardTitle>
       </CardHeader>
@@ -78,11 +78,11 @@ const MedicalResourcesSection = () => {
           ))}
         </div>
         
-        <div className="mt-6 text-center">
+        {/* <div className="mt-6 text-center">
           <Button variant="outline" className="text-primary border-primary hover:bg-primary/5">
             View More Resources
           </Button>
-        </div>
+        </div> */}
       </CardContent>
     </Card>
   );
