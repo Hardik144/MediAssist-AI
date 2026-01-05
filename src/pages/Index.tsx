@@ -14,7 +14,7 @@ import InfoSection from "@/components/InfoSection";
 import MedicalResourcesSection from "@/components/MedicalResourcesSection";
 import HealthTips from "@/components/HealthTips";
 import GeminiHealthAdvisor from "@/components/GeminiHealthAdvisor";
-import { Heart, Stethoscope, ClipboardList, History, Brain, Pill, Activity, MapPin, Camera, IdCard, Newspaper, ArrowLeft } from "lucide-react";
+import { Heart, Stethoscope, ClipboardList, History, Brain, Pill, Activity, MapPin, Camera, IdCard, Newspaper, ArrowLeft, Sparkles } from "lucide-react";
 import { useSymptomHistory } from "@/hooks/use-symptom-history";
 import MedicationReminders from "@/components/MedicationReminders";
 import SymptomHistory from "@/components/SymptomHistory";
@@ -26,6 +26,7 @@ import MedicineScanner from "@/components/MedicineScanner";
 import EmergencyInfoCard from "@/components/EmergencyInfoCard";
 import HealthNewsFeed from "@/components/HealthNewsFeed";
 import Footer from "@/components/Footer";
+import MentalHealthSupport from "@/components/MentalHealthSupport";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const Index = () => {
@@ -82,6 +83,7 @@ const Index = () => {
   };
 
   const features = [
+    { id: "mental-health", icon: Sparkles, title: "Mental Health", description: "Mood tracking, check-ins & breathing exercises" },
     { id: "drug-interaction", icon: Pill, title: "Drug Interaction", description: "Check medication safety and interactions" },
     { id: "health-tracker", icon: Activity, title: "Health Tracker", description: "Monitor your health metrics over time" },
     { id: "doctor-directory", icon: MapPin, title: "Find Doctors", description: "Locate healthcare providers near you" },
@@ -262,7 +264,7 @@ const Index = () => {
           </TabsContent>
 
           {/* Feature tabs with back buttons */}
-          {["drug-interaction", "health-tracker", "doctor-directory", 
+          {["mental-health", "drug-interaction", "health-tracker", "doctor-directory", 
             "medicine-scanner", "emergency-info", "health-news"].map((tabValue) => (
             <TabsContent key={tabValue} value={tabValue} className="space-y-6">
               <Button 
@@ -274,6 +276,7 @@ const Index = () => {
                 <ArrowLeft className="h-4 w-4" /> Back to Dashboard
               </Button>
               
+              {tabValue === "mental-health" && <MentalHealthSupport />}
               {tabValue === "drug-interaction" && <DrugInteractionChecker />}
               {tabValue === "health-tracker" && <HealthProgressTracker />}
               {tabValue === "doctor-directory" && <DoctorDirectory />}
